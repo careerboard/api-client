@@ -295,12 +295,6 @@ interface BillingMeTierListData {
          */
         level: number;
         /**
-         * @min -9007199254740991
-         * @max 9007199254740991
-         */
-        markupBps: number;
-        markupPercent: number;
-        /**
          * @exclusiveMin true
          * @max 9007199254740991
          */
@@ -312,12 +306,6 @@ interface BillingMeTierListData {
         maxProjects: number;
         name: string;
         operationPricing: {
-            /**
-             * @min -9007199254740991
-             * @max 9007199254740991
-             */
-            markupBps: number;
-            markupPercent: number;
             /** @pattern ^\d+(?:\.\d{1,6})?$ */
             minimumReservationUsd: string;
             operation: string;
@@ -336,12 +324,6 @@ interface BillingMeTierListData {
          */
         level: number;
         /**
-         * @min -9007199254740991
-         * @max 9007199254740991
-         */
-        markupBps: number;
-        markupPercent: number;
-        /**
          * @exclusiveMin true
          * @max 9007199254740991
          */
@@ -353,12 +335,6 @@ interface BillingMeTierListData {
         maxProjects: number;
         name: string;
         operationPricing: {
-            /**
-             * @min -9007199254740991
-             * @max 9007199254740991
-             */
-            markupBps: number;
-            markupPercent: number;
             /** @pattern ^\d+(?:\.\d{1,6})?$ */
             minimumReservationUsd: string;
             operation: string;
@@ -432,6 +408,28 @@ interface BillingMeUsageChargesListParams {
     /** @pattern ^\d{4}-\d{2}-\d{2}$ */
     toDate: string;
 }
+type DownloadsDetailError = {
+    message: string;
+};
+interface DownloadsDetailParams {
+    /** @minLength 1 */
+    storedFileId: string;
+}
+interface GetDownloadsData {
+    /** @format date-time */
+    expiresAt: string;
+    fileName: string | null;
+    mimeType: string | null;
+    /** @format uri */
+    signedUrl: string;
+}
+type GetDownloadsError = {
+    message: string;
+};
+interface GetDownloadsParams {
+    /** @minLength 1 */
+    storedFileId: string;
+}
 interface GetPublicApiData {
     accountConfigured: boolean;
     /** @format date-time */
@@ -454,6 +452,7 @@ type GetPublicApiError = {
 interface ProgressBoardAttachmentsCompleteCreateData {
     /** @format date-time */
     createdAt: string;
+    downloadResolveUrl: string | null;
     downloadUrl: string | null;
     filename: string;
     id: string;
@@ -481,6 +480,7 @@ interface ProgressBoardCommentsAttachmentsCreateData {
     attachment: {
         /** @format date-time */
         createdAt: string;
+        downloadResolveUrl: string | null;
         downloadUrl: string | null;
         filename: string;
         id: string;
@@ -542,6 +542,7 @@ interface ProgressBoardCommentsPartialUpdateData {
     attachments: {
         /** @format date-time */
         createdAt: string;
+        downloadResolveUrl: string | null;
         downloadUrl: string | null;
         filename: string;
         id: string;
@@ -580,6 +581,406 @@ interface ProgressBoardCommentsPartialUpdateParams {
 interface ProgressBoardCommentsPartialUpdatePayload {
     /** @maxLength 50000 */
     body: string;
+}
+interface ProgressBoardInterviewsAiListData {
+    context: {
+        companyName: string;
+        interviewId: string;
+        meetingUrl: string | null;
+        progressBoardItemId: string;
+        projectId: string;
+        recruiterName: string;
+        resumeLanguage: string;
+        /** @format date-time */
+        scheduledAt: string;
+        title: string;
+    };
+    overview: {
+        contentJson: {
+            header: {
+                candidateName: string;
+                companyName: string;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                durationSeconds: number;
+                executiveSummary: string;
+                interviewTitle: string;
+                interviewType: "HR" | "TECHNICAL" | "SYSTEM_DESIGN" | "MANAGER" | "MIXED";
+                interviewerName: string;
+                language: string;
+                roleTitle: string;
+                scheduledAtIso: string;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                speakerCount: number;
+            };
+            notableMoments: {
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                endedAtSeconds: number;
+                kind: "BEST_TECHNICAL_ANSWER" | "BEST_PRODUCT_THINKING_ANSWER" | "MOST_CONFIDENT_MOMENT" | "MOST_VAGUE_ANSWER" | "RED_FLAG" | "IMPORTANT_CONTEXT";
+                speakerLabel: string;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                startedAtSeconds: number;
+                summary: string;
+                title: string;
+                transcriptQuote: string;
+                whyItMatters: string;
+            }[];
+            questionBreakdown: {
+                answerSummary: string;
+                askedBy: string;
+                category: string;
+                confidence: "HIGH" | "MEDIUM" | "LOW";
+                directness: "DIRECT" | "PARTIAL" | "EVADED";
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                endedAtSeconds: number;
+                evidence: {
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    endedAtSeconds: number;
+                    note: string;
+                    quote: string;
+                    speakerLabel: string;
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    startedAtSeconds: number;
+                }[];
+                followUps: string[];
+                notes: string[];
+                quality: "STRONG" | "MEDIUM" | "WEAK" | "UNCLEAR";
+                question: string;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                startedAtSeconds: number;
+            }[];
+            quickStats: {
+                /** @min 0 */
+                averageCandidateAnswerSeconds: number;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                directAnswerMissCount: number;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                durationSeconds: number;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                followUpQuestionCount: number;
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                interviewerInterruptionsCount: number;
+                metricNotes: string[];
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                questionCount: number;
+                scorecards: {
+                    key: "confidence" | "clarity" | "relevance" | "hesitation";
+                    label: "HIGH" | "MEDIUM" | "LOW";
+                    rationale: string;
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    score: number;
+                }[];
+                speakerTalkRatio: {
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    candidatePercent: number;
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    interviewerPercent: number;
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    otherPercent: number;
+                };
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                technicalTopicCount: number;
+            };
+            recommendation: {
+                missingValidationAreas: string[];
+                nextStageRecommendation: "YES" | "MAYBE" | "NO";
+                overallRationale: string;
+                suggestedNextRoundFocus: string[];
+                suggestedQuestions: string[];
+            };
+            schemaVersion: "interview_overview_v2";
+            signals: {
+                dimension: "TECHNICAL_DEPTH" | "COMMUNICATION" | "PROBLEM_SOLVING" | "OWNERSHIP" | "LEADERSHIP" | "CULTURE_FIT" | "ENGLISH_FLUENCY";
+                evidence: {
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    endedAtSeconds: number;
+                    note: string;
+                    quote: string;
+                    speakerLabel: string;
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    startedAtSeconds: number;
+                }[];
+                label: "STRONG" | "MEDIUM" | "WEAK" | "UNCLEAR";
+                summary: string;
+            }[];
+            summaryMarkdown: string;
+            takeaways: {
+                openQuestions: {
+                    evidence: {
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        endedAtSeconds: number;
+                        note: string;
+                        quote: string;
+                        speakerLabel: string;
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        startedAtSeconds: number;
+                    }[];
+                    summary: string;
+                    title: string;
+                }[];
+                positiveSignals: {
+                    evidence: {
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        endedAtSeconds: number;
+                        note: string;
+                        quote: string;
+                        speakerLabel: string;
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        startedAtSeconds: number;
+                    }[];
+                    summary: string;
+                    title: string;
+                }[];
+                redFlags: {
+                    evidence: {
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        endedAtSeconds: number;
+                        note: string;
+                        quote: string;
+                        speakerLabel: string;
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        startedAtSeconds: number;
+                    }[];
+                    summary: string;
+                    title: string;
+                }[];
+                risks: {
+                    evidence: {
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        endedAtSeconds: number;
+                        note: string;
+                        quote: string;
+                        speakerLabel: string;
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        startedAtSeconds: number;
+                    }[];
+                    summary: string;
+                    title: string;
+                }[];
+                strengths: {
+                    evidence: {
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        endedAtSeconds: number;
+                        note: string;
+                        quote: string;
+                        speakerLabel: string;
+                        /**
+                         * @min 0
+                         * @max 9007199254740991
+                         */
+                        startedAtSeconds: number;
+                    }[];
+                    summary: string;
+                    title: string;
+                }[];
+            };
+            timeline: {
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                endedAtSeconds: number;
+                markers: {
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    endedAtSeconds: number;
+                    kind: "STRONG_ANSWER" | "WEAK_ANSWER" | "UNCLEAR_MOMENT" | "RED_FLAG" | "IMPORTANT_CONTEXT";
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    startedAtSeconds: number;
+                    summary: string;
+                    title: string;
+                }[];
+                /**
+                 * @min 0
+                 * @max 9007199254740991
+                 */
+                startedAtSeconds: number;
+                summary: string;
+                title: string;
+                topics: string[];
+            }[];
+            topicsCovered: {
+                coverage: "NOT_TOUCHED" | "COVERED" | "LIGHT" | "MEDIUM" | "DEEP";
+                evidence: {
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    endedAtSeconds: number;
+                    note: string;
+                    quote: string;
+                    speakerLabel: string;
+                    /**
+                     * @min 0
+                     * @max 9007199254740991
+                     */
+                    startedAtSeconds: number;
+                }[];
+                summary: string;
+                topic: string;
+            }[];
+        } | null;
+        /** @format date-time */
+        createdAt: string;
+        errorMessage: string | null;
+        /** @format date-time */
+        generatedAt: string | null;
+        hasContent: boolean;
+        id: string;
+        interviewId: string;
+        status: "GENERATING" | "READY" | "FAILED";
+        summaryMarkdown: string | null;
+        /** @format date-time */
+        updatedAt: string;
+    };
+    transcription: {
+        /**
+         * @min -9007199254740991
+         * @max 9007199254740991
+         */
+        audioChannelCount: number | null;
+        audioFileName: string | null;
+        audioMimeType: string | null;
+        /**
+         * @min -9007199254740991
+         * @max 9007199254740991
+         */
+        audioSizeBytes: number | null;
+        /** @format date-time */
+        createdAt: string;
+        detectedLanguage: string | null;
+        /**
+         * @min -9007199254740991
+         * @max 9007199254740991
+         */
+        durationSeconds: number | null;
+        errorMessage: string | null;
+        hasTranscript: boolean;
+        id: string;
+        interviewId: string;
+        provider: string | null;
+        providerModel: string | null;
+        requestedLanguage: string;
+        status: "UPLOADING" | "PENDING_METADATA" | "TRANSCRIBING" | "READY" | "FAILED";
+        /** @format date-time */
+        transcribedAt: string | null;
+        transcriptFormattedJson: {
+            segments: {
+                /**
+                 * @min 0
+                 * @max 1
+                 */
+                confidence: number | null;
+                /** @min 0 */
+                endedAtSeconds: number | null;
+                speakerLabel: string;
+                /** @min 0 */
+                startedAtSeconds: number | null;
+                text: string;
+            }[];
+        };
+        transcriptFormattedText: string | null;
+        /** @format date-time */
+        updatedAt: string;
+    };
+}
+type ProgressBoardInterviewsAiListError = {
+    message: string;
+};
+interface ProgressBoardInterviewsAiListParams {
+    /** @minLength 1 */
+    interviewId: string;
 }
 type ProgressBoardInterviewsDeleteData = null;
 type ProgressBoardInterviewsDeleteError = {
@@ -626,6 +1027,7 @@ interface ProgressBoardItemsCommentsCreateData {
     attachments: {
         /** @format date-time */
         createdAt: string;
+        downloadResolveUrl: string | null;
         downloadUrl: string | null;
         filename: string;
         id: string;
@@ -665,6 +1067,49 @@ interface ProgressBoardItemsCommentsCreatePayload {
     /** @maxLength 50000 */
     body?: string;
 }
+interface ProgressBoardItemsCommentsListData {
+    comments: {
+        attachments: {
+            /** @format date-time */
+            createdAt: string;
+            downloadResolveUrl: string | null;
+            downloadUrl: string | null;
+            filename: string;
+            id: string;
+            mimeType: string;
+            /**
+             * @min -9007199254740991
+             * @max 9007199254740991
+             */
+            sizeBytes: number | null;
+            storageProvider: "cloudflare_r2";
+            /** @format date-time */
+            updatedAt: string;
+            uploadStatus: "pending" | "uploaded" | "failed" | "deleted";
+            /** @format date-time */
+            uploadedAt: string | null;
+        }[];
+        author: {
+            id: string;
+            name: string | null;
+            nickname: string;
+        };
+        body: string;
+        /** @format date-time */
+        createdAt: string;
+        id: string;
+        /** @format date-time */
+        updatedAt: string;
+    }[];
+    itemId: string;
+}
+type ProgressBoardItemsCommentsListError = {
+    message: string;
+};
+interface ProgressBoardItemsCommentsListParams {
+    /** @minLength 1 */
+    itemId: string;
+}
 type ProgressBoardItemsCoverLetterDeleteData = null;
 type ProgressBoardItemsCoverLetterDeleteError = {
     message: string;
@@ -689,6 +1134,8 @@ interface ProgressBoardItemsCoverLetterListData {
         hasContent: boolean;
         id: string;
         pdf: {
+            /** @format uri */
+            downloadResolveUrl: string;
             fileName: string;
             /** @format date-time */
             generatedAt: string;
@@ -727,6 +1174,8 @@ interface ProgressBoardItemsCoverLetterListParams {
 }
 type ProgressBoardItemsCoverLetterPdfExportCreateData = {
     cacheStatus: "hit" | "generated";
+    /** @format uri */
+    downloadResolveUrl: string;
     /** @format uri */
     downloadUrl: string;
     status: "ready";
@@ -832,6 +1281,8 @@ interface ProgressBoardItemsCoverLetterUpdateData {
         hasContent: boolean;
         id: string;
         pdf: {
+            /** @format uri */
+            downloadResolveUrl: string;
             fileName: string;
             /** @format date-time */
             generatedAt: string;
@@ -894,6 +1345,7 @@ interface ProgressBoardItemsDetailData {
         attachments: {
             /** @format date-time */
             createdAt: string;
+            downloadResolveUrl: string | null;
             downloadUrl: string | null;
             filename: string;
             id: string;
@@ -1179,6 +1631,32 @@ interface ProgressBoardItemsInterviewsCreatePayload {
     recruiterName: string;
     scheduledAt: any;
 }
+interface ProgressBoardItemsInterviewsListData {
+    interviews: {
+        /** @format date-time */
+        createdAt: string;
+        hasOverview: boolean;
+        hasTranscript: boolean;
+        id: string;
+        meetingUrl: string | null;
+        overviewStatus: "GENERATING" | "READY" | "FAILED" | null;
+        recruiterName: string;
+        /** @format date-time */
+        scheduledAt: string;
+        transcriptionLanguage: string | null;
+        transcriptionStatus: "UPLOADING" | "TRANSCRIBING" | "READY" | "FAILED" | null;
+        /** @format date-time */
+        updatedAt: string;
+    }[];
+    itemId: string;
+}
+type ProgressBoardItemsInterviewsListError = {
+    message: string;
+};
+interface ProgressBoardItemsInterviewsListParams {
+    /** @minLength 1 */
+    itemId: string;
+}
 interface ProgressBoardItemsMoveCreateData {
     artifacts: {
         id: string;
@@ -1193,6 +1671,7 @@ interface ProgressBoardItemsMoveCreateData {
         attachments: {
             /** @format date-time */
             createdAt: string;
+            downloadResolveUrl: string | null;
             downloadUrl: string | null;
             filename: string;
             id: string;
@@ -1323,6 +1802,7 @@ interface ProgressBoardItemsPartialUpdateData {
         attachments: {
             /** @format date-time */
             createdAt: string;
+            downloadResolveUrl: string | null;
             downloadUrl: string | null;
             filename: string;
             id: string;
@@ -1484,6 +1964,8 @@ interface ProgressBoardItemsTailoredResumeListData {
         hasContent: boolean;
         id: string;
         pdf: {
+            /** @format uri */
+            downloadResolveUrl: string;
             fileName: string;
             /** @format date-time */
             generatedAt: string;
@@ -1510,6 +1992,8 @@ interface ProgressBoardItemsTailoredResumeListParams {
 }
 type ProgressBoardItemsTailoredResumePdfExportCreateData = {
     cacheStatus: "hit" | "generated";
+    /** @format uri */
+    downloadResolveUrl: string;
     /** @format uri */
     downloadUrl: string;
     status: "ready";
@@ -1627,6 +2111,8 @@ interface ProgressBoardItemsTailoredResumeUpdateData {
         hasContent: boolean;
         id: string;
         pdf: {
+            /** @format uri */
+            downloadResolveUrl: string;
             fileName: string;
             /** @format date-time */
             generatedAt: string;
@@ -1712,7 +2198,7 @@ interface ProjectsAiPricingCatalogListData {
         key: string;
         label: string;
         pricingOperation: string;
-        projectPresetScope: "artifact_generation" | "interview_overview" | "ai_artifact_chat" | null;
+        projectPresetScope: "artifact_generation" | "interview_preparation" | "interview_overview" | "ai_artifact_chat" | null;
         source: {
             addons: string[];
             kind: "preset" | "stt_model";
@@ -1780,6 +2266,7 @@ interface ProjectsAiPricingCatalogListData {
         aiArtifactChatPreset: string;
         artifactAiPreset: string;
         interviewOverviewAiPreset: string;
+        interviewPreparationAiPreset: string;
     };
     tiers: {
         id: string;
@@ -1801,6 +2288,158 @@ interface ProjectsAiPricingCatalogListParams {
     /** @minLength 1 */
     projectId: string;
 }
+interface ProjectsCandidateProfileListData {
+    contentMarkdown: string;
+    /** @format date-time */
+    createdAt: string | null;
+    hasContent: boolean;
+    hasMainEvaluationAdditionalInstructions: boolean;
+    hasSummary: boolean;
+    mainEvaluationAdditionalInstructions: string;
+    projectId: string;
+    summaryMarkdown: string;
+    /** @format date-time */
+    summaryUpdatedAt: string | null;
+    /** @format date-time */
+    updatedAt: string | null;
+}
+type ProjectsCandidateProfileListError = {
+    message: string;
+};
+interface ProjectsCandidateProfileListParams {
+    /** @minLength 1 */
+    projectId: string;
+}
+interface ProjectsCandidateProfileUpdateData {
+    contentMarkdown: string;
+    /** @format date-time */
+    createdAt: string | null;
+    hasContent: boolean;
+    hasMainEvaluationAdditionalInstructions: boolean;
+    hasSummary: boolean;
+    mainEvaluationAdditionalInstructions: string;
+    projectId: string;
+    summaryMarkdown: string;
+    /** @format date-time */
+    summaryUpdatedAt: string | null;
+    /** @format date-time */
+    updatedAt: string | null;
+}
+type ProjectsCandidateProfileUpdateError = {
+    message: string;
+};
+interface ProjectsCandidateProfileUpdateParams {
+    /** @minLength 1 */
+    projectId: string;
+}
+interface ProjectsCandidateProfileUpdatePayload {
+    /** @maxLength 2000000 */
+    contentMarkdown: string;
+}
+interface ProjectsFirstSetupListData {
+    /**
+     * @min 0
+     * @max 9007199254740991
+     */
+    completedRequiredCount: number;
+    hiddenForCurrentUser: boolean;
+    isComplete: boolean;
+    shouldDisplay: boolean;
+    steps: {
+        id: "candidate_profile" | "resume_photo" | "first_board_item" | "tailored_resume" | "tailored_cover_letter" | "first_interview_date" | "interview_prep" | "interview_audio";
+        optional: boolean;
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        sortOrder: number;
+        status: "pending" | "completed";
+        title: string;
+    }[];
+    /**
+     * @min 0
+     * @max 9007199254740991
+     */
+    totalRequiredCount: number;
+    wasCompletedForCurrentUser: boolean;
+}
+type ProjectsFirstSetupListError = {
+    message: string;
+};
+interface ProjectsFirstSetupListParams {
+    /** @minLength 1 */
+    projectId: string;
+}
+interface ProjectsFirstSetupPreferencesPartialUpdateData {
+    /**
+     * @min 0
+     * @max 9007199254740991
+     */
+    completedRequiredCount: number;
+    hiddenForCurrentUser: boolean;
+    isComplete: boolean;
+    shouldDisplay: boolean;
+    steps: {
+        id: "candidate_profile" | "resume_photo" | "first_board_item" | "tailored_resume" | "tailored_cover_letter" | "first_interview_date" | "interview_prep" | "interview_audio";
+        optional: boolean;
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        sortOrder: number;
+        status: "pending" | "completed";
+        title: string;
+    }[];
+    /**
+     * @min 0
+     * @max 9007199254740991
+     */
+    totalRequiredCount: number;
+    wasCompletedForCurrentUser: boolean;
+}
+type ProjectsFirstSetupPreferencesPartialUpdateError = {
+    message: string;
+};
+interface ProjectsFirstSetupPreferencesPartialUpdateParams {
+    /** @minLength 1 */
+    projectId: string;
+}
+interface ProjectsFirstSetupPreferencesPartialUpdatePayload {
+    hiddenForCurrentUser: boolean;
+}
+interface ProjectsInterviewsListData {
+    interviews: {
+        companyName: string;
+        /** @format date-time */
+        createdAt: string;
+        hasOverview: boolean;
+        hasTranscript: boolean;
+        interviewId: string;
+        itemStatus: "todo" | "applied" | "active" | "declined" | "archived";
+        meetingUrl: string | null;
+        overviewStatus: "GENERATING" | "READY" | "FAILED" | null;
+        progressBoardItemId: string;
+        projectId: string;
+        recruiterName: string;
+        /** @format date-time */
+        scheduledAt: string;
+        title: string;
+        transcriptionLanguage?: string | null;
+        transcriptionStatus: "UPLOADING" | "TRANSCRIBING" | "READY" | "FAILED" | null;
+        /** @format date-time */
+        updatedAt: string;
+    }[];
+    projectId: string;
+}
+type ProjectsInterviewsListError = {
+    message: string;
+};
+interface ProjectsInterviewsListParams {
+    from?: any;
+    /** @minLength 1 */
+    projectId: string;
+    to?: any;
+}
 type ProjectsListData = {
     aiArtifactChatPreset: "essential" | "balanced" | "advanced" | "max";
     aiBillingMode: "PROJECT_CREATOR" | "REQUEST_ACTOR";
@@ -1816,6 +2455,7 @@ type ProjectsListData = {
     };
     id: string;
     interviewOverviewAiPreset: "essential" | "balanced" | "advanced" | "max";
+    interviewPreparationAiPreset: "essential" | "balanced" | "advanced" | "max";
     isArchived: boolean;
     location: string;
     name: string;
@@ -1870,6 +2510,7 @@ interface ProjectsProgressBoardItemsCreateData {
         attachments: {
             /** @format date-time */
             createdAt: string;
+            downloadResolveUrl: string | null;
             downloadUrl: string | null;
             filename: string;
             id: string;
@@ -2478,6 +3119,7 @@ interface ProjectsVacancyScrapingResultsImportToBoardCreatePayload {
 interface ProjectsVacancyScrapingResultsListData {
     items: {
         companyName: string;
+        descriptionText?: string | null;
         evaluationConflictingSignals: string[];
         /**
          * @min -9007199254740991
@@ -2559,6 +3201,7 @@ interface ProjectsVacancyScrapingResultsListParams {
     sortDirection?: "asc" | "desc";
     sourceIds: string[];
     verdicts: ("YES" | "MAYBE" | "NO")[];
+    withDescription?: boolean;
 }
 interface ProjectsVacancyScrapingResultsMarkReviewedCreateData {
     projectId: string;
@@ -2591,14 +3234,18 @@ interface ProjectsVacancyScrapingRunAllCreateData {
         /** @format date-time */
         createdAt: string;
         errorMessage: string | null;
+        evaluateEnabled: boolean;
         /** @format date-time */
         finishedAt: string | null;
         id: string;
+        inputUrls: string[];
         /**
          * @min 0
          * @max 9007199254740991
          */
         newResultCount: number | null;
+        origin: "SOURCE" | "AD_HOC";
+        projectId: string;
         providerRunId: string | null;
         /**
          * @exclusiveMin true
@@ -2610,8 +3257,11 @@ interface ProjectsVacancyScrapingRunAllCreateData {
          * @max 9007199254740991
          */
         resultCount: number | null;
-        sourceId: string;
-        sourceName: string;
+        scraperId: string;
+        scraperName: string;
+        scraperSlug: string;
+        sourceId: string | null;
+        sourceName: string | null;
         /** @format date-time */
         startedAt: string | null;
         status: "QUEUED" | "RUNNING" | "SCRAPED" | "EVALUATING" | "SUCCEEDED" | "FAILED" | "CANCELED";
@@ -2656,21 +3306,24 @@ interface ProjectsVacancyScrapingRunAllCreateParams {
     /** @minLength 1 */
     projectId: string;
 }
-interface ProjectsVacancyScrapingRunsListData {
-    projectId: string;
-    runs: {
+interface ProjectsVacancyScrapingRunsCreateData {
+    run: {
         backgroundTaskId: string;
         /** @format date-time */
         createdAt: string;
         errorMessage: string | null;
+        evaluateEnabled: boolean;
         /** @format date-time */
         finishedAt: string | null;
         id: string;
+        inputUrls: string[];
         /**
          * @min 0
          * @max 9007199254740991
          */
         newResultCount: number | null;
+        origin: "SOURCE" | "AD_HOC";
+        projectId: string;
         providerRunId: string | null;
         /**
          * @exclusiveMin true
@@ -2682,8 +3335,102 @@ interface ProjectsVacancyScrapingRunsListData {
          * @max 9007199254740991
          */
         resultCount: number | null;
-        sourceId: string;
-        sourceName: string;
+        scraperId: string;
+        scraperName: string;
+        scraperSlug: string;
+        sourceId: string | null;
+        sourceName: string | null;
+        /** @format date-time */
+        startedAt: string | null;
+        status: "QUEUED" | "RUNNING" | "SCRAPED" | "EVALUATING" | "SUCCEEDED" | "FAILED" | "CANCELED";
+        triggerKind: "MANUAL" | "PROJECT_SCHEDULE" | "RUN_ALL";
+        /** @format date-time */
+        updatedAt: string;
+    };
+    task: {
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        attemptCount: number;
+        /** @format date-time */
+        createdAt: string;
+        error: {
+            code: string;
+            message: string;
+        } | null;
+        /** @format date-time */
+        finishedAt: string | null;
+        id: string;
+        /**
+         * @exclusiveMin true
+         * @max 9007199254740991
+         */
+        maxAttempts: number;
+        result: Record<string, any>;
+        sourceModule: "vacancy-scraping";
+        /** @format date-time */
+        startedAt: string | null;
+        status: "QUEUED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELED";
+        taskType: "vacancy_scraping.source_run" | "vacancy_scraping.first_evaluation" | "vacancy_scraping.main_evaluation" | "vacancy_scraping.manual_extraction" | "vacancy_scraping.manual_evaluation";
+        /** @format date-time */
+        updatedAt: string;
+    };
+}
+type ProjectsVacancyScrapingRunsCreateError = {
+    message: string;
+};
+interface ProjectsVacancyScrapingRunsCreateParams {
+    /** @minLength 1 */
+    projectId: string;
+}
+interface ProjectsVacancyScrapingRunsCreatePayload {
+    evaluateEnabled?: boolean;
+    /**
+     * @exclusiveMin true
+     * @max 1000
+     */
+    resultLimit: number;
+    /** @minLength 1 */
+    scraperId: string;
+    /** @format uri */
+    url: string;
+}
+interface ProjectsVacancyScrapingRunsListData {
+    projectId: string;
+    runs: {
+        backgroundTaskId: string;
+        /** @format date-time */
+        createdAt: string;
+        errorMessage: string | null;
+        evaluateEnabled: boolean;
+        /** @format date-time */
+        finishedAt: string | null;
+        id: string;
+        inputUrls: string[];
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        newResultCount: number | null;
+        origin: "SOURCE" | "AD_HOC";
+        projectId: string;
+        providerRunId: string | null;
+        /**
+         * @exclusiveMin true
+         * @max 9007199254740991
+         */
+        requestedLimit: number;
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        resultCount: number | null;
+        scraperId: string;
+        scraperName: string;
+        scraperSlug: string;
+        sourceId: string | null;
+        sourceName: string | null;
         /** @format date-time */
         startedAt: string | null;
         status: "QUEUED" | "RUNNING" | "SCRAPED" | "EVALUATING" | "SUCCEEDED" | "FAILED" | "CANCELED";
@@ -2721,7 +3468,7 @@ interface ProjectsVacancyScrapingSourcesCreateData {
     scraperId: string;
     scraperName: string;
     scraperSlug: string;
-    status: "IDLE" | "RUNNING" | "PAUSED" | "FAILED";
+    status: "IDLE" | "QUEUED" | "RUNNING" | "PAUSED" | "FAILED";
     /** @format date-time */
     updatedAt: string;
     urls: string[];
@@ -2779,7 +3526,7 @@ interface ProjectsVacancyScrapingSourcesListData {
         scraperId: string;
         scraperName: string;
         scraperSlug: string;
-        status: "IDLE" | "RUNNING" | "PAUSED" | "FAILED";
+        status: "IDLE" | "QUEUED" | "RUNNING" | "PAUSED" | "FAILED";
         /** @format date-time */
         updatedAt: string;
         urls: string[];
@@ -2792,122 +3539,6 @@ interface ProjectsVacancyScrapingSourcesListParams {
     /** @minLength 1 */
     projectId: string;
 }
-interface PublicAiPricingCatalogListData {
-    currency: "USD";
-    disclaimer: string;
-    externalOperations: {
-        appliesToOperations: string[];
-        billingKind: "external_run";
-        externalOperation: string;
-        key: string;
-        label: string;
-        /**
-         * @exclusiveMin true
-         * @max 9007199254740991
-         */
-        maxResultsPerRun: number;
-        pricingOperation: string;
-        provider: string;
-        scraperName: string;
-        scraperSlug: string;
-        site: "LINKEDIN" | "INDEED" | "GLASSDOOR";
-        tierPrices: {
-            /** @pattern ^\d+(?:\.\d{1,6})?$ */
-            priceUsd: string;
-            tierId: string;
-        }[];
-        unit: "per_1000_results";
-        unitPricing: {
-            kind: "external_results";
-            tiers: {
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                usdPer1000Results: string;
-                tierId: string;
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                usdPerResult: string;
-            }[];
-        };
-    }[];
-    operations: ({
-        appliesToOperations: string[];
-        billingKind: "llm";
-        key: string;
-        label: string;
-        pricingOperation: string;
-        source: {
-            addons: string[];
-            kind: "preset" | "stt_model";
-            model: string;
-            name: string | null;
-            provider: string;
-            reasoning: string | null;
-            slug: string | null;
-        };
-        tierPrices: {
-            /** @pattern ^\d+(?:\.\d{1,6})?$ */
-            priceUsd: string;
-            tierId: string;
-        }[];
-        unit: "per_generation";
-        unitPricing: {
-            kind: "llm_tokens";
-            tiers: {
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                cachedInputUsdPerMillionTokens: string;
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                inputUsdPerMillionTokens: string;
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                outputUsdPerMillionTokens: string;
-                tierId: string;
-            }[];
-        };
-    } | {
-        appliesToOperations: string[];
-        billingKind: "stt";
-        key: string;
-        label: string;
-        pricingOperation: string;
-        source: {
-            addons: string[];
-            kind: "preset" | "stt_model";
-            model: string;
-            name: string | null;
-            provider: string;
-            reasoning: string | null;
-            slug: string | null;
-        };
-        tierPrices: {
-            /** @pattern ^\d+(?:\.\d{1,6})?$ */
-            priceUsd: string;
-            tierId: string;
-        }[];
-        unit: "per_hour";
-        unitPricing: {
-            kind: "stt_audio";
-            tiers: {
-                tierId: string;
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                usdPerHour: string;
-                /** @pattern ^\d+(?:\.\d{1,6})?$ */
-                usdPerMinute: string;
-            }[];
-        };
-    })[];
-    tiers: {
-        id: string;
-        /**
-         * @min 0
-         * @max 9007199254740991
-         */
-        level: number;
-        name: string;
-        /** @pattern ^\d+(?:\.\d{1,6})?$ */
-        spendThresholdUsd: string;
-    }[];
-}
-type PublicAiPricingCatalogListError = {
-    message: string;
-};
 interface StatusListData {
     adapters: string[];
     capabilities: string[];
@@ -2923,6 +3554,13 @@ interface StatusListData {
     ports: string[];
     status: "ok";
     summary: string;
+}
+type StoredDetailError = {
+    message: string;
+};
+interface StoredDetailParams {
+    /** @minLength 1 */
+    storedFileId: string;
 }
 interface TailoredResumesPhotoCompleteCreateData {
     /** @format uri */
@@ -3063,6 +3701,95 @@ interface VacancyScrapingCatalogListData {
 type VacancyScrapingCatalogListError = {
     message: string;
 };
+interface VacancyScrapingRunsCancelCreateData {
+    runId: string;
+    status: "CANCELED";
+}
+type VacancyScrapingRunsCancelCreateError = {
+    message: string;
+};
+interface VacancyScrapingRunsCancelCreateParams {
+    /** @minLength 1 */
+    runId: string;
+}
+interface VacancyScrapingRunsRetryCreateData {
+    run: {
+        backgroundTaskId: string;
+        /** @format date-time */
+        createdAt: string;
+        errorMessage: string | null;
+        evaluateEnabled: boolean;
+        /** @format date-time */
+        finishedAt: string | null;
+        id: string;
+        inputUrls: string[];
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        newResultCount: number | null;
+        origin: "SOURCE" | "AD_HOC";
+        projectId: string;
+        providerRunId: string | null;
+        /**
+         * @exclusiveMin true
+         * @max 9007199254740991
+         */
+        requestedLimit: number;
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        resultCount: number | null;
+        scraperId: string;
+        scraperName: string;
+        scraperSlug: string;
+        sourceId: string | null;
+        sourceName: string | null;
+        /** @format date-time */
+        startedAt: string | null;
+        status: "QUEUED" | "RUNNING" | "SCRAPED" | "EVALUATING" | "SUCCEEDED" | "FAILED" | "CANCELED";
+        triggerKind: "MANUAL" | "PROJECT_SCHEDULE" | "RUN_ALL";
+        /** @format date-time */
+        updatedAt: string;
+    };
+    task: {
+        /**
+         * @min 0
+         * @max 9007199254740991
+         */
+        attemptCount: number;
+        /** @format date-time */
+        createdAt: string;
+        error: {
+            code: string;
+            message: string;
+        } | null;
+        /** @format date-time */
+        finishedAt: string | null;
+        id: string;
+        /**
+         * @exclusiveMin true
+         * @max 9007199254740991
+         */
+        maxAttempts: number;
+        result: Record<string, any>;
+        sourceModule: "vacancy-scraping";
+        /** @format date-time */
+        startedAt: string | null;
+        status: "QUEUED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELED";
+        taskType: "vacancy_scraping.source_run" | "vacancy_scraping.first_evaluation" | "vacancy_scraping.main_evaluation" | "vacancy_scraping.manual_extraction" | "vacancy_scraping.manual_evaluation";
+        /** @format date-time */
+        updatedAt: string;
+    };
+}
+type VacancyScrapingRunsRetryCreateError = {
+    message: string;
+};
+interface VacancyScrapingRunsRetryCreateParams {
+    /** @minLength 1 */
+    runId: string;
+}
 type VacancyScrapingSourcesDeleteData = null;
 type VacancyScrapingSourcesDeleteError = {
     message: string;
@@ -3093,7 +3820,7 @@ interface VacancyScrapingSourcesPartialUpdateData {
     scraperId: string;
     scraperName: string;
     scraperSlug: string;
-    status: "IDLE" | "RUNNING" | "PAUSED" | "FAILED";
+    status: "IDLE" | "QUEUED" | "RUNNING" | "PAUSED" | "FAILED";
     /** @format date-time */
     updatedAt: string;
     urls: string[];
@@ -3134,14 +3861,18 @@ interface VacancyScrapingSourcesRunCreateData {
         /** @format date-time */
         createdAt: string;
         errorMessage: string | null;
+        evaluateEnabled: boolean;
         /** @format date-time */
         finishedAt: string | null;
         id: string;
+        inputUrls: string[];
         /**
          * @min 0
          * @max 9007199254740991
          */
         newResultCount: number | null;
+        origin: "SOURCE" | "AD_HOC";
+        projectId: string;
         providerRunId: string | null;
         /**
          * @exclusiveMin true
@@ -3153,8 +3884,11 @@ interface VacancyScrapingSourcesRunCreateData {
          * @max 9007199254740991
          */
         resultCount: number | null;
-        sourceId: string;
-        sourceName: string;
+        scraperId: string;
+        scraperName: string;
+        scraperSlug: string;
+        sourceId: string | null;
+        sourceName: string | null;
         /** @format date-time */
         startedAt: string | null;
         status: "QUEUED" | "RUNNING" | "SCRAPED" | "EVALUATING" | "SUCCEEDED" | "FAILED" | "CANCELED";
@@ -3199,25 +3933,96 @@ interface VacancyScrapingSourcesRunCreateParams {
     /** @minLength 1 */
     sourceId: string;
 }
-declare namespace Billing {
+declare namespace Stored {
     /**
    * No description
-   * @tags public-api
-   * @name PublicAiPricingCatalogList
-   * @summary Get the public AI pricing catalog based on the connected database and visible billing tiers.
-   * @request GET:/billing/public/ai-pricing-catalog
-   * @response `200` `PublicAiPricingCatalogListData` Default Response
-   * @response `500` `{
+   * @tags Files
+   * @name StoredDetail
+   * @summary Serve a protected stable asset referenced by stored file id.
+   * @request GET:/stored/{storedFileId}
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `403` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
       message: string,
   
   }` Default Response
   */
-    namespace PublicAiPricingCatalogList {
-        type RequestParams = {};
+    namespace StoredDetail {
+        type RequestParams = {
+            /** @minLength 1 */
+            storedFileId: string;
+        };
         type RequestQuery = {};
         type RequestBody = never;
         type RequestHeaders = {};
-        type ResponseBody = PublicAiPricingCatalogListData;
+        type ResponseBody = any;
+    }
+}
+declare namespace Downloads {
+    /**
+   * No description
+   * @tags Files
+   * @name DownloadsDetail
+   * @summary Authorize and redirect to a signed download URL for a stored file.
+   * @request GET:/downloads/{storedFileId}
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `403` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace DownloadsDetail {
+        type RequestParams = {
+            /** @minLength 1 */
+            storedFileId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = any;
+    }
+    /**
+   * No description
+   * @tags Files
+   * @name GetDownloads
+   * @summary Authorize and return a signed download URL for a stored file.
+   * @request GET:/downloads/{storedFileId}/url
+   * @response `200` `GetDownloadsData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `403` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace GetDownloads {
+        type RequestParams = {
+            /** @minLength 1 */
+            storedFileId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = GetDownloadsData;
     }
 }
 
@@ -3265,7 +4070,7 @@ declare class HttpClient<SecurityDataType = unknown> {
 declare namespace PublicApi {
     /**
    * No description
-   * @tags public-api, Background Tasks, AI Tasks
+   * @tags Background Tasks, AI Tasks
    * @name AiTasksDetail
    * @summary Get the current state of a public background task for AI artifacts or vacancy scraping.
    * @request GET:/public-api/ai-tasks/{taskId}
@@ -3291,7 +4096,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing
+   * @tags Billing
    * @name BillingAiPricingCatalogList
    * @summary Get the public AI pricing catalog based on the connected database and visible billing tiers.
    * @request GET:/public-api/billing/ai-pricing-catalog
@@ -3310,7 +4115,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing
+   * @tags Billing
    * @name BillingMeBalanceList
    * @summary Get available wallet funds for the API key owner.
    * @request GET:/public-api/billing/me/balance
@@ -3329,7 +4134,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing
+   * @tags Billing
    * @name BillingMeLedgerList
    * @summary List billing account actions for the API key owner.
    * @request GET:/public-api/billing/me/ledger
@@ -3365,7 +4170,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing
+   * @tags Billing
    * @name BillingMeTierList
    * @summary Get current user tier and cumulative spend for the API key owner.
    * @request GET:/public-api/billing/me/tier
@@ -3384,7 +4189,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing
+   * @tags Billing
    * @name BillingMeUsageChargesDailySummaryList
    * @summary Get daily AI usage charge totals grouped by operation description for the API key owner for a chosen date range up to 180 days.
    * @request GET:/public-api/billing/me/usage-charges/daily-summary
@@ -3412,7 +4217,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing
+   * @tags Billing
    * @name BillingMeUsageChargesList
    * @summary List AI usage charges for the API key owner for a chosen date range up to 35 days.
    * @request GET:/public-api/billing/me/usage-charges
@@ -3440,7 +4245,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Authentication
+   * @tags Authentication
    * @name GetPublicApi
    * @summary Get the user who owns the supplied API key.
    * @request GET:/public-api/me
@@ -3459,7 +4264,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board, Files
    * @name ProgressBoardAttachmentsCompleteCreate
    * @summary Verify and mark a comment attachment as uploaded.
    * @request POST:/public-api/progress-board/attachments/{attachmentId}/complete
@@ -3493,7 +4298,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board, Files
    * @name ProgressBoardCommentsAttachmentsCreate
    * @summary Create a presigned upload target for a comment attachment.
    * @request POST:/public-api/progress-board/comments/{commentId}/attachments
@@ -3527,7 +4332,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProgressBoardCommentsDelete
    * @summary Delete a progress board comment.
    * @request DELETE:/public-api/progress-board/comments/{commentId}
@@ -3553,7 +4358,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProgressBoardCommentsPartialUpdate
    * @summary Update a progress board comment.
    * @request PATCH:/public-api/progress-board/comments/{commentId}
@@ -3583,7 +4388,33 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Interviews
+   * @name ProgressBoardInterviewsAiList
+   * @summary Get interview AI state, including transcription and overview.
+   * @request GET:/public-api/progress-board/interviews/{interviewId}/ai
+   * @response `200` `ProgressBoardInterviewsAiListData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProgressBoardInterviewsAiList {
+        type RequestParams = {
+            /** @minLength 1 */
+            interviewId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = ProgressBoardInterviewsAiListData;
+    }
+    /**
+   * No description
+   * @tags Interviews, Progress Board
    * @name ProgressBoardInterviewsDelete
    * @summary Delete an interview record.
    * @request DELETE:/public-api/progress-board/interviews/{interviewId}
@@ -3609,7 +4440,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Interviews, Progress Board
    * @name ProgressBoardInterviewsPartialUpdate
    * @summary Update an interview record.
    * @request PATCH:/public-api/progress-board/interviews/{interviewId}
@@ -3639,7 +4470,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProgressBoardItemsCommentsCreate
    * @summary Create a comment on a progress board item.
    * @request POST:/public-api/progress-board/items/{itemId}/comments
@@ -3665,7 +4496,33 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
+   * @name ProgressBoardItemsCommentsList
+   * @summary List comments for one progress board item.
+   * @request GET:/public-api/progress-board/items/{itemId}/comments
+   * @response `200` `ProgressBoardItemsCommentsListData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProgressBoardItemsCommentsList {
+        type RequestParams = {
+            /** @minLength 1 */
+            itemId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = ProgressBoardItemsCommentsListData;
+    }
+    /**
+   * No description
+   * @tags Cover Letters
    * @name ProgressBoardItemsCoverLetterDelete
    * @summary Delete the cover letter attached to a progress board item.
    * @request DELETE:/public-api/progress-board/items/{itemId}/cover-letter
@@ -3695,7 +4552,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Cover Letters
    * @name ProgressBoardItemsCoverLetterList
    * @summary Get the current cover letter attached to a progress board item.
    * @request GET:/public-api/progress-board/items/{itemId}/cover-letter
@@ -3721,13 +4578,15 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Cover Letters, Files
    * @name ProgressBoardItemsCoverLetterPdfExportCreate
    * @summary Export the current cover letter to PDF, returning either a cached download URL or an async export task.
    * @request POST:/public-api/progress-board/items/{itemId}/cover-letter/pdf-export
    * @response `200` `ProgressBoardItemsCoverLetterPdfExportCreateData` Default Response
    * @response `202` `({
       cacheStatus: "hit" | "generated",
+    /** @format uri *\/
+      downloadResolveUrl: string,
     /** @format uri *\/
       downloadUrl: string,
       status: "ready",
@@ -3796,7 +4655,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Cover Letters, AI Tasks
+   * @tags Cover Letters, Background Tasks, AI Tasks
    * @name ProgressBoardItemsCoverLetterTasksCreate
    * @summary Enqueue cover letter generation for a progress board item.
    * @request POST:/public-api/progress-board/items/{itemId}/cover-letter/tasks
@@ -3838,7 +4697,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Cover Letters
    * @name ProgressBoardItemsCoverLetterUpdate
    * @summary Save the full cover letter JSON after manual editing.
    * @request PUT:/public-api/progress-board/items/{itemId}/cover-letter
@@ -3868,7 +4727,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProgressBoardItemsDelete
    * @summary Delete a progress board item.
    * @request DELETE:/public-api/progress-board/items/{itemId}
@@ -3894,7 +4753,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProgressBoardItemsDetail
    * @summary Get a single progress board item.
    * @request GET:/public-api/progress-board/items/{itemId}
@@ -3920,7 +4779,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Interview Preparation
    * @name ProgressBoardItemsInterviewPreparationDelete
    * @summary Delete the interview preparation attached to a progress board item.
    * @request DELETE:/public-api/progress-board/items/{itemId}/interview-preparation
@@ -3950,7 +4809,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Interview Preparation
    * @name ProgressBoardItemsInterviewPreparationList
    * @summary Get the current interview preparation attached to a progress board item.
    * @request GET:/public-api/progress-board/items/{itemId}/interview-preparation
@@ -3976,7 +4835,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Interview Preparation, AI Tasks
+   * @tags Interview Preparation, Background Tasks, AI Tasks
    * @name ProgressBoardItemsInterviewPreparationTasksCreate
    * @summary Enqueue interview preparation generation for a progress board item.
    * @request POST:/public-api/progress-board/items/{itemId}/interview-preparation/tasks
@@ -4018,7 +4877,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Interviews, Progress Board
    * @name ProgressBoardItemsInterviewsCreate
    * @summary Create an interview record for a progress board item.
    * @request POST:/public-api/progress-board/items/{itemId}/interviews
@@ -4044,7 +4903,33 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Interviews, Progress Board
+   * @name ProgressBoardItemsInterviewsList
+   * @summary List interviews attached to one progress board item.
+   * @request GET:/public-api/progress-board/items/{itemId}/interviews
+   * @response `200` `ProgressBoardItemsInterviewsListData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProgressBoardItemsInterviewsList {
+        type RequestParams = {
+            /** @minLength 1 */
+            itemId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = ProgressBoardItemsInterviewsListData;
+    }
+    /**
+   * No description
+   * @tags Progress Board
    * @name ProgressBoardItemsMoveCreate
    * @summary Move a progress board item to a new column position or reorder it within the same column.
    * @request POST:/public-api/progress-board/items/{itemId}/move
@@ -4074,7 +4959,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProgressBoardItemsPartialUpdate
    * @summary Update a progress board item and optionally change its status.
    * @request PATCH:/public-api/progress-board/items/{itemId}
@@ -4104,7 +4989,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Tailored Resumes
    * @name ProgressBoardItemsTailoredResumeDelete
    * @summary Delete the tailored resume attached to a progress board item.
    * @request DELETE:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -4134,7 +5019,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Tailored Resumes
    * @name ProgressBoardItemsTailoredResumeList
    * @summary Get the current tailored resume attached to a progress board item.
    * @request GET:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -4160,13 +5045,15 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Tailored Resumes, Files
    * @name ProgressBoardItemsTailoredResumePdfExportCreate
    * @summary Export the current tailored resume to PDF, returning either a cached download URL or an async export task.
    * @request POST:/public-api/progress-board/items/{itemId}/tailored-resume/pdf-export
    * @response `200` `ProgressBoardItemsTailoredResumePdfExportCreateData` Default Response
    * @response `202` `({
       cacheStatus: "hit" | "generated",
+    /** @format uri *\/
+      downloadResolveUrl: string,
     /** @format uri *\/
       downloadUrl: string,
       status: "ready",
@@ -4235,7 +5122,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Tailored Resumes, AI Tasks
+   * @tags Tailored Resumes, Background Tasks, AI Tasks
    * @name ProgressBoardItemsTailoredResumeTasksCreate
    * @summary Enqueue tailored resume generation for a progress board item.
    * @request POST:/public-api/progress-board/items/{itemId}/tailored-resume/tasks
@@ -4277,7 +5164,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Tailored Resumes
    * @name ProgressBoardItemsTailoredResumeUpdate
    * @summary Save the full tailored resume JSON after manual editing.
    * @request PUT:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -4307,7 +5194,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Billing, Projects
+   * @tags Billing, Projects
    * @name ProjectsAiPricingCatalogList
    * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
    * @request GET:/public-api/projects/{projectId}/ai-pricing-catalog
@@ -4337,7 +5224,140 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Projects
+   * @tags Projects
+   * @name ProjectsCandidateProfileList
+   * @summary Get the markdown candidate profile for a project.
+   * @request GET:/public-api/projects/{projectId}/candidate-profile
+   * @response `200` `ProjectsCandidateProfileListData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProjectsCandidateProfileList {
+        type RequestParams = {
+            /** @minLength 1 */
+            projectId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = ProjectsCandidateProfileListData;
+    }
+    /**
+   * No description
+   * @tags Projects
+   * @name ProjectsCandidateProfileUpdate
+   * @summary Replace the markdown candidate profile for a project.
+   * @request PUT:/public-api/projects/{projectId}/candidate-profile
+   * @response `200` `ProjectsCandidateProfileUpdateData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProjectsCandidateProfileUpdate {
+        type RequestParams = {
+            /** @minLength 1 */
+            projectId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = ProjectsCandidateProfileUpdatePayload;
+        type RequestHeaders = {};
+        type ResponseBody = ProjectsCandidateProfileUpdateData;
+    }
+    /**
+   * No description
+   * @tags Projects
+   * @name ProjectsFirstSetupList
+   * @summary Get the viewer-specific first setup checklist for a project.
+   * @request GET:/public-api/projects/{projectId}/first-setup
+   * @response `200` `ProjectsFirstSetupListData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProjectsFirstSetupList {
+        type RequestParams = {
+            /** @minLength 1 */
+            projectId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = ProjectsFirstSetupListData;
+    }
+    /**
+   * No description
+   * @tags Projects
+   * @name ProjectsFirstSetupPreferencesPartialUpdate
+   * @summary Update viewer-specific first setup widget preferences for a project.
+   * @request PATCH:/public-api/projects/{projectId}/first-setup/preferences
+   * @response `200` `ProjectsFirstSetupPreferencesPartialUpdateData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProjectsFirstSetupPreferencesPartialUpdate {
+        type RequestParams = {
+            /** @minLength 1 */
+            projectId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = ProjectsFirstSetupPreferencesPartialUpdatePayload;
+        type RequestHeaders = {};
+        type ResponseBody = ProjectsFirstSetupPreferencesPartialUpdateData;
+    }
+    /**
+   * No description
+   * @tags Interviews
+   * @name ProjectsInterviewsList
+   * @summary List scheduled interviews for a project, optionally filtered by date range.
+   * @request GET:/public-api/projects/{projectId}/interviews
+   * @response `200` `ProjectsInterviewsListData` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProjectsInterviewsList {
+        type RequestParams = {
+            /** @minLength 1 */
+            projectId: string;
+        };
+        type RequestQuery = {
+            from?: any;
+            to?: any;
+        };
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = ProjectsInterviewsListData;
+    }
+    /**
+   * No description
+   * @tags Projects
    * @name ProjectsList
    * @summary List projects available to the API key owner.
    * @request GET:/public-api/projects
@@ -4356,7 +5376,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProjectsProgressBoardItemsCreate
    * @summary Create a new progress board item for a project.
    * @request POST:/public-api/projects/{projectId}/progress-board/items
@@ -4382,7 +5402,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Progress Board
    * @name ProjectsProgressBoardList
    * @summary Get the progress board for a project.
    * @request GET:/public-api/projects/{projectId}/progress-board
@@ -4408,7 +5428,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Vacancy Scraping
+   * @tags Vacancy Scraping, Background Tasks, AI Tasks
    * @name ProjectsVacancyEvaluationsCreate
    * @summary Enqueue AI evaluation of one normalized externally supplied vacancy against a project candidate profile.
    * @request POST:/public-api/projects/{projectId}/vacancy-evaluations
@@ -4446,7 +5466,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Vacancy Scraping
+   * @tags Vacancy Scraping, Background Tasks, AI Tasks
    * @name ProjectsVacancyExtractionsCreate
    * @summary Enqueue extraction of normalized vacancy fields from one externally supplied readable vacancy page text.
    * @request POST:/public-api/projects/{projectId}/vacancy-extractions
@@ -4484,7 +5504,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping, AI Tasks
    * @name ProjectsVacancyScrapingGenerateSourcesCreate
    * @summary Generate suggested scraping search URLs for one project.
    * @request POST:/public-api/projects/{projectId}/vacancy-scraping/generate-sources
@@ -4522,7 +5542,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name ProjectsVacancyScrapingResultsDetail
    * @summary Get heavy scraped vacancy details, including full description and AI rationale.
    * @request GET:/public-api/projects/{projectId}/vacancy-scraping/results/{vacancyId}
@@ -4550,7 +5570,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping, Background Tasks, AI Tasks
    * @name ProjectsVacancyScrapingResultsEvaluateCreate
    * @summary Queue AI evaluation for selected scraped vacancies that are not already evaluated or already in progress.
    * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/evaluate
@@ -4588,7 +5608,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping, Progress Board
    * @name ProjectsVacancyScrapingResultsImportToBoardCreate
    * @summary Move selected scraped vacancies to the TODO board column.
    * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/import-to-board
@@ -4618,7 +5638,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name ProjectsVacancyScrapingResultsList
    * @summary List lightweight scraped vacancies for one project.
    * @request GET:/public-api/projects/{projectId}/vacancy-scraping/results
@@ -4654,6 +5674,7 @@ declare namespace PublicApi {
             sortDirection?: "asc" | "desc";
             sourceIds: string[];
             verdicts: ("YES" | "MAYBE" | "NO")[];
+            withDescription?: boolean;
         };
         type RequestBody = never;
         type RequestHeaders = {};
@@ -4661,7 +5682,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name ProjectsVacancyScrapingResultsMarkReviewedCreate
    * @summary Mark the current project vacancy inbox as reviewed for the current user.
    * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/mark-reviewed
@@ -4687,9 +5708,9 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Vacancy Scraping
+   * @tags Vacancy Scraping, Background Tasks
    * @name ProjectsVacancyScrapingRunAllCreate
-   * @summary Reserve and enqueue the first enabled source in one sequential project run-all chain.
+   * @summary Queue all enabled vacancy scraping sources for one project and return the first newly queued run.
    * @request POST:/public-api/projects/{projectId}/vacancy-scraping/run-all
    * @response `202` `ProjectsVacancyScrapingRunAllCreateData` Default Response
    * @response `400` `{
@@ -4725,9 +5746,47 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping, Background Tasks
+   * @name ProjectsVacancyScrapingRunsCreate
+   * @summary Create one vacancy scraping run for a project.
+   * @request POST:/public-api/projects/{projectId}/vacancy-scraping/runs
+   * @response `202` `ProjectsVacancyScrapingRunsCreateData` Default Response
+   * @response `400` `{
+      message: string,
+  
+  }` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `402` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+   * @response `503` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProjectsVacancyScrapingRunsCreate {
+        type RequestParams = {
+            /** @minLength 1 */
+            projectId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = ProjectsVacancyScrapingRunsCreatePayload;
+        type RequestHeaders = {};
+        type ResponseBody = ProjectsVacancyScrapingRunsCreateData;
+    }
+    /**
+   * No description
+   * @tags Vacancy Scraping
    * @name ProjectsVacancyScrapingRunsList
-   * @summary List vacancy scraping runs for one project.
+   * @summary List all vacancy scraping runs for one project.
    * @request GET:/public-api/projects/{projectId}/vacancy-scraping/runs
    * @response `200` `ProjectsVacancyScrapingRunsListData` Default Response
    * @response `401` `{
@@ -4751,7 +5810,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name ProjectsVacancyScrapingSourcesCreate
    * @summary Create one project-scoped vacancy scraping source.
    * @request POST:/public-api/projects/{projectId}/vacancy-scraping/sources
@@ -4781,7 +5840,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name ProjectsVacancyScrapingSourcesList
    * @summary List vacancy scraping sources for one project.
    * @request GET:/public-api/projects/{projectId}/vacancy-scraping/sources
@@ -4822,7 +5881,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Tailored Resumes, Files
    * @name TailoredResumesPhotoCompleteCreate
    * @summary Verify a previously uploaded resume-local photo and return its public URL.
    * @request POST:/public-api/tailored-resumes/{resumeId}/photo/complete
@@ -4856,7 +5915,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Tailored Resumes, Files
    * @name TailoredResumesPhotoUploadCreate
    * @summary Create a presigned upload target for a resume-local photo attached to one tailored resume artifact.
    * @request POST:/public-api/tailored-resumes/{resumeId}/photo/upload
@@ -4890,7 +5949,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Vacancy Scraping
+   * @tags Vacancy Scraping, Background Tasks, AI Tasks
    * @name VacancyEvaluationsAiTasksDetail
    * @summary Get the current state of a public vacancy evaluation task.
    * @request GET:/public-api/vacancy-evaluations/ai-tasks/{taskId}
@@ -4916,7 +5975,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Vacancy Scraping
+   * @tags Vacancy Scraping, Background Tasks, AI Tasks
    * @name VacancyExtractionsAiTasksDetail
    * @summary Get the current state of a public vacancy extraction task.
    * @request GET:/public-api/vacancy-extractions/ai-tasks/{taskId}
@@ -4942,7 +6001,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name VacancyScrapingCatalogList
    * @summary List available Bright Data vacancy scrapers for the current billing tier.
    * @request GET:/public-api/vacancy-scraping/catalog
@@ -4961,7 +6020,75 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping, Background Tasks
+   * @name VacancyScrapingRunsCancelCreate
+   * @summary Cancel one queued vacancy scraping run.
+   * @request POST:/public-api/vacancy-scraping/runs/{runId}/cancel
+   * @response `200` `VacancyScrapingRunsCancelCreateData` Default Response
+   * @response `400` `{
+      message: string,
+  
+  }` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace VacancyScrapingRunsCancelCreate {
+        type RequestParams = {
+            /** @minLength 1 */
+            runId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = VacancyScrapingRunsCancelCreateData;
+    }
+    /**
+   * No description
+   * @tags Vacancy Scraping, Background Tasks
+   * @name VacancyScrapingRunsRetryCreate
+   * @summary Retry one failed or canceled vacancy scraping run by creating a new run from its saved snapshot.
+   * @request POST:/public-api/vacancy-scraping/runs/{runId}/retry
+   * @response `202` `VacancyScrapingRunsRetryCreateData` Default Response
+   * @response `400` `{
+      message: string,
+  
+  }` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `402` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+   * @response `503` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace VacancyScrapingRunsRetryCreate {
+        type RequestParams = {
+            /** @minLength 1 */
+            runId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = never;
+        type RequestHeaders = {};
+        type ResponseBody = VacancyScrapingRunsRetryCreateData;
+    }
+    /**
+   * No description
+   * @tags Vacancy Scraping
    * @name VacancyScrapingSourcesDelete
    * @summary Delete one vacancy scraping source and all scraping data currently owned by it.
    * @request DELETE:/public-api/vacancy-scraping/sources/{sourceId}
@@ -4991,7 +6118,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api
+   * @tags Vacancy Scraping
    * @name VacancyScrapingSourcesPartialUpdate
    * @summary Update one vacancy scraping source.
    * @request PATCH:/public-api/vacancy-scraping/sources/{sourceId}
@@ -5021,7 +6148,7 @@ declare namespace PublicApi {
     }
     /**
    * No description
-   * @tags public-api, Vacancy Scraping
+   * @tags Vacancy Scraping, Background Tasks
    * @name VacancyScrapingSourcesRunCreate
    * @summary Reserve funds and enqueue one vacancy scraping source run.
    * @request POST:/public-api/vacancy-scraping/sources/{sourceId}/run
@@ -5062,27 +6189,79 @@ declare namespace PublicApi {
 declare class PublicApi<SecurityDataType extends unknown> {
     http: HttpClient<SecurityDataType>;
     constructor(http: HttpClient<SecurityDataType>);
-    billing: {
+    stored: {
         /**
      * No description
      *
-     * @tags public-api
-     * @name PublicAiPricingCatalogList
-     * @summary Get the public AI pricing catalog based on the connected database and visible billing tiers.
-     * @request GET:/billing/public/ai-pricing-catalog
-     * @response `200` `PublicAiPricingCatalogListData` Default Response
-     * @response `500` `{
+     * @tags Files
+     * @name StoredDetail
+     * @summary Serve a protected stable asset referenced by stored file id.
+     * @request GET:/stored/{storedFileId}
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `403` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
         message: string,
     
     }` Default Response
      */
-        publicAiPricingCatalogList: (params?: RequestParams) => Promise<AxiosResponse<PublicAiPricingCatalogListData, any, {}>>;
+        storedDetail: ({ storedFileId }: StoredDetailParams, params?: RequestParams) => Promise<AxiosResponse<any, any, {}>>;
+    };
+    downloads: {
+        /**
+     * No description
+     *
+     * @tags Files
+     * @name DownloadsDetail
+     * @summary Authorize and redirect to a signed download URL for a stored file.
+     * @request GET:/downloads/{storedFileId}
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `403` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        downloadsDetail: ({ storedFileId }: DownloadsDetailParams, params?: RequestParams) => Promise<AxiosResponse<any, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Files
+     * @name GetDownloads
+     * @summary Authorize and return a signed download URL for a stored file.
+     * @request GET:/downloads/{storedFileId}/url
+     * @response `200` `GetDownloadsData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `403` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        getDownloads: ({ storedFileId }: GetDownloadsParams, params?: RequestParams) => Promise<AxiosResponse<GetDownloadsData, any, {}>>;
     };
     publicApi: {
         /**
      * No description
      *
-     * @tags public-api, Background Tasks, AI Tasks
+     * @tags Background Tasks, AI Tasks
      * @name AiTasksDetail
      * @summary Get the current state of a public background task for AI artifacts or vacancy scraping.
      * @request GET:/public-api/ai-tasks/{taskId}
@@ -5100,7 +6279,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing
+     * @tags Billing
      * @name BillingAiPricingCatalogList
      * @summary Get the public AI pricing catalog based on the connected database and visible billing tiers.
      * @request GET:/public-api/billing/ai-pricing-catalog
@@ -5114,7 +6293,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing
+     * @tags Billing
      * @name BillingMeBalanceList
      * @summary Get available wallet funds for the API key owner.
      * @request GET:/public-api/billing/me/balance
@@ -5128,7 +6307,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing
+     * @tags Billing
      * @name BillingMeLedgerList
      * @summary List billing account actions for the API key owner.
      * @request GET:/public-api/billing/me/ledger
@@ -5142,7 +6321,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing
+     * @tags Billing
      * @name BillingMeTierList
      * @summary Get current user tier and cumulative spend for the API key owner.
      * @request GET:/public-api/billing/me/tier
@@ -5156,7 +6335,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing
+     * @tags Billing
      * @name BillingMeUsageChargesDailySummaryList
      * @summary Get daily AI usage charge totals grouped by operation description for the API key owner for a chosen date range up to 180 days.
      * @request GET:/public-api/billing/me/usage-charges/daily-summary
@@ -5174,7 +6353,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing
+     * @tags Billing
      * @name BillingMeUsageChargesList
      * @summary List AI usage charges for the API key owner for a chosen date range up to 35 days.
      * @request GET:/public-api/billing/me/usage-charges
@@ -5192,7 +6371,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Authentication
+     * @tags Authentication
      * @name GetPublicApi
      * @summary Get the user who owns the supplied API key.
      * @request GET:/public-api/me
@@ -5206,7 +6385,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board, Files
      * @name ProgressBoardAttachmentsCompleteCreate
      * @summary Verify and mark a comment attachment as uploaded.
      * @request POST:/public-api/progress-board/attachments/{attachmentId}/complete
@@ -5232,7 +6411,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board, Files
      * @name ProgressBoardCommentsAttachmentsCreate
      * @summary Create a presigned upload target for a comment attachment.
      * @request POST:/public-api/progress-board/comments/{commentId}/attachments
@@ -5258,7 +6437,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProgressBoardCommentsDelete
      * @summary Delete a progress board comment.
      * @request DELETE:/public-api/progress-board/comments/{commentId}
@@ -5276,7 +6455,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProgressBoardCommentsPartialUpdate
      * @summary Update a progress board comment.
      * @request PATCH:/public-api/progress-board/comments/{commentId}
@@ -5298,7 +6477,25 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Interviews
+     * @name ProgressBoardInterviewsAiList
+     * @summary Get interview AI state, including transcription and overview.
+     * @request GET:/public-api/progress-board/interviews/{interviewId}/ai
+     * @response `200` `ProgressBoardInterviewsAiListData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        progressBoardInterviewsAiList: ({ interviewId }: ProgressBoardInterviewsAiListParams, params?: RequestParams) => Promise<AxiosResponse<ProgressBoardInterviewsAiListData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Interviews, Progress Board
      * @name ProgressBoardInterviewsDelete
      * @summary Delete an interview record.
      * @request DELETE:/public-api/progress-board/interviews/{interviewId}
@@ -5316,7 +6513,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Interviews, Progress Board
      * @name ProgressBoardInterviewsPartialUpdate
      * @summary Update an interview record.
      * @request PATCH:/public-api/progress-board/interviews/{interviewId}
@@ -5338,7 +6535,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProgressBoardItemsCommentsCreate
      * @summary Create a comment on a progress board item.
      * @request POST:/public-api/progress-board/items/{itemId}/comments
@@ -5356,7 +6553,25 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
+     * @name ProgressBoardItemsCommentsList
+     * @summary List comments for one progress board item.
+     * @request GET:/public-api/progress-board/items/{itemId}/comments
+     * @response `200` `ProgressBoardItemsCommentsListData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        progressBoardItemsCommentsList: ({ itemId }: ProgressBoardItemsCommentsListParams, params?: RequestParams) => Promise<AxiosResponse<ProgressBoardItemsCommentsListData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Cover Letters
      * @name ProgressBoardItemsCoverLetterDelete
      * @summary Delete the cover letter attached to a progress board item.
      * @request DELETE:/public-api/progress-board/items/{itemId}/cover-letter
@@ -5378,7 +6593,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Cover Letters
      * @name ProgressBoardItemsCoverLetterList
      * @summary Get the current cover letter attached to a progress board item.
      * @request GET:/public-api/progress-board/items/{itemId}/cover-letter
@@ -5396,13 +6611,15 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Cover Letters, Files
      * @name ProgressBoardItemsCoverLetterPdfExportCreate
      * @summary Export the current cover letter to PDF, returning either a cached download URL or an async export task.
      * @request POST:/public-api/progress-board/items/{itemId}/cover-letter/pdf-export
      * @response `200` `ProgressBoardItemsCoverLetterPdfExportCreateData` Default Response
      * @response `202` `({
         cacheStatus: "hit" | "generated",
+      /** @format uri *\/
+        downloadResolveUrl: string,
       /** @format uri *\/
         downloadUrl: string,
         status: "ready",
@@ -5463,7 +6680,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Cover Letters, AI Tasks
+     * @tags Cover Letters, Background Tasks, AI Tasks
      * @name ProgressBoardItemsCoverLetterTasksCreate
      * @summary Enqueue cover letter generation for a progress board item.
      * @request POST:/public-api/progress-board/items/{itemId}/cover-letter/tasks
@@ -5497,7 +6714,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Cover Letters
      * @name ProgressBoardItemsCoverLetterUpdate
      * @summary Save the full cover letter JSON after manual editing.
      * @request PUT:/public-api/progress-board/items/{itemId}/cover-letter
@@ -5519,7 +6736,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProgressBoardItemsDelete
      * @summary Delete a progress board item.
      * @request DELETE:/public-api/progress-board/items/{itemId}
@@ -5537,7 +6754,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProgressBoardItemsDetail
      * @summary Get a single progress board item.
      * @request GET:/public-api/progress-board/items/{itemId}
@@ -5555,7 +6772,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Interview Preparation
      * @name ProgressBoardItemsInterviewPreparationDelete
      * @summary Delete the interview preparation attached to a progress board item.
      * @request DELETE:/public-api/progress-board/items/{itemId}/interview-preparation
@@ -5577,7 +6794,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Interview Preparation
      * @name ProgressBoardItemsInterviewPreparationList
      * @summary Get the current interview preparation attached to a progress board item.
      * @request GET:/public-api/progress-board/items/{itemId}/interview-preparation
@@ -5595,7 +6812,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Interview Preparation, AI Tasks
+     * @tags Interview Preparation, Background Tasks, AI Tasks
      * @name ProgressBoardItemsInterviewPreparationTasksCreate
      * @summary Enqueue interview preparation generation for a progress board item.
      * @request POST:/public-api/progress-board/items/{itemId}/interview-preparation/tasks
@@ -5629,7 +6846,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Interviews, Progress Board
      * @name ProgressBoardItemsInterviewsCreate
      * @summary Create an interview record for a progress board item.
      * @request POST:/public-api/progress-board/items/{itemId}/interviews
@@ -5647,7 +6864,25 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Interviews, Progress Board
+     * @name ProgressBoardItemsInterviewsList
+     * @summary List interviews attached to one progress board item.
+     * @request GET:/public-api/progress-board/items/{itemId}/interviews
+     * @response `200` `ProgressBoardItemsInterviewsListData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        progressBoardItemsInterviewsList: ({ itemId }: ProgressBoardItemsInterviewsListParams, params?: RequestParams) => Promise<AxiosResponse<ProgressBoardItemsInterviewsListData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Progress Board
      * @name ProgressBoardItemsMoveCreate
      * @summary Move a progress board item to a new column position or reorder it within the same column.
      * @request POST:/public-api/progress-board/items/{itemId}/move
@@ -5669,7 +6904,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProgressBoardItemsPartialUpdate
      * @summary Update a progress board item and optionally change its status.
      * @request PATCH:/public-api/progress-board/items/{itemId}
@@ -5691,7 +6926,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Tailored Resumes
      * @name ProgressBoardItemsTailoredResumeDelete
      * @summary Delete the tailored resume attached to a progress board item.
      * @request DELETE:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -5713,7 +6948,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Tailored Resumes
      * @name ProgressBoardItemsTailoredResumeList
      * @summary Get the current tailored resume attached to a progress board item.
      * @request GET:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -5731,13 +6966,15 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Tailored Resumes, Files
      * @name ProgressBoardItemsTailoredResumePdfExportCreate
      * @summary Export the current tailored resume to PDF, returning either a cached download URL or an async export task.
      * @request POST:/public-api/progress-board/items/{itemId}/tailored-resume/pdf-export
      * @response `200` `ProgressBoardItemsTailoredResumePdfExportCreateData` Default Response
      * @response `202` `({
         cacheStatus: "hit" | "generated",
+      /** @format uri *\/
+        downloadResolveUrl: string,
       /** @format uri *\/
         downloadUrl: string,
         status: "ready",
@@ -5798,7 +7035,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Tailored Resumes, AI Tasks
+     * @tags Tailored Resumes, Background Tasks, AI Tasks
      * @name ProgressBoardItemsTailoredResumeTasksCreate
      * @summary Enqueue tailored resume generation for a progress board item.
      * @request POST:/public-api/progress-board/items/{itemId}/tailored-resume/tasks
@@ -5832,7 +7069,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Tailored Resumes
      * @name ProgressBoardItemsTailoredResumeUpdate
      * @summary Save the full tailored resume JSON after manual editing.
      * @request PUT:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -5854,7 +7091,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Billing, Projects
+     * @tags Billing, Projects
      * @name ProjectsAiPricingCatalogList
      * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
      * @request GET:/public-api/projects/{projectId}/ai-pricing-catalog
@@ -5876,7 +7113,97 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Projects
+     * @tags Projects
+     * @name ProjectsCandidateProfileList
+     * @summary Get the markdown candidate profile for a project.
+     * @request GET:/public-api/projects/{projectId}/candidate-profile
+     * @response `200` `ProjectsCandidateProfileListData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        projectsCandidateProfileList: ({ projectId }: ProjectsCandidateProfileListParams, params?: RequestParams) => Promise<AxiosResponse<ProjectsCandidateProfileListData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Projects
+     * @name ProjectsCandidateProfileUpdate
+     * @summary Replace the markdown candidate profile for a project.
+     * @request PUT:/public-api/projects/{projectId}/candidate-profile
+     * @response `200` `ProjectsCandidateProfileUpdateData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        projectsCandidateProfileUpdate: ({ projectId }: ProjectsCandidateProfileUpdateParams, data: ProjectsCandidateProfileUpdatePayload, params?: RequestParams) => Promise<AxiosResponse<ProjectsCandidateProfileUpdateData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Projects
+     * @name ProjectsFirstSetupList
+     * @summary Get the viewer-specific first setup checklist for a project.
+     * @request GET:/public-api/projects/{projectId}/first-setup
+     * @response `200` `ProjectsFirstSetupListData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        projectsFirstSetupList: ({ projectId }: ProjectsFirstSetupListParams, params?: RequestParams) => Promise<AxiosResponse<ProjectsFirstSetupListData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Projects
+     * @name ProjectsFirstSetupPreferencesPartialUpdate
+     * @summary Update viewer-specific first setup widget preferences for a project.
+     * @request PATCH:/public-api/projects/{projectId}/first-setup/preferences
+     * @response `200` `ProjectsFirstSetupPreferencesPartialUpdateData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        projectsFirstSetupPreferencesPartialUpdate: ({ projectId }: ProjectsFirstSetupPreferencesPartialUpdateParams, data: ProjectsFirstSetupPreferencesPartialUpdatePayload, params?: RequestParams) => Promise<AxiosResponse<ProjectsFirstSetupPreferencesPartialUpdateData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Interviews
+     * @name ProjectsInterviewsList
+     * @summary List scheduled interviews for a project, optionally filtered by date range.
+     * @request GET:/public-api/projects/{projectId}/interviews
+     * @response `200` `ProjectsInterviewsListData` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        projectsInterviewsList: ({ projectId, ...query }: ProjectsInterviewsListParams, params?: RequestParams) => Promise<AxiosResponse<ProjectsInterviewsListData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Projects
      * @name ProjectsList
      * @summary List projects available to the API key owner.
      * @request GET:/public-api/projects
@@ -5890,7 +7217,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProjectsProgressBoardItemsCreate
      * @summary Create a new progress board item for a project.
      * @request POST:/public-api/projects/{projectId}/progress-board/items
@@ -5908,7 +7235,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Progress Board
      * @name ProjectsProgressBoardList
      * @summary Get the progress board for a project.
      * @request GET:/public-api/projects/{projectId}/progress-board
@@ -5926,7 +7253,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Vacancy Scraping
+     * @tags Vacancy Scraping, Background Tasks, AI Tasks
      * @name ProjectsVacancyEvaluationsCreate
      * @summary Enqueue AI evaluation of one normalized externally supplied vacancy against a project candidate profile.
      * @request POST:/public-api/projects/{projectId}/vacancy-evaluations
@@ -5956,7 +7283,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Vacancy Scraping
+     * @tags Vacancy Scraping, Background Tasks, AI Tasks
      * @name ProjectsVacancyExtractionsCreate
      * @summary Enqueue extraction of normalized vacancy fields from one externally supplied readable vacancy page text.
      * @request POST:/public-api/projects/{projectId}/vacancy-extractions
@@ -5986,7 +7313,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping, AI Tasks
      * @name ProjectsVacancyScrapingGenerateSourcesCreate
      * @summary Generate suggested scraping search URLs for one project.
      * @request POST:/public-api/projects/{projectId}/vacancy-scraping/generate-sources
@@ -6016,7 +7343,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name ProjectsVacancyScrapingResultsDetail
      * @summary Get heavy scraped vacancy details, including full description and AI rationale.
      * @request GET:/public-api/projects/{projectId}/vacancy-scraping/results/{vacancyId}
@@ -6034,7 +7361,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping, Background Tasks, AI Tasks
      * @name ProjectsVacancyScrapingResultsEvaluateCreate
      * @summary Queue AI evaluation for selected scraped vacancies that are not already evaluated or already in progress.
      * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/evaluate
@@ -6064,7 +7391,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping, Progress Board
      * @name ProjectsVacancyScrapingResultsImportToBoardCreate
      * @summary Move selected scraped vacancies to the TODO board column.
      * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/import-to-board
@@ -6086,7 +7413,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name ProjectsVacancyScrapingResultsList
      * @summary List lightweight scraped vacancies for one project.
      * @request GET:/public-api/projects/{projectId}/vacancy-scraping/results
@@ -6104,7 +7431,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name ProjectsVacancyScrapingResultsMarkReviewedCreate
      * @summary Mark the current project vacancy inbox as reviewed for the current user.
      * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/mark-reviewed
@@ -6122,9 +7449,9 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Vacancy Scraping
+     * @tags Vacancy Scraping, Background Tasks
      * @name ProjectsVacancyScrapingRunAllCreate
-     * @summary Reserve and enqueue the first enabled source in one sequential project run-all chain.
+     * @summary Queue all enabled vacancy scraping sources for one project and return the first newly queued run.
      * @request POST:/public-api/projects/{projectId}/vacancy-scraping/run-all
      * @response `202` `ProjectsVacancyScrapingRunAllCreateData` Default Response
      * @response `400` `{
@@ -6152,9 +7479,39 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping, Background Tasks
+     * @name ProjectsVacancyScrapingRunsCreate
+     * @summary Create one vacancy scraping run for a project.
+     * @request POST:/public-api/projects/{projectId}/vacancy-scraping/runs
+     * @response `202` `ProjectsVacancyScrapingRunsCreateData` Default Response
+     * @response `400` `{
+        message: string,
+    
+    }` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `402` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     * @response `503` `{
+        message: string,
+    
+    }` Default Response
+     */
+        projectsVacancyScrapingRunsCreate: ({ projectId }: ProjectsVacancyScrapingRunsCreateParams, data: ProjectsVacancyScrapingRunsCreatePayload, params?: RequestParams) => Promise<AxiosResponse<ProjectsVacancyScrapingRunsCreateData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Vacancy Scraping
      * @name ProjectsVacancyScrapingRunsList
-     * @summary List vacancy scraping runs for one project.
+     * @summary List all vacancy scraping runs for one project.
      * @request GET:/public-api/projects/{projectId}/vacancy-scraping/runs
      * @response `200` `ProjectsVacancyScrapingRunsListData` Default Response
      * @response `401` `{
@@ -6170,7 +7527,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name ProjectsVacancyScrapingSourcesCreate
      * @summary Create one project-scoped vacancy scraping source.
      * @request POST:/public-api/projects/{projectId}/vacancy-scraping/sources
@@ -6192,7 +7549,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name ProjectsVacancyScrapingSourcesList
      * @summary List vacancy scraping sources for one project.
      * @request GET:/public-api/projects/{projectId}/vacancy-scraping/sources
@@ -6220,7 +7577,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Tailored Resumes, Files
      * @name TailoredResumesPhotoCompleteCreate
      * @summary Verify a previously uploaded resume-local photo and return its public URL.
      * @request POST:/public-api/tailored-resumes/{resumeId}/photo/complete
@@ -6246,7 +7603,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Tailored Resumes, Files
      * @name TailoredResumesPhotoUploadCreate
      * @summary Create a presigned upload target for a resume-local photo attached to one tailored resume artifact.
      * @request POST:/public-api/tailored-resumes/{resumeId}/photo/upload
@@ -6272,7 +7629,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Vacancy Scraping
+     * @tags Vacancy Scraping, Background Tasks, AI Tasks
      * @name VacancyEvaluationsAiTasksDetail
      * @summary Get the current state of a public vacancy evaluation task.
      * @request GET:/public-api/vacancy-evaluations/ai-tasks/{taskId}
@@ -6290,7 +7647,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Vacancy Scraping
+     * @tags Vacancy Scraping, Background Tasks, AI Tasks
      * @name VacancyExtractionsAiTasksDetail
      * @summary Get the current state of a public vacancy extraction task.
      * @request GET:/public-api/vacancy-extractions/ai-tasks/{taskId}
@@ -6308,7 +7665,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name VacancyScrapingCatalogList
      * @summary List available Bright Data vacancy scrapers for the current billing tier.
      * @request GET:/public-api/vacancy-scraping/catalog
@@ -6322,7 +7679,59 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping, Background Tasks
+     * @name VacancyScrapingRunsCancelCreate
+     * @summary Cancel one queued vacancy scraping run.
+     * @request POST:/public-api/vacancy-scraping/runs/{runId}/cancel
+     * @response `200` `VacancyScrapingRunsCancelCreateData` Default Response
+     * @response `400` `{
+        message: string,
+    
+    }` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        vacancyScrapingRunsCancelCreate: ({ runId }: VacancyScrapingRunsCancelCreateParams, params?: RequestParams) => Promise<AxiosResponse<VacancyScrapingRunsCancelCreateData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Vacancy Scraping, Background Tasks
+     * @name VacancyScrapingRunsRetryCreate
+     * @summary Retry one failed or canceled vacancy scraping run by creating a new run from its saved snapshot.
+     * @request POST:/public-api/vacancy-scraping/runs/{runId}/retry
+     * @response `202` `VacancyScrapingRunsRetryCreateData` Default Response
+     * @response `400` `{
+        message: string,
+    
+    }` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `402` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     * @response `503` `{
+        message: string,
+    
+    }` Default Response
+     */
+        vacancyScrapingRunsRetryCreate: ({ runId }: VacancyScrapingRunsRetryCreateParams, params?: RequestParams) => Promise<AxiosResponse<VacancyScrapingRunsRetryCreateData, any, {}>>;
+        /**
+     * No description
+     *
+     * @tags Vacancy Scraping
      * @name VacancyScrapingSourcesDelete
      * @summary Delete one vacancy scraping source and all scraping data currently owned by it.
      * @request DELETE:/public-api/vacancy-scraping/sources/{sourceId}
@@ -6344,7 +7753,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api
+     * @tags Vacancy Scraping
      * @name VacancyScrapingSourcesPartialUpdate
      * @summary Update one vacancy scraping source.
      * @request PATCH:/public-api/vacancy-scraping/sources/{sourceId}
@@ -6366,7 +7775,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
-     * @tags public-api, Vacancy Scraping
+     * @tags Vacancy Scraping, Background Tasks
      * @name VacancyScrapingSourcesRunCreate
      * @summary Reserve funds and enqueue one vacancy scraping source run.
      * @request POST:/public-api/vacancy-scraping/sources/{sourceId}/run
@@ -6411,6 +7820,9 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
     readonly transport: axios.AxiosInstance;
     readonly httpClient: HttpClient<string>;
     readonly raw: PublicApi<string>;
+    readonly downloads: {
+        readonly getUrl: MethodWrapper<({ storedFileId }: GetDownloadsParams, params?: RequestParams) => Promise<axios.AxiosResponse<GetDownloadsData, any, {}>>>;
+    };
     readonly auth: {
         readonly me: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<GetPublicApiData, any, {}>>>;
     };
@@ -6424,7 +7836,7 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
     };
     readonly billing: {
         readonly getPricingCatalog: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<BillingAiPricingCatalogListData, any, {}>>>;
-        readonly getPublicPricingCatalog: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<PublicAiPricingCatalogListData, any, {}>>>;
+        readonly getPublicPricingCatalog: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<BillingAiPricingCatalogListData, any, {}>>>;
         readonly getBalance: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<BillingMeBalanceListData, any, {}>>>;
         readonly listLedger: MethodWrapper<(query: BillingMeLedgerListParams, params?: RequestParams) => Promise<axios.AxiosResponse<BillingMeLedgerListData, any, {}>>>;
         readonly getTier: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<BillingMeTierListData, any, {}>>>;
@@ -6436,6 +7848,17 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
         readonly getPricingCatalog: MethodWrapper<({ projectId }: ProjectsAiPricingCatalogListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsAiPricingCatalogListData, any, {}>>>;
         readonly getProgressBoard: MethodWrapper<({ projectId }: ProjectsProgressBoardListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsProgressBoardListData, any, {}>>>;
         readonly createProgressBoardItem: MethodWrapper<({ projectId }: ProjectsProgressBoardItemsCreateParams, data: ProjectsProgressBoardItemsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsProgressBoardItemsCreateData, any, {}>>>;
+        readonly candidateProfile: {
+            readonly get: MethodWrapper<({ projectId }: ProjectsCandidateProfileListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsCandidateProfileListData, any, {}>>>;
+            readonly update: MethodWrapper<({ projectId }: ProjectsCandidateProfileUpdateParams, data: ProjectsCandidateProfileUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsCandidateProfileUpdateData, any, {}>>>;
+        };
+        readonly firstSetup: {
+            readonly get: MethodWrapper<({ projectId }: ProjectsFirstSetupListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsFirstSetupListData, any, {}>>>;
+            readonly updatePreferences: MethodWrapper<({ projectId }: ProjectsFirstSetupPreferencesPartialUpdateParams, data: ProjectsFirstSetupPreferencesPartialUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsFirstSetupPreferencesPartialUpdateData, any, {}>>>;
+        };
+        readonly interviews: {
+            readonly list: MethodWrapper<({ projectId, ...query }: ProjectsInterviewsListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsInterviewsListData, any, {}>>>;
+        };
         readonly vacancyEvaluations: {
             readonly create: MethodWrapper<({ projectId }: ProjectsVacancyEvaluationsCreateParams, data: ProjectsVacancyEvaluationsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyEvaluationsCreateData, any, {}>>>;
         };
@@ -6446,6 +7869,7 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
             readonly createSource: MethodWrapper<({ projectId }: ProjectsVacancyScrapingSourcesCreateParams, data: ProjectsVacancyScrapingSourcesCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingSourcesCreateData, any, {}>>>;
             readonly listSources: MethodWrapper<({ projectId }: ProjectsVacancyScrapingSourcesListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingSourcesListData, any, {}>>>;
             readonly generateSources: MethodWrapper<({ projectId }: ProjectsVacancyScrapingGenerateSourcesCreateParams, data: ProjectsVacancyScrapingGenerateSourcesCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingGenerateSourcesCreateData, any, {}>>>;
+            readonly createRun: MethodWrapper<({ projectId }: ProjectsVacancyScrapingRunsCreateParams, data: ProjectsVacancyScrapingRunsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingRunsCreateData, any, {}>>>;
             readonly runAll: MethodWrapper<({ projectId }: ProjectsVacancyScrapingRunAllCreateParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingRunAllCreateData, any, {}>>>;
             readonly listRuns: MethodWrapper<({ projectId }: ProjectsVacancyScrapingRunsListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingRunsListData, any, {}>>>;
             readonly listResults: MethodWrapper<({ projectId, ...query }: ProjectsVacancyScrapingResultsListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProjectsVacancyScrapingResultsListData, any, {}>>>;
@@ -6459,14 +7883,15 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
         readonly attachments: {
             readonly completeUpload: MethodWrapper<({ attachmentId }: ProgressBoardAttachmentsCompleteCreateParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardAttachmentsCompleteCreateData, any, {}>>>;
         };
+        readonly interviews: {
+            readonly getAi: MethodWrapper<({ interviewId }: ProgressBoardInterviewsAiListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardInterviewsAiListData, any, {}>>>;
+            readonly update: MethodWrapper<({ interviewId }: ProgressBoardInterviewsPartialUpdateParams, data: ProgressBoardInterviewsPartialUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardInterviewsPartialUpdateData, any, {}>>>;
+            readonly delete: MethodWrapper<({ interviewId }: ProgressBoardInterviewsDeleteParams, params?: RequestParams) => Promise<axios.AxiosResponse<null, any, {}>>>;
+        };
         readonly comments: {
             readonly createAttachment: MethodWrapper<({ commentId }: ProgressBoardCommentsAttachmentsCreateParams, data: ProgressBoardCommentsAttachmentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardCommentsAttachmentsCreateData, any, {}>>>;
             readonly update: MethodWrapper<({ commentId }: ProgressBoardCommentsPartialUpdateParams, data: ProgressBoardCommentsPartialUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardCommentsPartialUpdateData, any, {}>>>;
             readonly delete: MethodWrapper<({ commentId }: ProgressBoardCommentsDeleteParams, params?: RequestParams) => Promise<axios.AxiosResponse<null, any, {}>>>;
-        };
-        readonly interviews: {
-            readonly update: MethodWrapper<({ interviewId }: ProgressBoardInterviewsPartialUpdateParams, data: ProgressBoardInterviewsPartialUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardInterviewsPartialUpdateData, any, {}>>>;
-            readonly delete: MethodWrapper<({ interviewId }: ProgressBoardInterviewsDeleteParams, params?: RequestParams) => Promise<axios.AxiosResponse<null, any, {}>>>;
         };
         readonly items: {
             readonly get: MethodWrapper<({ itemId }: ProgressBoardItemsDetailParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsDetailData, any, {}>>>;
@@ -6475,6 +7900,14 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
             readonly move: MethodWrapper<({ itemId }: ProgressBoardItemsMoveCreateParams, data: ProgressBoardItemsMoveCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsMoveCreateData, any, {}>>>;
             readonly createComment: MethodWrapper<({ itemId }: ProgressBoardItemsCommentsCreateParams, data: ProgressBoardItemsCommentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsCommentsCreateData, any, {}>>>;
             readonly createInterview: MethodWrapper<({ itemId }: ProgressBoardItemsInterviewsCreateParams, data: ProgressBoardItemsInterviewsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsInterviewsCreateData, any, {}>>>;
+            readonly comments: {
+                readonly create: MethodWrapper<({ itemId }: ProgressBoardItemsCommentsCreateParams, data: ProgressBoardItemsCommentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsCommentsCreateData, any, {}>>>;
+                readonly list: MethodWrapper<({ itemId }: ProgressBoardItemsCommentsListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsCommentsListData, any, {}>>>;
+            };
+            readonly interviews: {
+                readonly create: MethodWrapper<({ itemId }: ProgressBoardItemsInterviewsCreateParams, data: ProgressBoardItemsInterviewsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsInterviewsCreateData, any, {}>>>;
+                readonly list: MethodWrapper<({ itemId }: ProgressBoardItemsInterviewsListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsInterviewsListData, any, {}>>>;
+            };
             readonly tailoredResume: {
                 readonly get: MethodWrapper<({ itemId }: ProgressBoardItemsTailoredResumeListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsTailoredResumeListData, any, {}>>>;
                 readonly update: MethodWrapper<({ itemId }: ProgressBoardItemsTailoredResumeUpdateParams, data: ProgressBoardItemsTailoredResumeUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsTailoredResumeUpdateData, any, {}>>>;
@@ -6504,6 +7937,8 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
     };
     readonly vacancyScraping: {
         readonly getCatalog: MethodWrapper<(params?: RequestParams) => Promise<axios.AxiosResponse<VacancyScrapingCatalogListData, any, {}>>>;
+        readonly cancelRun: MethodWrapper<({ runId }: VacancyScrapingRunsCancelCreateParams, params?: RequestParams) => Promise<axios.AxiosResponse<VacancyScrapingRunsCancelCreateData, any, {}>>>;
+        readonly retryRun: MethodWrapper<({ runId }: VacancyScrapingRunsRetryCreateParams, params?: RequestParams) => Promise<axios.AxiosResponse<VacancyScrapingRunsRetryCreateData, any, {}>>>;
         readonly deleteSource: MethodWrapper<({ sourceId }: VacancyScrapingSourcesDeleteParams, params?: RequestParams) => Promise<axios.AxiosResponse<null, any, {}>>>;
         readonly updateSource: MethodWrapper<({ sourceId }: VacancyScrapingSourcesPartialUpdateParams, data: VacancyScrapingSourcesPartialUpdatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<VacancyScrapingSourcesPartialUpdateData, any, {}>>>;
         readonly runSource: MethodWrapper<({ sourceId }: VacancyScrapingSourcesRunCreateParams, params?: RequestParams) => Promise<axios.AxiosResponse<VacancyScrapingSourcesRunCreateData, any, {}>>>;
@@ -6513,4 +7948,4 @@ type CareerboardClient = ReturnType<typeof createCareerboardClientInstance>;
 declare function createCareerboardClient(configOrApiKey: CareerboardClientConfig | string): CareerboardClient;
 declare const createClient: typeof createCareerboardClient;
 
-export { type AiTasksDetailData, type AiTasksDetailError, type AiTasksDetailParams, type ApiConfig, Billing, type BillingAiPricingCatalogListData, type BillingAiPricingCatalogListError, type BillingMeBalanceListData, type BillingMeBalanceListError, type BillingMeLedgerListData, type BillingMeLedgerListError, type BillingMeLedgerListParams, type BillingMeTierListData, type BillingMeTierListError, type BillingMeUsageChargesDailySummaryListData, type BillingMeUsageChargesDailySummaryListError, type BillingMeUsageChargesDailySummaryListParams, type BillingMeUsageChargesListData, type BillingMeUsageChargesListError, type BillingMeUsageChargesListParams, type CareerboardClient, type CareerboardClientConfig, type CareerboardRawApi, ContentType, DEFAULT_CAREERBOARD_API_BASE_URL, type FullRequestParams, type GetPublicApiData, type GetPublicApiError, HttpClient, type ProgressBoardAttachmentsCompleteCreateData, type ProgressBoardAttachmentsCompleteCreateError, type ProgressBoardAttachmentsCompleteCreateParams, type ProgressBoardCommentsAttachmentsCreateData, type ProgressBoardCommentsAttachmentsCreateError, type ProgressBoardCommentsAttachmentsCreateParams, type ProgressBoardCommentsAttachmentsCreatePayload, type ProgressBoardCommentsDeleteData, type ProgressBoardCommentsDeleteError, type ProgressBoardCommentsDeleteParams, type ProgressBoardCommentsPartialUpdateData, type ProgressBoardCommentsPartialUpdateError, type ProgressBoardCommentsPartialUpdateParams, type ProgressBoardCommentsPartialUpdatePayload, type ProgressBoardInterviewsDeleteData, type ProgressBoardInterviewsDeleteError, type ProgressBoardInterviewsDeleteParams, type ProgressBoardInterviewsPartialUpdateData, type ProgressBoardInterviewsPartialUpdateError, type ProgressBoardInterviewsPartialUpdateParams, type ProgressBoardInterviewsPartialUpdatePayload, type ProgressBoardItemsCommentsCreateData, type ProgressBoardItemsCommentsCreateError, type ProgressBoardItemsCommentsCreateParams, type ProgressBoardItemsCommentsCreatePayload, type ProgressBoardItemsCoverLetterDeleteData, type ProgressBoardItemsCoverLetterDeleteError, type ProgressBoardItemsCoverLetterDeleteParams, type ProgressBoardItemsCoverLetterListData, type ProgressBoardItemsCoverLetterListError, type ProgressBoardItemsCoverLetterListParams, type ProgressBoardItemsCoverLetterPdfExportCreateData, type ProgressBoardItemsCoverLetterPdfExportCreateError, type ProgressBoardItemsCoverLetterPdfExportCreateParams, type ProgressBoardItemsCoverLetterTasksCreateData, type ProgressBoardItemsCoverLetterTasksCreateError, type ProgressBoardItemsCoverLetterTasksCreateParams, type ProgressBoardItemsCoverLetterTasksCreatePayload, type ProgressBoardItemsCoverLetterUpdateData, type ProgressBoardItemsCoverLetterUpdateError, type ProgressBoardItemsCoverLetterUpdateParams, type ProgressBoardItemsCoverLetterUpdatePayload, type ProgressBoardItemsDeleteData, type ProgressBoardItemsDeleteError, type ProgressBoardItemsDeleteParams, type ProgressBoardItemsDetailData, type ProgressBoardItemsDetailError, type ProgressBoardItemsDetailParams, type ProgressBoardItemsInterviewPreparationDeleteData, type ProgressBoardItemsInterviewPreparationDeleteError, type ProgressBoardItemsInterviewPreparationDeleteParams, type ProgressBoardItemsInterviewPreparationListData, type ProgressBoardItemsInterviewPreparationListError, type ProgressBoardItemsInterviewPreparationListParams, type ProgressBoardItemsInterviewPreparationTasksCreateData, type ProgressBoardItemsInterviewPreparationTasksCreateError, type ProgressBoardItemsInterviewPreparationTasksCreateParams, type ProgressBoardItemsInterviewPreparationTasksCreatePayload, type ProgressBoardItemsInterviewsCreateData, type ProgressBoardItemsInterviewsCreateError, type ProgressBoardItemsInterviewsCreateParams, type ProgressBoardItemsInterviewsCreatePayload, type ProgressBoardItemsMoveCreateData, type ProgressBoardItemsMoveCreateError, type ProgressBoardItemsMoveCreateParams, type ProgressBoardItemsMoveCreatePayload, type ProgressBoardItemsPartialUpdateData, type ProgressBoardItemsPartialUpdateError, type ProgressBoardItemsPartialUpdateParams, type ProgressBoardItemsPartialUpdatePayload, type ProgressBoardItemsTailoredResumeDeleteData, type ProgressBoardItemsTailoredResumeDeleteError, type ProgressBoardItemsTailoredResumeDeleteParams, type ProgressBoardItemsTailoredResumeListData, type ProgressBoardItemsTailoredResumeListError, type ProgressBoardItemsTailoredResumeListParams, type ProgressBoardItemsTailoredResumePdfExportCreateData, type ProgressBoardItemsTailoredResumePdfExportCreateError, type ProgressBoardItemsTailoredResumePdfExportCreateParams, type ProgressBoardItemsTailoredResumeTasksCreateData, type ProgressBoardItemsTailoredResumeTasksCreateError, type ProgressBoardItemsTailoredResumeTasksCreateParams, type ProgressBoardItemsTailoredResumeTasksCreatePayload, type ProgressBoardItemsTailoredResumeUpdateData, type ProgressBoardItemsTailoredResumeUpdateError, type ProgressBoardItemsTailoredResumeUpdateParams, type ProgressBoardItemsTailoredResumeUpdatePayload, type ProjectsAiPricingCatalogListData, type ProjectsAiPricingCatalogListError, type ProjectsAiPricingCatalogListParams, type ProjectsListData, type ProjectsListError, type ProjectsProgressBoardItemsCreateData, type ProjectsProgressBoardItemsCreateError, type ProjectsProgressBoardItemsCreateParams, type ProjectsProgressBoardItemsCreatePayload, type ProjectsProgressBoardListData, type ProjectsProgressBoardListError, type ProjectsProgressBoardListParams, type ProjectsVacancyEvaluationsCreateData, type ProjectsVacancyEvaluationsCreateError, type ProjectsVacancyEvaluationsCreateParams, type ProjectsVacancyEvaluationsCreatePayload, type ProjectsVacancyExtractionsCreateData, type ProjectsVacancyExtractionsCreateError, type ProjectsVacancyExtractionsCreateParams, type ProjectsVacancyExtractionsCreatePayload, type ProjectsVacancyScrapingGenerateSourcesCreateData, type ProjectsVacancyScrapingGenerateSourcesCreateError, type ProjectsVacancyScrapingGenerateSourcesCreateParams, type ProjectsVacancyScrapingGenerateSourcesCreatePayload, type ProjectsVacancyScrapingResultsDetailData, type ProjectsVacancyScrapingResultsDetailError, type ProjectsVacancyScrapingResultsDetailParams, type ProjectsVacancyScrapingResultsEvaluateCreateData, type ProjectsVacancyScrapingResultsEvaluateCreateError, type ProjectsVacancyScrapingResultsEvaluateCreateParams, type ProjectsVacancyScrapingResultsEvaluateCreatePayload, type ProjectsVacancyScrapingResultsImportToBoardCreateData, type ProjectsVacancyScrapingResultsImportToBoardCreateError, type ProjectsVacancyScrapingResultsImportToBoardCreateParams, type ProjectsVacancyScrapingResultsImportToBoardCreatePayload, type ProjectsVacancyScrapingResultsListData, type ProjectsVacancyScrapingResultsListError, type ProjectsVacancyScrapingResultsListParams, type ProjectsVacancyScrapingResultsMarkReviewedCreateData, type ProjectsVacancyScrapingResultsMarkReviewedCreateError, type ProjectsVacancyScrapingResultsMarkReviewedCreateParams, type ProjectsVacancyScrapingRunAllCreateData, type ProjectsVacancyScrapingRunAllCreateError, type ProjectsVacancyScrapingRunAllCreateParams, type ProjectsVacancyScrapingRunsListData, type ProjectsVacancyScrapingRunsListError, type ProjectsVacancyScrapingRunsListParams, type ProjectsVacancyScrapingSourcesCreateData, type ProjectsVacancyScrapingSourcesCreateError, type ProjectsVacancyScrapingSourcesCreateParams, type ProjectsVacancyScrapingSourcesCreatePayload, type ProjectsVacancyScrapingSourcesListData, type ProjectsVacancyScrapingSourcesListError, type ProjectsVacancyScrapingSourcesListParams, type PublicAiPricingCatalogListData, type PublicAiPricingCatalogListError, PublicApi, type QueryParamsType, type RequestParams, type StatusListData, type TailoredResumesPhotoCompleteCreateData, type TailoredResumesPhotoCompleteCreateError, type TailoredResumesPhotoCompleteCreateParams, type TailoredResumesPhotoCompleteCreatePayload, type TailoredResumesPhotoUploadCreateData, type TailoredResumesPhotoUploadCreateError, type TailoredResumesPhotoUploadCreateParams, type TailoredResumesPhotoUploadCreatePayload, type VacancyEvaluationsAiTasksDetailData, type VacancyEvaluationsAiTasksDetailError, type VacancyEvaluationsAiTasksDetailParams, type VacancyExtractionsAiTasksDetailData, type VacancyExtractionsAiTasksDetailError, type VacancyExtractionsAiTasksDetailParams, type VacancyScrapingCatalogListData, type VacancyScrapingCatalogListError, type VacancyScrapingSourcesDeleteData, type VacancyScrapingSourcesDeleteError, type VacancyScrapingSourcesDeleteParams, type VacancyScrapingSourcesPartialUpdateData, type VacancyScrapingSourcesPartialUpdateError, type VacancyScrapingSourcesPartialUpdateParams, type VacancyScrapingSourcesPartialUpdatePayload, type VacancyScrapingSourcesRunCreateData, type VacancyScrapingSourcesRunCreateError, type VacancyScrapingSourcesRunCreateParams, createCareerboardClient, createClient };
+export { type AiTasksDetailData, type AiTasksDetailError, type AiTasksDetailParams, type ApiConfig, type BillingAiPricingCatalogListData, type BillingAiPricingCatalogListError, type BillingMeBalanceListData, type BillingMeBalanceListError, type BillingMeLedgerListData, type BillingMeLedgerListError, type BillingMeLedgerListParams, type BillingMeTierListData, type BillingMeTierListError, type BillingMeUsageChargesDailySummaryListData, type BillingMeUsageChargesDailySummaryListError, type BillingMeUsageChargesDailySummaryListParams, type BillingMeUsageChargesListData, type BillingMeUsageChargesListError, type BillingMeUsageChargesListParams, type CareerboardClient, type CareerboardClientConfig, type CareerboardRawApi, ContentType, DEFAULT_CAREERBOARD_API_BASE_URL, Downloads, type DownloadsDetailError, type DownloadsDetailParams, type FullRequestParams, type GetDownloadsData, type GetDownloadsError, type GetDownloadsParams, type GetPublicApiData, type GetPublicApiError, HttpClient, type ProgressBoardAttachmentsCompleteCreateData, type ProgressBoardAttachmentsCompleteCreateError, type ProgressBoardAttachmentsCompleteCreateParams, type ProgressBoardCommentsAttachmentsCreateData, type ProgressBoardCommentsAttachmentsCreateError, type ProgressBoardCommentsAttachmentsCreateParams, type ProgressBoardCommentsAttachmentsCreatePayload, type ProgressBoardCommentsDeleteData, type ProgressBoardCommentsDeleteError, type ProgressBoardCommentsDeleteParams, type ProgressBoardCommentsPartialUpdateData, type ProgressBoardCommentsPartialUpdateError, type ProgressBoardCommentsPartialUpdateParams, type ProgressBoardCommentsPartialUpdatePayload, type ProgressBoardInterviewsAiListData, type ProgressBoardInterviewsAiListError, type ProgressBoardInterviewsAiListParams, type ProgressBoardInterviewsDeleteData, type ProgressBoardInterviewsDeleteError, type ProgressBoardInterviewsDeleteParams, type ProgressBoardInterviewsPartialUpdateData, type ProgressBoardInterviewsPartialUpdateError, type ProgressBoardInterviewsPartialUpdateParams, type ProgressBoardInterviewsPartialUpdatePayload, type ProgressBoardItemsCommentsCreateData, type ProgressBoardItemsCommentsCreateError, type ProgressBoardItemsCommentsCreateParams, type ProgressBoardItemsCommentsCreatePayload, type ProgressBoardItemsCommentsListData, type ProgressBoardItemsCommentsListError, type ProgressBoardItemsCommentsListParams, type ProgressBoardItemsCoverLetterDeleteData, type ProgressBoardItemsCoverLetterDeleteError, type ProgressBoardItemsCoverLetterDeleteParams, type ProgressBoardItemsCoverLetterListData, type ProgressBoardItemsCoverLetterListError, type ProgressBoardItemsCoverLetterListParams, type ProgressBoardItemsCoverLetterPdfExportCreateData, type ProgressBoardItemsCoverLetterPdfExportCreateError, type ProgressBoardItemsCoverLetterPdfExportCreateParams, type ProgressBoardItemsCoverLetterTasksCreateData, type ProgressBoardItemsCoverLetterTasksCreateError, type ProgressBoardItemsCoverLetterTasksCreateParams, type ProgressBoardItemsCoverLetterTasksCreatePayload, type ProgressBoardItemsCoverLetterUpdateData, type ProgressBoardItemsCoverLetterUpdateError, type ProgressBoardItemsCoverLetterUpdateParams, type ProgressBoardItemsCoverLetterUpdatePayload, type ProgressBoardItemsDeleteData, type ProgressBoardItemsDeleteError, type ProgressBoardItemsDeleteParams, type ProgressBoardItemsDetailData, type ProgressBoardItemsDetailError, type ProgressBoardItemsDetailParams, type ProgressBoardItemsInterviewPreparationDeleteData, type ProgressBoardItemsInterviewPreparationDeleteError, type ProgressBoardItemsInterviewPreparationDeleteParams, type ProgressBoardItemsInterviewPreparationListData, type ProgressBoardItemsInterviewPreparationListError, type ProgressBoardItemsInterviewPreparationListParams, type ProgressBoardItemsInterviewPreparationTasksCreateData, type ProgressBoardItemsInterviewPreparationTasksCreateError, type ProgressBoardItemsInterviewPreparationTasksCreateParams, type ProgressBoardItemsInterviewPreparationTasksCreatePayload, type ProgressBoardItemsInterviewsCreateData, type ProgressBoardItemsInterviewsCreateError, type ProgressBoardItemsInterviewsCreateParams, type ProgressBoardItemsInterviewsCreatePayload, type ProgressBoardItemsInterviewsListData, type ProgressBoardItemsInterviewsListError, type ProgressBoardItemsInterviewsListParams, type ProgressBoardItemsMoveCreateData, type ProgressBoardItemsMoveCreateError, type ProgressBoardItemsMoveCreateParams, type ProgressBoardItemsMoveCreatePayload, type ProgressBoardItemsPartialUpdateData, type ProgressBoardItemsPartialUpdateError, type ProgressBoardItemsPartialUpdateParams, type ProgressBoardItemsPartialUpdatePayload, type ProgressBoardItemsTailoredResumeDeleteData, type ProgressBoardItemsTailoredResumeDeleteError, type ProgressBoardItemsTailoredResumeDeleteParams, type ProgressBoardItemsTailoredResumeListData, type ProgressBoardItemsTailoredResumeListError, type ProgressBoardItemsTailoredResumeListParams, type ProgressBoardItemsTailoredResumePdfExportCreateData, type ProgressBoardItemsTailoredResumePdfExportCreateError, type ProgressBoardItemsTailoredResumePdfExportCreateParams, type ProgressBoardItemsTailoredResumeTasksCreateData, type ProgressBoardItemsTailoredResumeTasksCreateError, type ProgressBoardItemsTailoredResumeTasksCreateParams, type ProgressBoardItemsTailoredResumeTasksCreatePayload, type ProgressBoardItemsTailoredResumeUpdateData, type ProgressBoardItemsTailoredResumeUpdateError, type ProgressBoardItemsTailoredResumeUpdateParams, type ProgressBoardItemsTailoredResumeUpdatePayload, type ProjectsAiPricingCatalogListData, type ProjectsAiPricingCatalogListError, type ProjectsAiPricingCatalogListParams, type ProjectsCandidateProfileListData, type ProjectsCandidateProfileListError, type ProjectsCandidateProfileListParams, type ProjectsCandidateProfileUpdateData, type ProjectsCandidateProfileUpdateError, type ProjectsCandidateProfileUpdateParams, type ProjectsCandidateProfileUpdatePayload, type ProjectsFirstSetupListData, type ProjectsFirstSetupListError, type ProjectsFirstSetupListParams, type ProjectsFirstSetupPreferencesPartialUpdateData, type ProjectsFirstSetupPreferencesPartialUpdateError, type ProjectsFirstSetupPreferencesPartialUpdateParams, type ProjectsFirstSetupPreferencesPartialUpdatePayload, type ProjectsInterviewsListData, type ProjectsInterviewsListError, type ProjectsInterviewsListParams, type ProjectsListData, type ProjectsListError, type ProjectsProgressBoardItemsCreateData, type ProjectsProgressBoardItemsCreateError, type ProjectsProgressBoardItemsCreateParams, type ProjectsProgressBoardItemsCreatePayload, type ProjectsProgressBoardListData, type ProjectsProgressBoardListError, type ProjectsProgressBoardListParams, type ProjectsVacancyEvaluationsCreateData, type ProjectsVacancyEvaluationsCreateError, type ProjectsVacancyEvaluationsCreateParams, type ProjectsVacancyEvaluationsCreatePayload, type ProjectsVacancyExtractionsCreateData, type ProjectsVacancyExtractionsCreateError, type ProjectsVacancyExtractionsCreateParams, type ProjectsVacancyExtractionsCreatePayload, type ProjectsVacancyScrapingGenerateSourcesCreateData, type ProjectsVacancyScrapingGenerateSourcesCreateError, type ProjectsVacancyScrapingGenerateSourcesCreateParams, type ProjectsVacancyScrapingGenerateSourcesCreatePayload, type ProjectsVacancyScrapingResultsDetailData, type ProjectsVacancyScrapingResultsDetailError, type ProjectsVacancyScrapingResultsDetailParams, type ProjectsVacancyScrapingResultsEvaluateCreateData, type ProjectsVacancyScrapingResultsEvaluateCreateError, type ProjectsVacancyScrapingResultsEvaluateCreateParams, type ProjectsVacancyScrapingResultsEvaluateCreatePayload, type ProjectsVacancyScrapingResultsImportToBoardCreateData, type ProjectsVacancyScrapingResultsImportToBoardCreateError, type ProjectsVacancyScrapingResultsImportToBoardCreateParams, type ProjectsVacancyScrapingResultsImportToBoardCreatePayload, type ProjectsVacancyScrapingResultsListData, type ProjectsVacancyScrapingResultsListError, type ProjectsVacancyScrapingResultsListParams, type ProjectsVacancyScrapingResultsMarkReviewedCreateData, type ProjectsVacancyScrapingResultsMarkReviewedCreateError, type ProjectsVacancyScrapingResultsMarkReviewedCreateParams, type ProjectsVacancyScrapingRunAllCreateData, type ProjectsVacancyScrapingRunAllCreateError, type ProjectsVacancyScrapingRunAllCreateParams, type ProjectsVacancyScrapingRunsCreateData, type ProjectsVacancyScrapingRunsCreateError, type ProjectsVacancyScrapingRunsCreateParams, type ProjectsVacancyScrapingRunsCreatePayload, type ProjectsVacancyScrapingRunsListData, type ProjectsVacancyScrapingRunsListError, type ProjectsVacancyScrapingRunsListParams, type ProjectsVacancyScrapingSourcesCreateData, type ProjectsVacancyScrapingSourcesCreateError, type ProjectsVacancyScrapingSourcesCreateParams, type ProjectsVacancyScrapingSourcesCreatePayload, type ProjectsVacancyScrapingSourcesListData, type ProjectsVacancyScrapingSourcesListError, type ProjectsVacancyScrapingSourcesListParams, PublicApi, type QueryParamsType, type RequestParams, type StatusListData, Stored, type StoredDetailError, type StoredDetailParams, type TailoredResumesPhotoCompleteCreateData, type TailoredResumesPhotoCompleteCreateError, type TailoredResumesPhotoCompleteCreateParams, type TailoredResumesPhotoCompleteCreatePayload, type TailoredResumesPhotoUploadCreateData, type TailoredResumesPhotoUploadCreateError, type TailoredResumesPhotoUploadCreateParams, type TailoredResumesPhotoUploadCreatePayload, type VacancyEvaluationsAiTasksDetailData, type VacancyEvaluationsAiTasksDetailError, type VacancyEvaluationsAiTasksDetailParams, type VacancyExtractionsAiTasksDetailData, type VacancyExtractionsAiTasksDetailError, type VacancyExtractionsAiTasksDetailParams, type VacancyScrapingCatalogListData, type VacancyScrapingCatalogListError, type VacancyScrapingRunsCancelCreateData, type VacancyScrapingRunsCancelCreateError, type VacancyScrapingRunsCancelCreateParams, type VacancyScrapingRunsRetryCreateData, type VacancyScrapingRunsRetryCreateError, type VacancyScrapingRunsRetryCreateParams, type VacancyScrapingSourcesDeleteData, type VacancyScrapingSourcesDeleteError, type VacancyScrapingSourcesDeleteParams, type VacancyScrapingSourcesPartialUpdateData, type VacancyScrapingSourcesPartialUpdateError, type VacancyScrapingSourcesPartialUpdateParams, type VacancyScrapingSourcesPartialUpdatePayload, type VacancyScrapingSourcesRunCreateData, type VacancyScrapingSourcesRunCreateError, type VacancyScrapingSourcesRunCreateParams, createCareerboardClient, createClient };

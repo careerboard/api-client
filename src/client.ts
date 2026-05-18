@@ -101,6 +101,9 @@ function createCareerboardClientInstance(
     transport: httpClient.instance,
     httpClient,
     raw,
+    downloads: {
+      getUrl: unwrap(raw.downloads.getDownloads),
+    },
     auth: {
       me: unwrap(raw.publicApi.getPublicApi),
     },
@@ -114,7 +117,7 @@ function createCareerboardClientInstance(
     },
     billing: {
       getPricingCatalog: unwrap(raw.publicApi.billingAiPricingCatalogList),
-      getPublicPricingCatalog: unwrap(raw.billing.publicAiPricingCatalogList),
+      getPublicPricingCatalog: unwrap(raw.publicApi.billingAiPricingCatalogList),
       getBalance: unwrap(raw.publicApi.billingMeBalanceList),
       listLedger: unwrap(raw.publicApi.billingMeLedgerList),
       getTier: unwrap(raw.publicApi.billingMeTierList),
@@ -130,6 +133,19 @@ function createCareerboardClientInstance(
       createProgressBoardItem: unwrap(
         raw.publicApi.projectsProgressBoardItemsCreate,
       ),
+      candidateProfile: {
+        get: unwrap(raw.publicApi.projectsCandidateProfileList),
+        update: unwrap(raw.publicApi.projectsCandidateProfileUpdate),
+      },
+      firstSetup: {
+        get: unwrap(raw.publicApi.projectsFirstSetupList),
+        updatePreferences: unwrap(
+          raw.publicApi.projectsFirstSetupPreferencesPartialUpdate,
+        ),
+      },
+      interviews: {
+        list: unwrap(raw.publicApi.projectsInterviewsList),
+      },
       vacancyEvaluations: {
         create: unwrap(raw.publicApi.projectsVacancyEvaluationsCreate),
       },
@@ -142,6 +158,7 @@ function createCareerboardClientInstance(
         generateSources: unwrap(
           raw.publicApi.projectsVacancyScrapingGenerateSourcesCreate,
         ),
+        createRun: unwrap(raw.publicApi.projectsVacancyScrapingRunsCreate),
         runAll: unwrap(raw.publicApi.projectsVacancyScrapingRunAllCreate),
         listRuns: unwrap(raw.publicApi.projectsVacancyScrapingRunsList),
         listResults: unwrap(raw.publicApi.projectsVacancyScrapingResultsList),
@@ -163,16 +180,17 @@ function createCareerboardClientInstance(
           raw.publicApi.progressBoardAttachmentsCompleteCreate,
         ),
       },
+      interviews: {
+        getAi: unwrap(raw.publicApi.progressBoardInterviewsAiList),
+        update: unwrap(raw.publicApi.progressBoardInterviewsPartialUpdate),
+        delete: unwrap(raw.publicApi.progressBoardInterviewsDelete),
+      },
       comments: {
         createAttachment: unwrap(
           raw.publicApi.progressBoardCommentsAttachmentsCreate,
         ),
         update: unwrap(raw.publicApi.progressBoardCommentsPartialUpdate),
         delete: unwrap(raw.publicApi.progressBoardCommentsDelete),
-      },
-      interviews: {
-        update: unwrap(raw.publicApi.progressBoardInterviewsPartialUpdate),
-        delete: unwrap(raw.publicApi.progressBoardInterviewsDelete),
       },
       items: {
         get: unwrap(raw.publicApi.progressBoardItemsDetail),
@@ -181,6 +199,14 @@ function createCareerboardClientInstance(
         move: unwrap(raw.publicApi.progressBoardItemsMoveCreate),
         createComment: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
         createInterview: unwrap(raw.publicApi.progressBoardItemsInterviewsCreate),
+        comments: {
+          create: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
+          list: unwrap(raw.publicApi.progressBoardItemsCommentsList),
+        },
+        interviews: {
+          create: unwrap(raw.publicApi.progressBoardItemsInterviewsCreate),
+          list: unwrap(raw.publicApi.progressBoardItemsInterviewsList),
+        },
         tailoredResume: {
           get: unwrap(raw.publicApi.progressBoardItemsTailoredResumeList),
           update: unwrap(raw.publicApi.progressBoardItemsTailoredResumeUpdate),
@@ -224,6 +250,8 @@ function createCareerboardClientInstance(
     },
     vacancyScraping: {
       getCatalog: unwrap(raw.publicApi.vacancyScrapingCatalogList),
+      cancelRun: unwrap(raw.publicApi.vacancyScrapingRunsCancelCreate),
+      retryRun: unwrap(raw.publicApi.vacancyScrapingRunsRetryCreate),
       deleteSource: unwrap(raw.publicApi.vacancyScrapingSourcesDelete),
       updateSource: unwrap(raw.publicApi.vacancyScrapingSourcesPartialUpdate),
       runSource: unwrap(raw.publicApi.vacancyScrapingSourcesRunCreate),

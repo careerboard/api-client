@@ -63,18 +63,28 @@ The wrapper returns parsed response bodies instead of raw Axios responses.
 
 Main entry points:
 
+- `client.downloads.getUrl({ storedFileId })`
 - `client.auth.me()`
 - `client.status.get()`
 - `client.tasks.get({ taskId })`
 - `client.billing.getBalance()`
 - `client.billing.listUsageCharges(query)`
 - `client.projects.list()`
+- `client.projects.candidateProfile.get({ projectId })`
+- `client.projects.firstSetup.get({ projectId })`
+- `client.projects.interviews.list({ projectId, fromDate, toDate })`
 - `client.projects.getProgressBoard({ projectId })`
+- `client.projects.vacancyScraping.createRun({ projectId }, body)`
 - `client.projects.vacancyScraping.listResults({ projectId }, params?)`
+- `client.progressBoard.interviews.getAi({ interviewId })`
 - `client.progressBoard.items.get({ itemId })`
+- `client.progressBoard.items.comments.list({ itemId })`
+- `client.progressBoard.items.interviews.list({ itemId })`
 - `client.progressBoard.items.tailoredResume.generate({ itemId }, body)`
 - `client.progressBoard.items.coverLetter.exportPdf({ itemId })`
 - `client.tailoredResumes.photo.createUpload({ resumeId }, body)`
+- `client.vacancyScraping.cancelRun({ runId })`
+- `client.vacancyScraping.retryRun({ runId })`
 - `client.vacancyScraping.runSource({ sourceId })`
 
 If you need the generated client directly, use:

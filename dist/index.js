@@ -98,22 +98,82 @@ var HttpClient = class {
 };
 var PublicApi = class {
   constructor(http) {
-    this.billing = {
+    this.stored = {
       /**
        * No description
        *
-       * @tags public-api
-       * @name PublicAiPricingCatalogList
-       * @summary Get the public AI pricing catalog based on the connected database and visible billing tiers.
-       * @request GET:/billing/public/ai-pricing-catalog
-       * @response `200` `PublicAiPricingCatalogListData` Default Response
-       * @response `500` `{
+       * @tags Files
+       * @name StoredDetail
+       * @summary Serve a protected stable asset referenced by stored file id.
+       * @request GET:/stored/{storedFileId}
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `403` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
           message: string,
       
       }` Default Response
        */
-      publicAiPricingCatalogList: (params = {}) => this.http.request({
-        path: `/billing/public/ai-pricing-catalog`,
+      storedDetail: ({ storedFileId }, params = {}) => this.http.request({
+        path: `/stored/${storedFileId}`,
+        method: "GET",
+        ...params
+      })
+    };
+    this.downloads = {
+      /**
+       * No description
+       *
+       * @tags Files
+       * @name DownloadsDetail
+       * @summary Authorize and redirect to a signed download URL for a stored file.
+       * @request GET:/downloads/{storedFileId}
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `403` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      downloadsDetail: ({ storedFileId }, params = {}) => this.http.request({
+        path: `/downloads/${storedFileId}`,
+        method: "GET",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Files
+       * @name GetDownloads
+       * @summary Authorize and return a signed download URL for a stored file.
+       * @request GET:/downloads/{storedFileId}/url
+       * @response `200` `GetDownloadsData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `403` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      getDownloads: ({ storedFileId }, params = {}) => this.http.request({
+        path: `/downloads/${storedFileId}/url`,
         method: "GET",
         format: "json",
         ...params
@@ -123,7 +183,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Background Tasks, AI Tasks
+       * @tags Background Tasks, AI Tasks
        * @name AiTasksDetail
        * @summary Get the current state of a public background task for AI artifacts or vacancy scraping.
        * @request GET:/public-api/ai-tasks/{taskId}
@@ -146,7 +206,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing
+       * @tags Billing
        * @name BillingAiPricingCatalogList
        * @summary Get the public AI pricing catalog based on the connected database and visible billing tiers.
        * @request GET:/public-api/billing/ai-pricing-catalog
@@ -165,7 +225,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing
+       * @tags Billing
        * @name BillingMeBalanceList
        * @summary Get available wallet funds for the API key owner.
        * @request GET:/public-api/billing/me/balance
@@ -184,7 +244,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing
+       * @tags Billing
        * @name BillingMeLedgerList
        * @summary List billing account actions for the API key owner.
        * @request GET:/public-api/billing/me/ledger
@@ -204,7 +264,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing
+       * @tags Billing
        * @name BillingMeTierList
        * @summary Get current user tier and cumulative spend for the API key owner.
        * @request GET:/public-api/billing/me/tier
@@ -223,7 +283,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing
+       * @tags Billing
        * @name BillingMeUsageChargesDailySummaryList
        * @summary Get daily AI usage charge totals grouped by operation description for the API key owner for a chosen date range up to 180 days.
        * @request GET:/public-api/billing/me/usage-charges/daily-summary
@@ -247,7 +307,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing
+       * @tags Billing
        * @name BillingMeUsageChargesList
        * @summary List AI usage charges for the API key owner for a chosen date range up to 35 days.
        * @request GET:/public-api/billing/me/usage-charges
@@ -271,7 +331,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Authentication
+       * @tags Authentication
        * @name GetPublicApi
        * @summary Get the user who owns the supplied API key.
        * @request GET:/public-api/me
@@ -290,7 +350,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board, Files
        * @name ProgressBoardAttachmentsCompleteCreate
        * @summary Verify and mark a comment attachment as uploaded.
        * @request POST:/public-api/progress-board/attachments/{attachmentId}/complete
@@ -321,7 +381,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board, Files
        * @name ProgressBoardCommentsAttachmentsCreate
        * @summary Create a presigned upload target for a comment attachment.
        * @request POST:/public-api/progress-board/comments/{commentId}/attachments
@@ -354,7 +414,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProgressBoardCommentsDelete
        * @summary Delete a progress board comment.
        * @request DELETE:/public-api/progress-board/comments/{commentId}
@@ -377,7 +437,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProgressBoardCommentsPartialUpdate
        * @summary Update a progress board comment.
        * @request PATCH:/public-api/progress-board/comments/{commentId}
@@ -406,7 +466,30 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Interviews
+       * @name ProgressBoardInterviewsAiList
+       * @summary Get interview AI state, including transcription and overview.
+       * @request GET:/public-api/progress-board/interviews/{interviewId}/ai
+       * @response `200` `ProgressBoardInterviewsAiListData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      progressBoardInterviewsAiList: ({ interviewId }, params = {}) => this.http.request({
+        path: `/public-api/progress-board/interviews/${interviewId}/ai`,
+        method: "GET",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Interviews, Progress Board
        * @name ProgressBoardInterviewsDelete
        * @summary Delete an interview record.
        * @request DELETE:/public-api/progress-board/interviews/{interviewId}
@@ -429,7 +512,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Interviews, Progress Board
        * @name ProgressBoardInterviewsPartialUpdate
        * @summary Update an interview record.
        * @request PATCH:/public-api/progress-board/interviews/{interviewId}
@@ -458,7 +541,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProgressBoardItemsCommentsCreate
        * @summary Create a comment on a progress board item.
        * @request POST:/public-api/progress-board/items/{itemId}/comments
@@ -483,7 +566,30 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
+       * @name ProgressBoardItemsCommentsList
+       * @summary List comments for one progress board item.
+       * @request GET:/public-api/progress-board/items/{itemId}/comments
+       * @response `200` `ProgressBoardItemsCommentsListData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      progressBoardItemsCommentsList: ({ itemId }, params = {}) => this.http.request({
+        path: `/public-api/progress-board/items/${itemId}/comments`,
+        method: "GET",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Cover Letters
        * @name ProgressBoardItemsCoverLetterDelete
        * @summary Delete the cover letter attached to a progress board item.
        * @request DELETE:/public-api/progress-board/items/{itemId}/cover-letter
@@ -510,7 +616,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Cover Letters
        * @name ProgressBoardItemsCoverLetterList
        * @summary Get the current cover letter attached to a progress board item.
        * @request GET:/public-api/progress-board/items/{itemId}/cover-letter
@@ -533,13 +639,15 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Cover Letters, Files
        * @name ProgressBoardItemsCoverLetterPdfExportCreate
        * @summary Export the current cover letter to PDF, returning either a cached download URL or an async export task.
        * @request POST:/public-api/progress-board/items/{itemId}/cover-letter/pdf-export
        * @response `200` `ProgressBoardItemsCoverLetterPdfExportCreateData` Default Response
        * @response `202` `({
           cacheStatus: "hit" | "generated",
+        /** @format uri *\/
+          downloadResolveUrl: string,
         /** @format uri *\/
           downloadUrl: string,
           status: "ready",
@@ -605,7 +713,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Cover Letters, AI Tasks
+       * @tags Cover Letters, Background Tasks, AI Tasks
        * @name ProgressBoardItemsCoverLetterTasksCreate
        * @summary Enqueue cover letter generation for a progress board item.
        * @request POST:/public-api/progress-board/items/{itemId}/cover-letter/tasks
@@ -646,7 +754,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Cover Letters
        * @name ProgressBoardItemsCoverLetterUpdate
        * @summary Save the full cover letter JSON after manual editing.
        * @request PUT:/public-api/progress-board/items/{itemId}/cover-letter
@@ -675,7 +783,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProgressBoardItemsDelete
        * @summary Delete a progress board item.
        * @request DELETE:/public-api/progress-board/items/{itemId}
@@ -698,7 +806,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProgressBoardItemsDetail
        * @summary Get a single progress board item.
        * @request GET:/public-api/progress-board/items/{itemId}
@@ -721,7 +829,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Interview Preparation
        * @name ProgressBoardItemsInterviewPreparationDelete
        * @summary Delete the interview preparation attached to a progress board item.
        * @request DELETE:/public-api/progress-board/items/{itemId}/interview-preparation
@@ -748,7 +856,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Interview Preparation
        * @name ProgressBoardItemsInterviewPreparationList
        * @summary Get the current interview preparation attached to a progress board item.
        * @request GET:/public-api/progress-board/items/{itemId}/interview-preparation
@@ -771,7 +879,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Interview Preparation, AI Tasks
+       * @tags Interview Preparation, Background Tasks, AI Tasks
        * @name ProgressBoardItemsInterviewPreparationTasksCreate
        * @summary Enqueue interview preparation generation for a progress board item.
        * @request POST:/public-api/progress-board/items/{itemId}/interview-preparation/tasks
@@ -812,7 +920,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Interviews, Progress Board
        * @name ProgressBoardItemsInterviewsCreate
        * @summary Create an interview record for a progress board item.
        * @request POST:/public-api/progress-board/items/{itemId}/interviews
@@ -837,7 +945,30 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Interviews, Progress Board
+       * @name ProgressBoardItemsInterviewsList
+       * @summary List interviews attached to one progress board item.
+       * @request GET:/public-api/progress-board/items/{itemId}/interviews
+       * @response `200` `ProgressBoardItemsInterviewsListData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      progressBoardItemsInterviewsList: ({ itemId }, params = {}) => this.http.request({
+        path: `/public-api/progress-board/items/${itemId}/interviews`,
+        method: "GET",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Progress Board
        * @name ProgressBoardItemsMoveCreate
        * @summary Move a progress board item to a new column position or reorder it within the same column.
        * @request POST:/public-api/progress-board/items/{itemId}/move
@@ -866,7 +997,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProgressBoardItemsPartialUpdate
        * @summary Update a progress board item and optionally change its status.
        * @request PATCH:/public-api/progress-board/items/{itemId}
@@ -895,7 +1026,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Tailored Resumes
        * @name ProgressBoardItemsTailoredResumeDelete
        * @summary Delete the tailored resume attached to a progress board item.
        * @request DELETE:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -922,7 +1053,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Tailored Resumes
        * @name ProgressBoardItemsTailoredResumeList
        * @summary Get the current tailored resume attached to a progress board item.
        * @request GET:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -945,13 +1076,15 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Tailored Resumes, Files
        * @name ProgressBoardItemsTailoredResumePdfExportCreate
        * @summary Export the current tailored resume to PDF, returning either a cached download URL or an async export task.
        * @request POST:/public-api/progress-board/items/{itemId}/tailored-resume/pdf-export
        * @response `200` `ProgressBoardItemsTailoredResumePdfExportCreateData` Default Response
        * @response `202` `({
           cacheStatus: "hit" | "generated",
+        /** @format uri *\/
+          downloadResolveUrl: string,
         /** @format uri *\/
           downloadUrl: string,
           status: "ready",
@@ -1017,7 +1150,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Tailored Resumes, AI Tasks
+       * @tags Tailored Resumes, Background Tasks, AI Tasks
        * @name ProgressBoardItemsTailoredResumeTasksCreate
        * @summary Enqueue tailored resume generation for a progress board item.
        * @request POST:/public-api/progress-board/items/{itemId}/tailored-resume/tasks
@@ -1058,7 +1191,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Tailored Resumes
        * @name ProgressBoardItemsTailoredResumeUpdate
        * @summary Save the full tailored resume JSON after manual editing.
        * @request PUT:/public-api/progress-board/items/{itemId}/tailored-resume
@@ -1087,7 +1220,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Billing, Projects
+       * @tags Billing, Projects
        * @name ProjectsAiPricingCatalogList
        * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
        * @request GET:/public-api/projects/{projectId}/ai-pricing-catalog
@@ -1114,7 +1247,127 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Projects
+       * @tags Projects
+       * @name ProjectsCandidateProfileList
+       * @summary Get the markdown candidate profile for a project.
+       * @request GET:/public-api/projects/{projectId}/candidate-profile
+       * @response `200` `ProjectsCandidateProfileListData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsCandidateProfileList: ({ projectId }, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/candidate-profile`,
+        method: "GET",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Projects
+       * @name ProjectsCandidateProfileUpdate
+       * @summary Replace the markdown candidate profile for a project.
+       * @request PUT:/public-api/projects/{projectId}/candidate-profile
+       * @response `200` `ProjectsCandidateProfileUpdateData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsCandidateProfileUpdate: ({ projectId }, data, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/candidate-profile`,
+        method: "PUT",
+        body: data,
+        type: "application/json" /* Json */,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Projects
+       * @name ProjectsFirstSetupList
+       * @summary Get the viewer-specific first setup checklist for a project.
+       * @request GET:/public-api/projects/{projectId}/first-setup
+       * @response `200` `ProjectsFirstSetupListData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsFirstSetupList: ({ projectId }, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/first-setup`,
+        method: "GET",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Projects
+       * @name ProjectsFirstSetupPreferencesPartialUpdate
+       * @summary Update viewer-specific first setup widget preferences for a project.
+       * @request PATCH:/public-api/projects/{projectId}/first-setup/preferences
+       * @response `200` `ProjectsFirstSetupPreferencesPartialUpdateData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsFirstSetupPreferencesPartialUpdate: ({ projectId }, data, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/first-setup/preferences`,
+        method: "PATCH",
+        body: data,
+        type: "application/json" /* Json */,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Interviews
+       * @name ProjectsInterviewsList
+       * @summary List scheduled interviews for a project, optionally filtered by date range.
+       * @request GET:/public-api/projects/{projectId}/interviews
+       * @response `200` `ProjectsInterviewsListData` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsInterviewsList: ({ projectId, ...query }, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/interviews`,
+        method: "GET",
+        query,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Projects
        * @name ProjectsList
        * @summary List projects available to the API key owner.
        * @request GET:/public-api/projects
@@ -1133,7 +1386,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProjectsProgressBoardItemsCreate
        * @summary Create a new progress board item for a project.
        * @request POST:/public-api/projects/{projectId}/progress-board/items
@@ -1158,7 +1411,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Progress Board
        * @name ProjectsProgressBoardList
        * @summary Get the progress board for a project.
        * @request GET:/public-api/projects/{projectId}/progress-board
@@ -1181,7 +1434,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Vacancy Scraping
+       * @tags Vacancy Scraping, Background Tasks, AI Tasks
        * @name ProjectsVacancyEvaluationsCreate
        * @summary Enqueue AI evaluation of one normalized externally supplied vacancy against a project candidate profile.
        * @request POST:/public-api/projects/{projectId}/vacancy-evaluations
@@ -1218,7 +1471,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Vacancy Scraping
+       * @tags Vacancy Scraping, Background Tasks, AI Tasks
        * @name ProjectsVacancyExtractionsCreate
        * @summary Enqueue extraction of normalized vacancy fields from one externally supplied readable vacancy page text.
        * @request POST:/public-api/projects/{projectId}/vacancy-extractions
@@ -1255,7 +1508,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping, AI Tasks
        * @name ProjectsVacancyScrapingGenerateSourcesCreate
        * @summary Generate suggested scraping search URLs for one project.
        * @request POST:/public-api/projects/{projectId}/vacancy-scraping/generate-sources
@@ -1292,7 +1545,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name ProjectsVacancyScrapingResultsDetail
        * @summary Get heavy scraped vacancy details, including full description and AI rationale.
        * @request GET:/public-api/projects/{projectId}/vacancy-scraping/results/{vacancyId}
@@ -1315,7 +1568,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping, Background Tasks, AI Tasks
        * @name ProjectsVacancyScrapingResultsEvaluateCreate
        * @summary Queue AI evaluation for selected scraped vacancies that are not already evaluated or already in progress.
        * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/evaluate
@@ -1352,7 +1605,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping, Progress Board
        * @name ProjectsVacancyScrapingResultsImportToBoardCreate
        * @summary Move selected scraped vacancies to the TODO board column.
        * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/import-to-board
@@ -1381,7 +1634,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name ProjectsVacancyScrapingResultsList
        * @summary List lightweight scraped vacancies for one project.
        * @request GET:/public-api/projects/{projectId}/vacancy-scraping/results
@@ -1405,7 +1658,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name ProjectsVacancyScrapingResultsMarkReviewedCreate
        * @summary Mark the current project vacancy inbox as reviewed for the current user.
        * @request POST:/public-api/projects/{projectId}/vacancy-scraping/results/mark-reviewed
@@ -1428,9 +1681,9 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Vacancy Scraping
+       * @tags Vacancy Scraping, Background Tasks
        * @name ProjectsVacancyScrapingRunAllCreate
-       * @summary Reserve and enqueue the first enabled source in one sequential project run-all chain.
+       * @summary Queue all enabled vacancy scraping sources for one project and return the first newly queued run.
        * @request POST:/public-api/projects/{projectId}/vacancy-scraping/run-all
        * @response `202` `ProjectsVacancyScrapingRunAllCreateData` Default Response
        * @response `400` `{
@@ -1463,9 +1716,46 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping, Background Tasks
+       * @name ProjectsVacancyScrapingRunsCreate
+       * @summary Create one vacancy scraping run for a project.
+       * @request POST:/public-api/projects/{projectId}/vacancy-scraping/runs
+       * @response `202` `ProjectsVacancyScrapingRunsCreateData` Default Response
+       * @response `400` `{
+          message: string,
+      
+      }` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `402` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       * @response `503` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsVacancyScrapingRunsCreate: ({ projectId }, data, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/vacancy-scraping/runs`,
+        method: "POST",
+        body: data,
+        type: "application/json" /* Json */,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Vacancy Scraping
        * @name ProjectsVacancyScrapingRunsList
-       * @summary List vacancy scraping runs for one project.
+       * @summary List all vacancy scraping runs for one project.
        * @request GET:/public-api/projects/{projectId}/vacancy-scraping/runs
        * @response `200` `ProjectsVacancyScrapingRunsListData` Default Response
        * @response `401` `{
@@ -1486,7 +1776,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name ProjectsVacancyScrapingSourcesCreate
        * @summary Create one project-scoped vacancy scraping source.
        * @request POST:/public-api/projects/{projectId}/vacancy-scraping/sources
@@ -1515,7 +1805,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name ProjectsVacancyScrapingSourcesList
        * @summary List vacancy scraping sources for one project.
        * @request GET:/public-api/projects/{projectId}/vacancy-scraping/sources
@@ -1553,7 +1843,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Tailored Resumes, Files
        * @name TailoredResumesPhotoCompleteCreate
        * @summary Verify a previously uploaded resume-local photo and return its public URL.
        * @request POST:/public-api/tailored-resumes/{resumeId}/photo/complete
@@ -1586,7 +1876,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Tailored Resumes, Files
        * @name TailoredResumesPhotoUploadCreate
        * @summary Create a presigned upload target for a resume-local photo attached to one tailored resume artifact.
        * @request POST:/public-api/tailored-resumes/{resumeId}/photo/upload
@@ -1619,7 +1909,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Vacancy Scraping
+       * @tags Vacancy Scraping, Background Tasks, AI Tasks
        * @name VacancyEvaluationsAiTasksDetail
        * @summary Get the current state of a public vacancy evaluation task.
        * @request GET:/public-api/vacancy-evaluations/ai-tasks/{taskId}
@@ -1642,7 +1932,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Vacancy Scraping
+       * @tags Vacancy Scraping, Background Tasks, AI Tasks
        * @name VacancyExtractionsAiTasksDetail
        * @summary Get the current state of a public vacancy extraction task.
        * @request GET:/public-api/vacancy-extractions/ai-tasks/{taskId}
@@ -1665,7 +1955,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name VacancyScrapingCatalogList
        * @summary List available Bright Data vacancy scrapers for the current billing tier.
        * @request GET:/public-api/vacancy-scraping/catalog
@@ -1684,7 +1974,69 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping, Background Tasks
+       * @name VacancyScrapingRunsCancelCreate
+       * @summary Cancel one queued vacancy scraping run.
+       * @request POST:/public-api/vacancy-scraping/runs/{runId}/cancel
+       * @response `200` `VacancyScrapingRunsCancelCreateData` Default Response
+       * @response `400` `{
+          message: string,
+      
+      }` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      vacancyScrapingRunsCancelCreate: ({ runId }, params = {}) => this.http.request({
+        path: `/public-api/vacancy-scraping/runs/${runId}/cancel`,
+        method: "POST",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Vacancy Scraping, Background Tasks
+       * @name VacancyScrapingRunsRetryCreate
+       * @summary Retry one failed or canceled vacancy scraping run by creating a new run from its saved snapshot.
+       * @request POST:/public-api/vacancy-scraping/runs/{runId}/retry
+       * @response `202` `VacancyScrapingRunsRetryCreateData` Default Response
+       * @response `400` `{
+          message: string,
+      
+      }` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `402` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       * @response `503` `{
+          message: string,
+      
+      }` Default Response
+       */
+      vacancyScrapingRunsRetryCreate: ({ runId }, params = {}) => this.http.request({
+        path: `/public-api/vacancy-scraping/runs/${runId}/retry`,
+        method: "POST",
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Vacancy Scraping
        * @name VacancyScrapingSourcesDelete
        * @summary Delete one vacancy scraping source and all scraping data currently owned by it.
        * @request DELETE:/public-api/vacancy-scraping/sources/{sourceId}
@@ -1711,7 +2063,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api
+       * @tags Vacancy Scraping
        * @name VacancyScrapingSourcesPartialUpdate
        * @summary Update one vacancy scraping source.
        * @request PATCH:/public-api/vacancy-scraping/sources/{sourceId}
@@ -1740,7 +2092,7 @@ var PublicApi = class {
       /**
        * No description
        *
-       * @tags public-api, Vacancy Scraping
+       * @tags Vacancy Scraping, Background Tasks
        * @name VacancyScrapingSourcesRunCreate
        * @summary Reserve funds and enqueue one vacancy scraping source run.
        * @request POST:/public-api/vacancy-scraping/sources/{sourceId}/run
@@ -1833,6 +2185,9 @@ function createCareerboardClientInstance(configOrApiKey) {
     transport: httpClient.instance,
     httpClient,
     raw,
+    downloads: {
+      getUrl: unwrap(raw.downloads.getDownloads)
+    },
     auth: {
       me: unwrap(raw.publicApi.getPublicApi)
     },
@@ -1846,7 +2201,7 @@ function createCareerboardClientInstance(configOrApiKey) {
     },
     billing: {
       getPricingCatalog: unwrap(raw.publicApi.billingAiPricingCatalogList),
-      getPublicPricingCatalog: unwrap(raw.billing.publicAiPricingCatalogList),
+      getPublicPricingCatalog: unwrap(raw.publicApi.billingAiPricingCatalogList),
       getBalance: unwrap(raw.publicApi.billingMeBalanceList),
       listLedger: unwrap(raw.publicApi.billingMeLedgerList),
       getTier: unwrap(raw.publicApi.billingMeTierList),
@@ -1862,6 +2217,19 @@ function createCareerboardClientInstance(configOrApiKey) {
       createProgressBoardItem: unwrap(
         raw.publicApi.projectsProgressBoardItemsCreate
       ),
+      candidateProfile: {
+        get: unwrap(raw.publicApi.projectsCandidateProfileList),
+        update: unwrap(raw.publicApi.projectsCandidateProfileUpdate)
+      },
+      firstSetup: {
+        get: unwrap(raw.publicApi.projectsFirstSetupList),
+        updatePreferences: unwrap(
+          raw.publicApi.projectsFirstSetupPreferencesPartialUpdate
+        )
+      },
+      interviews: {
+        list: unwrap(raw.publicApi.projectsInterviewsList)
+      },
       vacancyEvaluations: {
         create: unwrap(raw.publicApi.projectsVacancyEvaluationsCreate)
       },
@@ -1874,6 +2242,7 @@ function createCareerboardClientInstance(configOrApiKey) {
         generateSources: unwrap(
           raw.publicApi.projectsVacancyScrapingGenerateSourcesCreate
         ),
+        createRun: unwrap(raw.publicApi.projectsVacancyScrapingRunsCreate),
         runAll: unwrap(raw.publicApi.projectsVacancyScrapingRunAllCreate),
         listRuns: unwrap(raw.publicApi.projectsVacancyScrapingRunsList),
         listResults: unwrap(raw.publicApi.projectsVacancyScrapingResultsList),
@@ -1895,16 +2264,17 @@ function createCareerboardClientInstance(configOrApiKey) {
           raw.publicApi.progressBoardAttachmentsCompleteCreate
         )
       },
+      interviews: {
+        getAi: unwrap(raw.publicApi.progressBoardInterviewsAiList),
+        update: unwrap(raw.publicApi.progressBoardInterviewsPartialUpdate),
+        delete: unwrap(raw.publicApi.progressBoardInterviewsDelete)
+      },
       comments: {
         createAttachment: unwrap(
           raw.publicApi.progressBoardCommentsAttachmentsCreate
         ),
         update: unwrap(raw.publicApi.progressBoardCommentsPartialUpdate),
         delete: unwrap(raw.publicApi.progressBoardCommentsDelete)
-      },
-      interviews: {
-        update: unwrap(raw.publicApi.progressBoardInterviewsPartialUpdate),
-        delete: unwrap(raw.publicApi.progressBoardInterviewsDelete)
       },
       items: {
         get: unwrap(raw.publicApi.progressBoardItemsDetail),
@@ -1913,6 +2283,14 @@ function createCareerboardClientInstance(configOrApiKey) {
         move: unwrap(raw.publicApi.progressBoardItemsMoveCreate),
         createComment: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
         createInterview: unwrap(raw.publicApi.progressBoardItemsInterviewsCreate),
+        comments: {
+          create: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
+          list: unwrap(raw.publicApi.progressBoardItemsCommentsList)
+        },
+        interviews: {
+          create: unwrap(raw.publicApi.progressBoardItemsInterviewsCreate),
+          list: unwrap(raw.publicApi.progressBoardItemsInterviewsList)
+        },
         tailoredResume: {
           get: unwrap(raw.publicApi.progressBoardItemsTailoredResumeList),
           update: unwrap(raw.publicApi.progressBoardItemsTailoredResumeUpdate),
@@ -1956,6 +2334,8 @@ function createCareerboardClientInstance(configOrApiKey) {
     },
     vacancyScraping: {
       getCatalog: unwrap(raw.publicApi.vacancyScrapingCatalogList),
+      cancelRun: unwrap(raw.publicApi.vacancyScrapingRunsCancelCreate),
+      retryRun: unwrap(raw.publicApi.vacancyScrapingRunsRetryCreate),
       deleteSource: unwrap(raw.publicApi.vacancyScrapingSourcesDelete),
       updateSource: unwrap(raw.publicApi.vacancyScrapingSourcesPartialUpdate),
       runSource: unwrap(raw.publicApi.vacancyScrapingSourcesRunCreate)
