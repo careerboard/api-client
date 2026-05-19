@@ -1220,6 +1220,35 @@ var PublicApi = class {
       /**
        * No description
        *
+       * @tags Progress Board
+       * @name ProgressBoardItemsWidgetCommentsCreate
+       * @summary Create an immutable widget comment on a progress board item.
+       * @request POST:/public-api/progress-board/items/{itemId}/widget-comments
+       * @response `200` `ProgressBoardItemsWidgetCommentsCreateData` Default Response
+       * @response `400` `{
+          message: string,
+      
+      }` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      progressBoardItemsWidgetCommentsCreate: ({ itemId }, data, params = {}) => this.http.request({
+        path: `/public-api/progress-board/items/${itemId}/widget-comments`,
+        method: "POST",
+        body: data,
+        type: "application/json" /* Json */,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
        * @tags Billing, Projects
        * @name ProjectsAiPricingCatalogList
        * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
@@ -2314,9 +2343,13 @@ function createCareerboardClientInstance(configOrApiKey) {
         delete: unwrap(raw.publicApi.progressBoardItemsDelete),
         move: unwrap(raw.publicApi.progressBoardItemsMoveCreate),
         createComment: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
+        createWidgetComment: unwrap(
+          raw.publicApi.progressBoardItemsWidgetCommentsCreate
+        ),
         createInterview: unwrap(raw.publicApi.progressBoardItemsInterviewsCreate),
         comments: {
           create: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
+          createWidget: unwrap(raw.publicApi.progressBoardItemsWidgetCommentsCreate),
           list: unwrap(raw.publicApi.progressBoardItemsCommentsList)
         },
         interviews: {

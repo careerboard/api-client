@@ -565,6 +565,29 @@ interface ProgressBoardCommentsPartialUpdateData {
         nickname: string;
     };
     body: string;
+    content: {
+        kind: "text";
+    } | {
+        kind: "widget";
+        widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+                /** @maxItems 20 */
+                conflictingSignals: string[];
+                /**
+                 * @min 0
+                 * @max 100
+                 */
+                matchScore: number | null;
+                /** @maxItems 20 */
+                matchingSignals: string[];
+                /** @maxItems 20 */
+                unknownSignals: string[];
+                verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+        };
+    };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -1050,6 +1073,29 @@ interface ProgressBoardItemsCommentsCreateData {
         nickname: string;
     };
     body: string;
+    content: {
+        kind: "text";
+    } | {
+        kind: "widget";
+        widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+                /** @maxItems 20 */
+                conflictingSignals: string[];
+                /**
+                 * @min 0
+                 * @max 100
+                 */
+                matchScore: number | null;
+                /** @maxItems 20 */
+                matchingSignals: string[];
+                /** @maxItems 20 */
+                unknownSignals: string[];
+                verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+        };
+    };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -1095,6 +1141,29 @@ interface ProgressBoardItemsCommentsListData {
             nickname: string;
         };
         body: string;
+        content: {
+            kind: "text";
+        } | {
+            kind: "widget";
+            widget: {
+                commentWidget: "vacancy_evaluation";
+                payload: {
+                    /** @maxItems 20 */
+                    conflictingSignals: string[];
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    matchScore: number | null;
+                    /** @maxItems 20 */
+                    matchingSignals: string[];
+                    /** @maxItems 20 */
+                    unknownSignals: string[];
+                    verdict: "YES" | "MAYBE" | "NO" | null;
+                };
+                schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+            };
+        };
         /** @format date-time */
         createdAt: string;
         id: string;
@@ -1368,6 +1437,29 @@ interface ProgressBoardItemsDetailData {
             nickname: string;
         };
         body: string;
+        content: {
+            kind: "text";
+        } | {
+            kind: "widget";
+            widget: {
+                commentWidget: "vacancy_evaluation";
+                payload: {
+                    /** @maxItems 20 */
+                    conflictingSignals: string[];
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    matchScore: number | null;
+                    /** @maxItems 20 */
+                    matchingSignals: string[];
+                    /** @maxItems 20 */
+                    unknownSignals: string[];
+                    verdict: "YES" | "MAYBE" | "NO" | null;
+                };
+                schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+            };
+        };
         /** @format date-time */
         createdAt: string;
         id: string;
@@ -1694,6 +1786,29 @@ interface ProgressBoardItemsMoveCreateData {
             nickname: string;
         };
         body: string;
+        content: {
+            kind: "text";
+        } | {
+            kind: "widget";
+            widget: {
+                commentWidget: "vacancy_evaluation";
+                payload: {
+                    /** @maxItems 20 */
+                    conflictingSignals: string[];
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    matchScore: number | null;
+                    /** @maxItems 20 */
+                    matchingSignals: string[];
+                    /** @maxItems 20 */
+                    unknownSignals: string[];
+                    verdict: "YES" | "MAYBE" | "NO" | null;
+                };
+                schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+            };
+        };
         /** @format date-time */
         createdAt: string;
         id: string;
@@ -1825,6 +1940,29 @@ interface ProgressBoardItemsPartialUpdateData {
             nickname: string;
         };
         body: string;
+        content: {
+            kind: "text";
+        } | {
+            kind: "widget";
+            widget: {
+                commentWidget: "vacancy_evaluation";
+                payload: {
+                    /** @maxItems 20 */
+                    conflictingSignals: string[];
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    matchScore: number | null;
+                    /** @maxItems 20 */
+                    matchingSignals: string[];
+                    /** @maxItems 20 */
+                    unknownSignals: string[];
+                    verdict: "YES" | "MAYBE" | "NO" | null;
+                };
+                schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+            };
+        };
         /** @format date-time */
         createdAt: string;
         id: string;
@@ -2140,6 +2278,89 @@ interface ProgressBoardItemsTailoredResumeUpdateParams {
 interface ProgressBoardItemsTailoredResumeUpdatePayload {
     /** Full resume JSON to persist after manual editing. */
     contentJson: any;
+}
+interface ProgressBoardItemsWidgetCommentsCreateData {
+    attachments: {
+        /** @format date-time */
+        createdAt: string;
+        downloadResolveUrl: string | null;
+        downloadUrl: string | null;
+        filename: string;
+        id: string;
+        mimeType: string;
+        /**
+         * @min -9007199254740991
+         * @max 9007199254740991
+         */
+        sizeBytes: number | null;
+        storageProvider: "cloudflare_r2";
+        /** @format date-time */
+        updatedAt: string;
+        uploadStatus: "pending" | "uploaded" | "failed" | "deleted";
+        /** @format date-time */
+        uploadedAt: string | null;
+    }[];
+    author: {
+        id: string;
+        name: string | null;
+        nickname: string;
+    };
+    body: string;
+    content: {
+        kind: "text";
+    } | {
+        kind: "widget";
+        widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+                /** @maxItems 20 */
+                conflictingSignals: string[];
+                /**
+                 * @min 0
+                 * @max 100
+                 */
+                matchScore: number | null;
+                /** @maxItems 20 */
+                matchingSignals: string[];
+                /** @maxItems 20 */
+                unknownSignals: string[];
+                verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+        };
+    };
+    /** @format date-time */
+    createdAt: string;
+    id: string;
+    /** @format date-time */
+    updatedAt: string;
+}
+type ProgressBoardItemsWidgetCommentsCreateError = {
+    message: string;
+};
+interface ProgressBoardItemsWidgetCommentsCreateParams {
+    /** @minLength 1 */
+    itemId: string;
+}
+interface ProgressBoardItemsWidgetCommentsCreatePayload {
+    widget: {
+        commentWidget: "vacancy_evaluation";
+        payload: {
+            /** @maxItems 20 */
+            conflictingSignals: string[];
+            /**
+             * @min 0
+             * @max 100
+             */
+            matchScore: number | null;
+            /** @maxItems 20 */
+            matchingSignals: string[];
+            /** @maxItems 20 */
+            unknownSignals: string[];
+            verdict: "YES" | "MAYBE" | "NO" | null;
+        };
+        schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+    };
 }
 interface ProjectsAiPricingCatalogListData {
     aiBillingMode: "PROJECT_CREATOR" | "REQUEST_ACTOR";
@@ -2601,6 +2822,29 @@ interface ProjectsProgressBoardItemsCreateData {
             nickname: string;
         };
         body: string;
+        content: {
+            kind: "text";
+        } | {
+            kind: "widget";
+            widget: {
+                commentWidget: "vacancy_evaluation";
+                payload: {
+                    /** @maxItems 20 */
+                    conflictingSignals: string[];
+                    /**
+                     * @min 0
+                     * @max 100
+                     */
+                    matchScore: number | null;
+                    /** @maxItems 20 */
+                    matchingSignals: string[];
+                    /** @maxItems 20 */
+                    unknownSignals: string[];
+                    verdict: "YES" | "MAYBE" | "NO" | null;
+                };
+                schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+            };
+        };
         /** @format date-time */
         createdAt: string;
         id: string;
@@ -5262,6 +5506,36 @@ declare namespace PublicApi {
     }
     /**
    * No description
+   * @tags Progress Board
+   * @name ProgressBoardItemsWidgetCommentsCreate
+   * @summary Create an immutable widget comment on a progress board item.
+   * @request POST:/public-api/progress-board/items/{itemId}/widget-comments
+   * @response `200` `ProgressBoardItemsWidgetCommentsCreateData` Default Response
+   * @response `400` `{
+      message: string,
+  
+  }` Default Response
+   * @response `401` `{
+      message: string,
+  
+  }` Default Response
+   * @response `404` `{
+      message: string,
+  
+  }` Default Response
+  */
+    namespace ProgressBoardItemsWidgetCommentsCreate {
+        type RequestParams = {
+            /** @minLength 1 */
+            itemId: string;
+        };
+        type RequestQuery = {};
+        type RequestBody = ProgressBoardItemsWidgetCommentsCreatePayload;
+        type RequestHeaders = {};
+        type ResponseBody = ProgressBoardItemsWidgetCommentsCreateData;
+    }
+    /**
+   * No description
    * @tags Billing, Projects
    * @name ProjectsAiPricingCatalogList
    * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
@@ -7189,6 +7463,28 @@ declare class PublicApi<SecurityDataType extends unknown> {
         /**
      * No description
      *
+     * @tags Progress Board
+     * @name ProgressBoardItemsWidgetCommentsCreate
+     * @summary Create an immutable widget comment on a progress board item.
+     * @request POST:/public-api/progress-board/items/{itemId}/widget-comments
+     * @response `200` `ProgressBoardItemsWidgetCommentsCreateData` Default Response
+     * @response `400` `{
+        message: string,
+    
+    }` Default Response
+     * @response `401` `{
+        message: string,
+    
+    }` Default Response
+     * @response `404` `{
+        message: string,
+    
+    }` Default Response
+     */
+        progressBoardItemsWidgetCommentsCreate: ({ itemId }: ProgressBoardItemsWidgetCommentsCreateParams, data: ProgressBoardItemsWidgetCommentsCreatePayload, params?: RequestParams) => Promise<AxiosResponse<ProgressBoardItemsWidgetCommentsCreateData, any, {}>>;
+        /**
+     * No description
+     *
      * @tags Billing, Projects
      * @name ProjectsAiPricingCatalogList
      * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
@@ -8020,9 +8316,11 @@ declare function createCareerboardClientInstance(configOrApiKey: CareerboardClie
             readonly delete: MethodWrapper<({ itemId }: ProgressBoardItemsDeleteParams, params?: RequestParams) => Promise<axios.AxiosResponse<null, any, {}>>>;
             readonly move: MethodWrapper<({ itemId }: ProgressBoardItemsMoveCreateParams, data: ProgressBoardItemsMoveCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsMoveCreateData, any, {}>>>;
             readonly createComment: MethodWrapper<({ itemId }: ProgressBoardItemsCommentsCreateParams, data: ProgressBoardItemsCommentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsCommentsCreateData, any, {}>>>;
+            readonly createWidgetComment: MethodWrapper<({ itemId }: ProgressBoardItemsWidgetCommentsCreateParams, data: ProgressBoardItemsWidgetCommentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsWidgetCommentsCreateData, any, {}>>>;
             readonly createInterview: MethodWrapper<({ itemId }: ProgressBoardItemsInterviewsCreateParams, data: ProgressBoardItemsInterviewsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsInterviewsCreateData, any, {}>>>;
             readonly comments: {
                 readonly create: MethodWrapper<({ itemId }: ProgressBoardItemsCommentsCreateParams, data: ProgressBoardItemsCommentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsCommentsCreateData, any, {}>>>;
+                readonly createWidget: MethodWrapper<({ itemId }: ProgressBoardItemsWidgetCommentsCreateParams, data: ProgressBoardItemsWidgetCommentsCreatePayload, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsWidgetCommentsCreateData, any, {}>>>;
                 readonly list: MethodWrapper<({ itemId }: ProgressBoardItemsCommentsListParams, params?: RequestParams) => Promise<axios.AxiosResponse<ProgressBoardItemsCommentsListData, any, {}>>>;
             };
             readonly interviews: {
@@ -8069,4 +8367,4 @@ type CareerboardClient = ReturnType<typeof createCareerboardClientInstance>;
 declare function createCareerboardClient(configOrApiKey: CareerboardClientConfig | string): CareerboardClient;
 declare const createClient: typeof createCareerboardClient;
 
-export { type AiTasksDetailData, type AiTasksDetailError, type AiTasksDetailParams, type ApiConfig, type BillingAiPricingCatalogListData, type BillingAiPricingCatalogListError, type BillingMeBalanceListData, type BillingMeBalanceListError, type BillingMeLedgerListData, type BillingMeLedgerListError, type BillingMeLedgerListParams, type BillingMeTierListData, type BillingMeTierListError, type BillingMeUsageChargesDailySummaryListData, type BillingMeUsageChargesDailySummaryListError, type BillingMeUsageChargesDailySummaryListParams, type BillingMeUsageChargesListData, type BillingMeUsageChargesListError, type BillingMeUsageChargesListParams, type CareerboardClient, type CareerboardClientConfig, type CareerboardRawApi, ContentType, DEFAULT_CAREERBOARD_API_BASE_URL, Downloads, type DownloadsDetailError, type DownloadsDetailParams, type FullRequestParams, type GetDownloadsData, type GetDownloadsError, type GetDownloadsParams, type GetPublicApiData, type GetPublicApiError, HttpClient, type ProgressBoardAttachmentsCompleteCreateData, type ProgressBoardAttachmentsCompleteCreateError, type ProgressBoardAttachmentsCompleteCreateParams, type ProgressBoardCommentsAttachmentsCreateData, type ProgressBoardCommentsAttachmentsCreateError, type ProgressBoardCommentsAttachmentsCreateParams, type ProgressBoardCommentsAttachmentsCreatePayload, type ProgressBoardCommentsDeleteData, type ProgressBoardCommentsDeleteError, type ProgressBoardCommentsDeleteParams, type ProgressBoardCommentsPartialUpdateData, type ProgressBoardCommentsPartialUpdateError, type ProgressBoardCommentsPartialUpdateParams, type ProgressBoardCommentsPartialUpdatePayload, type ProgressBoardInterviewsAiListData, type ProgressBoardInterviewsAiListError, type ProgressBoardInterviewsAiListParams, type ProgressBoardInterviewsDeleteData, type ProgressBoardInterviewsDeleteError, type ProgressBoardInterviewsDeleteParams, type ProgressBoardInterviewsPartialUpdateData, type ProgressBoardInterviewsPartialUpdateError, type ProgressBoardInterviewsPartialUpdateParams, type ProgressBoardInterviewsPartialUpdatePayload, type ProgressBoardItemsCommentsCreateData, type ProgressBoardItemsCommentsCreateError, type ProgressBoardItemsCommentsCreateParams, type ProgressBoardItemsCommentsCreatePayload, type ProgressBoardItemsCommentsListData, type ProgressBoardItemsCommentsListError, type ProgressBoardItemsCommentsListParams, type ProgressBoardItemsCoverLetterDeleteData, type ProgressBoardItemsCoverLetterDeleteError, type ProgressBoardItemsCoverLetterDeleteParams, type ProgressBoardItemsCoverLetterListData, type ProgressBoardItemsCoverLetterListError, type ProgressBoardItemsCoverLetterListParams, type ProgressBoardItemsCoverLetterPdfExportCreateData, type ProgressBoardItemsCoverLetterPdfExportCreateError, type ProgressBoardItemsCoverLetterPdfExportCreateParams, type ProgressBoardItemsCoverLetterTasksCreateData, type ProgressBoardItemsCoverLetterTasksCreateError, type ProgressBoardItemsCoverLetterTasksCreateParams, type ProgressBoardItemsCoverLetterTasksCreatePayload, type ProgressBoardItemsCoverLetterUpdateData, type ProgressBoardItemsCoverLetterUpdateError, type ProgressBoardItemsCoverLetterUpdateParams, type ProgressBoardItemsCoverLetterUpdatePayload, type ProgressBoardItemsDeleteData, type ProgressBoardItemsDeleteError, type ProgressBoardItemsDeleteParams, type ProgressBoardItemsDetailData, type ProgressBoardItemsDetailError, type ProgressBoardItemsDetailParams, type ProgressBoardItemsInterviewPreparationDeleteData, type ProgressBoardItemsInterviewPreparationDeleteError, type ProgressBoardItemsInterviewPreparationDeleteParams, type ProgressBoardItemsInterviewPreparationListData, type ProgressBoardItemsInterviewPreparationListError, type ProgressBoardItemsInterviewPreparationListParams, type ProgressBoardItemsInterviewPreparationTasksCreateData, type ProgressBoardItemsInterviewPreparationTasksCreateError, type ProgressBoardItemsInterviewPreparationTasksCreateParams, type ProgressBoardItemsInterviewPreparationTasksCreatePayload, type ProgressBoardItemsInterviewsCreateData, type ProgressBoardItemsInterviewsCreateError, type ProgressBoardItemsInterviewsCreateParams, type ProgressBoardItemsInterviewsCreatePayload, type ProgressBoardItemsInterviewsListData, type ProgressBoardItemsInterviewsListError, type ProgressBoardItemsInterviewsListParams, type ProgressBoardItemsMoveCreateData, type ProgressBoardItemsMoveCreateError, type ProgressBoardItemsMoveCreateParams, type ProgressBoardItemsMoveCreatePayload, type ProgressBoardItemsPartialUpdateData, type ProgressBoardItemsPartialUpdateError, type ProgressBoardItemsPartialUpdateParams, type ProgressBoardItemsPartialUpdatePayload, type ProgressBoardItemsTailoredResumeDeleteData, type ProgressBoardItemsTailoredResumeDeleteError, type ProgressBoardItemsTailoredResumeDeleteParams, type ProgressBoardItemsTailoredResumeListData, type ProgressBoardItemsTailoredResumeListError, type ProgressBoardItemsTailoredResumeListParams, type ProgressBoardItemsTailoredResumePdfExportCreateData, type ProgressBoardItemsTailoredResumePdfExportCreateError, type ProgressBoardItemsTailoredResumePdfExportCreateParams, type ProgressBoardItemsTailoredResumeTasksCreateData, type ProgressBoardItemsTailoredResumeTasksCreateError, type ProgressBoardItemsTailoredResumeTasksCreateParams, type ProgressBoardItemsTailoredResumeTasksCreatePayload, type ProgressBoardItemsTailoredResumeUpdateData, type ProgressBoardItemsTailoredResumeUpdateError, type ProgressBoardItemsTailoredResumeUpdateParams, type ProgressBoardItemsTailoredResumeUpdatePayload, type ProjectsAiPricingCatalogListData, type ProjectsAiPricingCatalogListError, type ProjectsAiPricingCatalogListParams, type ProjectsCandidateProfileListData, type ProjectsCandidateProfileListError, type ProjectsCandidateProfileListParams, type ProjectsCandidateProfileUpdateData, type ProjectsCandidateProfileUpdateError, type ProjectsCandidateProfileUpdateParams, type ProjectsCandidateProfileUpdatePayload, type ProjectsFirstSetupListData, type ProjectsFirstSetupListError, type ProjectsFirstSetupListParams, type ProjectsFirstSetupPreferencesPartialUpdateData, type ProjectsFirstSetupPreferencesPartialUpdateError, type ProjectsFirstSetupPreferencesPartialUpdateParams, type ProjectsFirstSetupPreferencesPartialUpdatePayload, type ProjectsInterviewsListData, type ProjectsInterviewsListError, type ProjectsInterviewsListParams, type ProjectsListData, type ProjectsListError, type ProjectsProgressBoardDuplicateCheckCreateData, type ProjectsProgressBoardDuplicateCheckCreateError, type ProjectsProgressBoardDuplicateCheckCreateParams, type ProjectsProgressBoardDuplicateCheckCreatePayload, type ProjectsProgressBoardItemsCreateData, type ProjectsProgressBoardItemsCreateError, type ProjectsProgressBoardItemsCreateParams, type ProjectsProgressBoardItemsCreatePayload, type ProjectsProgressBoardListData, type ProjectsProgressBoardListError, type ProjectsProgressBoardListParams, type ProjectsVacancyEvaluationsCreateData, type ProjectsVacancyEvaluationsCreateError, type ProjectsVacancyEvaluationsCreateParams, type ProjectsVacancyEvaluationsCreatePayload, type ProjectsVacancyExtractionsCreateData, type ProjectsVacancyExtractionsCreateError, type ProjectsVacancyExtractionsCreateParams, type ProjectsVacancyExtractionsCreatePayload, type ProjectsVacancyScrapingGenerateSourcesCreateData, type ProjectsVacancyScrapingGenerateSourcesCreateError, type ProjectsVacancyScrapingGenerateSourcesCreateParams, type ProjectsVacancyScrapingGenerateSourcesCreatePayload, type ProjectsVacancyScrapingResultsDetailData, type ProjectsVacancyScrapingResultsDetailError, type ProjectsVacancyScrapingResultsDetailParams, type ProjectsVacancyScrapingResultsEvaluateCreateData, type ProjectsVacancyScrapingResultsEvaluateCreateError, type ProjectsVacancyScrapingResultsEvaluateCreateParams, type ProjectsVacancyScrapingResultsEvaluateCreatePayload, type ProjectsVacancyScrapingResultsImportToBoardCreateData, type ProjectsVacancyScrapingResultsImportToBoardCreateError, type ProjectsVacancyScrapingResultsImportToBoardCreateParams, type ProjectsVacancyScrapingResultsImportToBoardCreatePayload, type ProjectsVacancyScrapingResultsListData, type ProjectsVacancyScrapingResultsListError, type ProjectsVacancyScrapingResultsListParams, type ProjectsVacancyScrapingResultsMarkReviewedCreateData, type ProjectsVacancyScrapingResultsMarkReviewedCreateError, type ProjectsVacancyScrapingResultsMarkReviewedCreateParams, type ProjectsVacancyScrapingRunAllCreateData, type ProjectsVacancyScrapingRunAllCreateError, type ProjectsVacancyScrapingRunAllCreateParams, type ProjectsVacancyScrapingRunsCreateData, type ProjectsVacancyScrapingRunsCreateError, type ProjectsVacancyScrapingRunsCreateParams, type ProjectsVacancyScrapingRunsCreatePayload, type ProjectsVacancyScrapingRunsListData, type ProjectsVacancyScrapingRunsListError, type ProjectsVacancyScrapingRunsListParams, type ProjectsVacancyScrapingSourcesCreateData, type ProjectsVacancyScrapingSourcesCreateError, type ProjectsVacancyScrapingSourcesCreateParams, type ProjectsVacancyScrapingSourcesCreatePayload, type ProjectsVacancyScrapingSourcesListData, type ProjectsVacancyScrapingSourcesListError, type ProjectsVacancyScrapingSourcesListParams, PublicApi, type QueryParamsType, type RequestParams, type StatusListData, Stored, type StoredDetailError, type StoredDetailParams, type TailoredResumesPhotoCompleteCreateData, type TailoredResumesPhotoCompleteCreateError, type TailoredResumesPhotoCompleteCreateParams, type TailoredResumesPhotoCompleteCreatePayload, type TailoredResumesPhotoUploadCreateData, type TailoredResumesPhotoUploadCreateError, type TailoredResumesPhotoUploadCreateParams, type TailoredResumesPhotoUploadCreatePayload, type VacancyEvaluationsAiTasksDetailData, type VacancyEvaluationsAiTasksDetailError, type VacancyEvaluationsAiTasksDetailParams, type VacancyExtractionsAiTasksDetailData, type VacancyExtractionsAiTasksDetailError, type VacancyExtractionsAiTasksDetailParams, type VacancyScrapingCatalogListData, type VacancyScrapingCatalogListError, type VacancyScrapingRunsCancelCreateData, type VacancyScrapingRunsCancelCreateError, type VacancyScrapingRunsCancelCreateParams, type VacancyScrapingRunsRetryCreateData, type VacancyScrapingRunsRetryCreateError, type VacancyScrapingRunsRetryCreateParams, type VacancyScrapingSourcesDeleteData, type VacancyScrapingSourcesDeleteError, type VacancyScrapingSourcesDeleteParams, type VacancyScrapingSourcesPartialUpdateData, type VacancyScrapingSourcesPartialUpdateError, type VacancyScrapingSourcesPartialUpdateParams, type VacancyScrapingSourcesPartialUpdatePayload, type VacancyScrapingSourcesRunCreateData, type VacancyScrapingSourcesRunCreateError, type VacancyScrapingSourcesRunCreateParams, createCareerboardClient, createClient };
+export { type AiTasksDetailData, type AiTasksDetailError, type AiTasksDetailParams, type ApiConfig, type BillingAiPricingCatalogListData, type BillingAiPricingCatalogListError, type BillingMeBalanceListData, type BillingMeBalanceListError, type BillingMeLedgerListData, type BillingMeLedgerListError, type BillingMeLedgerListParams, type BillingMeTierListData, type BillingMeTierListError, type BillingMeUsageChargesDailySummaryListData, type BillingMeUsageChargesDailySummaryListError, type BillingMeUsageChargesDailySummaryListParams, type BillingMeUsageChargesListData, type BillingMeUsageChargesListError, type BillingMeUsageChargesListParams, type CareerboardClient, type CareerboardClientConfig, type CareerboardRawApi, ContentType, DEFAULT_CAREERBOARD_API_BASE_URL, Downloads, type DownloadsDetailError, type DownloadsDetailParams, type FullRequestParams, type GetDownloadsData, type GetDownloadsError, type GetDownloadsParams, type GetPublicApiData, type GetPublicApiError, HttpClient, type ProgressBoardAttachmentsCompleteCreateData, type ProgressBoardAttachmentsCompleteCreateError, type ProgressBoardAttachmentsCompleteCreateParams, type ProgressBoardCommentsAttachmentsCreateData, type ProgressBoardCommentsAttachmentsCreateError, type ProgressBoardCommentsAttachmentsCreateParams, type ProgressBoardCommentsAttachmentsCreatePayload, type ProgressBoardCommentsDeleteData, type ProgressBoardCommentsDeleteError, type ProgressBoardCommentsDeleteParams, type ProgressBoardCommentsPartialUpdateData, type ProgressBoardCommentsPartialUpdateError, type ProgressBoardCommentsPartialUpdateParams, type ProgressBoardCommentsPartialUpdatePayload, type ProgressBoardInterviewsAiListData, type ProgressBoardInterviewsAiListError, type ProgressBoardInterviewsAiListParams, type ProgressBoardInterviewsDeleteData, type ProgressBoardInterviewsDeleteError, type ProgressBoardInterviewsDeleteParams, type ProgressBoardInterviewsPartialUpdateData, type ProgressBoardInterviewsPartialUpdateError, type ProgressBoardInterviewsPartialUpdateParams, type ProgressBoardInterviewsPartialUpdatePayload, type ProgressBoardItemsCommentsCreateData, type ProgressBoardItemsCommentsCreateError, type ProgressBoardItemsCommentsCreateParams, type ProgressBoardItemsCommentsCreatePayload, type ProgressBoardItemsCommentsListData, type ProgressBoardItemsCommentsListError, type ProgressBoardItemsCommentsListParams, type ProgressBoardItemsCoverLetterDeleteData, type ProgressBoardItemsCoverLetterDeleteError, type ProgressBoardItemsCoverLetterDeleteParams, type ProgressBoardItemsCoverLetterListData, type ProgressBoardItemsCoverLetterListError, type ProgressBoardItemsCoverLetterListParams, type ProgressBoardItemsCoverLetterPdfExportCreateData, type ProgressBoardItemsCoverLetterPdfExportCreateError, type ProgressBoardItemsCoverLetterPdfExportCreateParams, type ProgressBoardItemsCoverLetterTasksCreateData, type ProgressBoardItemsCoverLetterTasksCreateError, type ProgressBoardItemsCoverLetterTasksCreateParams, type ProgressBoardItemsCoverLetterTasksCreatePayload, type ProgressBoardItemsCoverLetterUpdateData, type ProgressBoardItemsCoverLetterUpdateError, type ProgressBoardItemsCoverLetterUpdateParams, type ProgressBoardItemsCoverLetterUpdatePayload, type ProgressBoardItemsDeleteData, type ProgressBoardItemsDeleteError, type ProgressBoardItemsDeleteParams, type ProgressBoardItemsDetailData, type ProgressBoardItemsDetailError, type ProgressBoardItemsDetailParams, type ProgressBoardItemsInterviewPreparationDeleteData, type ProgressBoardItemsInterviewPreparationDeleteError, type ProgressBoardItemsInterviewPreparationDeleteParams, type ProgressBoardItemsInterviewPreparationListData, type ProgressBoardItemsInterviewPreparationListError, type ProgressBoardItemsInterviewPreparationListParams, type ProgressBoardItemsInterviewPreparationTasksCreateData, type ProgressBoardItemsInterviewPreparationTasksCreateError, type ProgressBoardItemsInterviewPreparationTasksCreateParams, type ProgressBoardItemsInterviewPreparationTasksCreatePayload, type ProgressBoardItemsInterviewsCreateData, type ProgressBoardItemsInterviewsCreateError, type ProgressBoardItemsInterviewsCreateParams, type ProgressBoardItemsInterviewsCreatePayload, type ProgressBoardItemsInterviewsListData, type ProgressBoardItemsInterviewsListError, type ProgressBoardItemsInterviewsListParams, type ProgressBoardItemsMoveCreateData, type ProgressBoardItemsMoveCreateError, type ProgressBoardItemsMoveCreateParams, type ProgressBoardItemsMoveCreatePayload, type ProgressBoardItemsPartialUpdateData, type ProgressBoardItemsPartialUpdateError, type ProgressBoardItemsPartialUpdateParams, type ProgressBoardItemsPartialUpdatePayload, type ProgressBoardItemsTailoredResumeDeleteData, type ProgressBoardItemsTailoredResumeDeleteError, type ProgressBoardItemsTailoredResumeDeleteParams, type ProgressBoardItemsTailoredResumeListData, type ProgressBoardItemsTailoredResumeListError, type ProgressBoardItemsTailoredResumeListParams, type ProgressBoardItemsTailoredResumePdfExportCreateData, type ProgressBoardItemsTailoredResumePdfExportCreateError, type ProgressBoardItemsTailoredResumePdfExportCreateParams, type ProgressBoardItemsTailoredResumeTasksCreateData, type ProgressBoardItemsTailoredResumeTasksCreateError, type ProgressBoardItemsTailoredResumeTasksCreateParams, type ProgressBoardItemsTailoredResumeTasksCreatePayload, type ProgressBoardItemsTailoredResumeUpdateData, type ProgressBoardItemsTailoredResumeUpdateError, type ProgressBoardItemsTailoredResumeUpdateParams, type ProgressBoardItemsTailoredResumeUpdatePayload, type ProgressBoardItemsWidgetCommentsCreateData, type ProgressBoardItemsWidgetCommentsCreateError, type ProgressBoardItemsWidgetCommentsCreateParams, type ProgressBoardItemsWidgetCommentsCreatePayload, type ProjectsAiPricingCatalogListData, type ProjectsAiPricingCatalogListError, type ProjectsAiPricingCatalogListParams, type ProjectsCandidateProfileListData, type ProjectsCandidateProfileListError, type ProjectsCandidateProfileListParams, type ProjectsCandidateProfileUpdateData, type ProjectsCandidateProfileUpdateError, type ProjectsCandidateProfileUpdateParams, type ProjectsCandidateProfileUpdatePayload, type ProjectsFirstSetupListData, type ProjectsFirstSetupListError, type ProjectsFirstSetupListParams, type ProjectsFirstSetupPreferencesPartialUpdateData, type ProjectsFirstSetupPreferencesPartialUpdateError, type ProjectsFirstSetupPreferencesPartialUpdateParams, type ProjectsFirstSetupPreferencesPartialUpdatePayload, type ProjectsInterviewsListData, type ProjectsInterviewsListError, type ProjectsInterviewsListParams, type ProjectsListData, type ProjectsListError, type ProjectsProgressBoardDuplicateCheckCreateData, type ProjectsProgressBoardDuplicateCheckCreateError, type ProjectsProgressBoardDuplicateCheckCreateParams, type ProjectsProgressBoardDuplicateCheckCreatePayload, type ProjectsProgressBoardItemsCreateData, type ProjectsProgressBoardItemsCreateError, type ProjectsProgressBoardItemsCreateParams, type ProjectsProgressBoardItemsCreatePayload, type ProjectsProgressBoardListData, type ProjectsProgressBoardListError, type ProjectsProgressBoardListParams, type ProjectsVacancyEvaluationsCreateData, type ProjectsVacancyEvaluationsCreateError, type ProjectsVacancyEvaluationsCreateParams, type ProjectsVacancyEvaluationsCreatePayload, type ProjectsVacancyExtractionsCreateData, type ProjectsVacancyExtractionsCreateError, type ProjectsVacancyExtractionsCreateParams, type ProjectsVacancyExtractionsCreatePayload, type ProjectsVacancyScrapingGenerateSourcesCreateData, type ProjectsVacancyScrapingGenerateSourcesCreateError, type ProjectsVacancyScrapingGenerateSourcesCreateParams, type ProjectsVacancyScrapingGenerateSourcesCreatePayload, type ProjectsVacancyScrapingResultsDetailData, type ProjectsVacancyScrapingResultsDetailError, type ProjectsVacancyScrapingResultsDetailParams, type ProjectsVacancyScrapingResultsEvaluateCreateData, type ProjectsVacancyScrapingResultsEvaluateCreateError, type ProjectsVacancyScrapingResultsEvaluateCreateParams, type ProjectsVacancyScrapingResultsEvaluateCreatePayload, type ProjectsVacancyScrapingResultsImportToBoardCreateData, type ProjectsVacancyScrapingResultsImportToBoardCreateError, type ProjectsVacancyScrapingResultsImportToBoardCreateParams, type ProjectsVacancyScrapingResultsImportToBoardCreatePayload, type ProjectsVacancyScrapingResultsListData, type ProjectsVacancyScrapingResultsListError, type ProjectsVacancyScrapingResultsListParams, type ProjectsVacancyScrapingResultsMarkReviewedCreateData, type ProjectsVacancyScrapingResultsMarkReviewedCreateError, type ProjectsVacancyScrapingResultsMarkReviewedCreateParams, type ProjectsVacancyScrapingRunAllCreateData, type ProjectsVacancyScrapingRunAllCreateError, type ProjectsVacancyScrapingRunAllCreateParams, type ProjectsVacancyScrapingRunsCreateData, type ProjectsVacancyScrapingRunsCreateError, type ProjectsVacancyScrapingRunsCreateParams, type ProjectsVacancyScrapingRunsCreatePayload, type ProjectsVacancyScrapingRunsListData, type ProjectsVacancyScrapingRunsListError, type ProjectsVacancyScrapingRunsListParams, type ProjectsVacancyScrapingSourcesCreateData, type ProjectsVacancyScrapingSourcesCreateError, type ProjectsVacancyScrapingSourcesCreateParams, type ProjectsVacancyScrapingSourcesCreatePayload, type ProjectsVacancyScrapingSourcesListData, type ProjectsVacancyScrapingSourcesListError, type ProjectsVacancyScrapingSourcesListParams, PublicApi, type QueryParamsType, type RequestParams, type StatusListData, Stored, type StoredDetailError, type StoredDetailParams, type TailoredResumesPhotoCompleteCreateData, type TailoredResumesPhotoCompleteCreateError, type TailoredResumesPhotoCompleteCreateParams, type TailoredResumesPhotoCompleteCreatePayload, type TailoredResumesPhotoUploadCreateData, type TailoredResumesPhotoUploadCreateError, type TailoredResumesPhotoUploadCreateParams, type TailoredResumesPhotoUploadCreatePayload, type VacancyEvaluationsAiTasksDetailData, type VacancyEvaluationsAiTasksDetailError, type VacancyEvaluationsAiTasksDetailParams, type VacancyExtractionsAiTasksDetailData, type VacancyExtractionsAiTasksDetailError, type VacancyExtractionsAiTasksDetailParams, type VacancyScrapingCatalogListData, type VacancyScrapingCatalogListError, type VacancyScrapingRunsCancelCreateData, type VacancyScrapingRunsCancelCreateError, type VacancyScrapingRunsCancelCreateParams, type VacancyScrapingRunsRetryCreateData, type VacancyScrapingRunsRetryCreateError, type VacancyScrapingRunsRetryCreateParams, type VacancyScrapingSourcesDeleteData, type VacancyScrapingSourcesDeleteError, type VacancyScrapingSourcesDeleteParams, type VacancyScrapingSourcesPartialUpdateData, type VacancyScrapingSourcesPartialUpdateError, type VacancyScrapingSourcesPartialUpdateParams, type VacancyScrapingSourcesPartialUpdatePayload, type VacancyScrapingSourcesRunCreateData, type VacancyScrapingSourcesRunCreateError, type VacancyScrapingSourcesRunCreateParams, createCareerboardClient, createClient };

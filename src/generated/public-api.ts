@@ -628,6 +628,31 @@ export interface ProgressBoardCommentsPartialUpdateData {
     nickname: string;
   };
   body: string;
+  content:
+    | {
+        kind: "text";
+      }
+    | {
+        kind: "widget";
+        widget: {
+          commentWidget: "vacancy_evaluation";
+          payload: {
+            /** @maxItems 20 */
+            conflictingSignals: string[];
+            /**
+             * @min 0
+             * @max 100
+             */
+            matchScore: number | null;
+            /** @maxItems 20 */
+            matchingSignals: string[];
+            /** @maxItems 20 */
+            unknownSignals: string[];
+            verdict: "YES" | "MAYBE" | "NO" | null;
+          };
+          schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+        };
+      };
   /** @format date-time */
   createdAt: string;
   id: string;
@@ -1155,6 +1180,31 @@ export interface ProgressBoardItemsCommentsCreateData {
     nickname: string;
   };
   body: string;
+  content:
+    | {
+        kind: "text";
+      }
+    | {
+        kind: "widget";
+        widget: {
+          commentWidget: "vacancy_evaluation";
+          payload: {
+            /** @maxItems 20 */
+            conflictingSignals: string[];
+            /**
+             * @min 0
+             * @max 100
+             */
+            matchScore: number | null;
+            /** @maxItems 20 */
+            matchingSignals: string[];
+            /** @maxItems 20 */
+            unknownSignals: string[];
+            verdict: "YES" | "MAYBE" | "NO" | null;
+          };
+          schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+        };
+      };
   /** @format date-time */
   createdAt: string;
   id: string;
@@ -1204,6 +1254,31 @@ export interface ProgressBoardItemsCommentsListData {
       nickname: string;
     };
     body: string;
+    content:
+      | {
+          kind: "text";
+        }
+      | {
+          kind: "widget";
+          widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+              /** @maxItems 20 */
+              conflictingSignals: string[];
+              /**
+               * @min 0
+               * @max 100
+               */
+              matchScore: number | null;
+              /** @maxItems 20 */
+              matchingSignals: string[];
+              /** @maxItems 20 */
+              unknownSignals: string[];
+              verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+          };
+        };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -1506,6 +1581,31 @@ export interface ProgressBoardItemsDetailData {
       nickname: string;
     };
     body: string;
+    content:
+      | {
+          kind: "text";
+        }
+      | {
+          kind: "widget";
+          widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+              /** @maxItems 20 */
+              conflictingSignals: string[];
+              /**
+               * @min 0
+               * @max 100
+               */
+              matchScore: number | null;
+              /** @maxItems 20 */
+              matchingSignals: string[];
+              /** @maxItems 20 */
+              unknownSignals: string[];
+              verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+          };
+        };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -1877,6 +1977,31 @@ export interface ProgressBoardItemsMoveCreateData {
       nickname: string;
     };
     body: string;
+    content:
+      | {
+          kind: "text";
+        }
+      | {
+          kind: "widget";
+          widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+              /** @maxItems 20 */
+              conflictingSignals: string[];
+              /**
+               * @min 0
+               * @max 100
+               */
+              matchScore: number | null;
+              /** @maxItems 20 */
+              matchingSignals: string[];
+              /** @maxItems 20 */
+              unknownSignals: string[];
+              verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+          };
+        };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -2022,6 +2147,31 @@ export interface ProgressBoardItemsPartialUpdateData {
       nickname: string;
     };
     body: string;
+    content:
+      | {
+          kind: "text";
+        }
+      | {
+          kind: "widget";
+          widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+              /** @maxItems 20 */
+              conflictingSignals: string[];
+              /**
+               * @min 0
+               * @max 100
+               */
+              matchScore: number | null;
+              /** @maxItems 20 */
+              matchingSignals: string[];
+              /** @maxItems 20 */
+              unknownSignals: string[];
+              verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+          };
+        };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -2373,6 +2523,95 @@ export interface ProgressBoardItemsTailoredResumeUpdateParams {
 export interface ProgressBoardItemsTailoredResumeUpdatePayload {
   /** Full resume JSON to persist after manual editing. */
   contentJson: any;
+}
+
+export interface ProgressBoardItemsWidgetCommentsCreateData {
+  attachments: {
+    /** @format date-time */
+    createdAt: string;
+    downloadResolveUrl: string | null;
+    downloadUrl: string | null;
+    filename: string;
+    id: string;
+    mimeType: string;
+    /**
+     * @min -9007199254740991
+     * @max 9007199254740991
+     */
+    sizeBytes: number | null;
+    storageProvider: "cloudflare_r2";
+    /** @format date-time */
+    updatedAt: string;
+    uploadStatus: "pending" | "uploaded" | "failed" | "deleted";
+    /** @format date-time */
+    uploadedAt: string | null;
+  }[];
+  author: {
+    id: string;
+    name: string | null;
+    nickname: string;
+  };
+  body: string;
+  content:
+    | {
+        kind: "text";
+      }
+    | {
+        kind: "widget";
+        widget: {
+          commentWidget: "vacancy_evaluation";
+          payload: {
+            /** @maxItems 20 */
+            conflictingSignals: string[];
+            /**
+             * @min 0
+             * @max 100
+             */
+            matchScore: number | null;
+            /** @maxItems 20 */
+            matchingSignals: string[];
+            /** @maxItems 20 */
+            unknownSignals: string[];
+            verdict: "YES" | "MAYBE" | "NO" | null;
+          };
+          schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+        };
+      };
+  /** @format date-time */
+  createdAt: string;
+  id: string;
+  /** @format date-time */
+  updatedAt: string;
+}
+
+export type ProgressBoardItemsWidgetCommentsCreateError = {
+  message: string;
+};
+
+export interface ProgressBoardItemsWidgetCommentsCreateParams {
+  /** @minLength 1 */
+  itemId: string;
+}
+
+export interface ProgressBoardItemsWidgetCommentsCreatePayload {
+  widget: {
+    commentWidget: "vacancy_evaluation";
+    payload: {
+      /** @maxItems 20 */
+      conflictingSignals: string[];
+      /**
+       * @min 0
+       * @max 100
+       */
+      matchScore: number | null;
+      /** @maxItems 20 */
+      matchingSignals: string[];
+      /** @maxItems 20 */
+      unknownSignals: string[];
+      verdict: "YES" | "MAYBE" | "NO" | null;
+    };
+    schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+  };
 }
 
 export interface ProjectsAiPricingCatalogListData {
@@ -2899,6 +3138,31 @@ export interface ProjectsProgressBoardItemsCreateData {
       nickname: string;
     };
     body: string;
+    content:
+      | {
+          kind: "text";
+        }
+      | {
+          kind: "widget";
+          widget: {
+            commentWidget: "vacancy_evaluation";
+            payload: {
+              /** @maxItems 20 */
+              conflictingSignals: string[];
+              /**
+               * @min 0
+               * @max 100
+               */
+              matchScore: number | null;
+              /** @maxItems 20 */
+              matchingSignals: string[];
+              /** @maxItems 20 */
+              unknownSignals: string[];
+              verdict: "YES" | "MAYBE" | "NO" | null;
+            };
+            schemaVersion: "progress_board_vacancy_evaluation_widget_v1";
+          };
+        };
     /** @format date-time */
     createdAt: string;
     id: string;
@@ -5781,6 +6045,37 @@ export namespace PublicApi {
 
   /**
  * No description
+ * @tags Progress Board
+ * @name ProgressBoardItemsWidgetCommentsCreate
+ * @summary Create an immutable widget comment on a progress board item.
+ * @request POST:/public-api/progress-board/items/{itemId}/widget-comments
+ * @response `200` `ProgressBoardItemsWidgetCommentsCreateData` Default Response
+ * @response `400` `{
+    message: string,
+
+}` Default Response
+ * @response `401` `{
+    message: string,
+
+}` Default Response
+ * @response `404` `{
+    message: string,
+
+}` Default Response
+*/
+  export namespace ProgressBoardItemsWidgetCommentsCreate {
+    export type RequestParams = {
+      /** @minLength 1 */
+      itemId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = ProgressBoardItemsWidgetCommentsCreatePayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProgressBoardItemsWidgetCommentsCreateData;
+  }
+
+  /**
+ * No description
  * @tags Billing, Projects
  * @name ProjectsAiPricingCatalogList
  * @summary Get the effective AI pricing catalog for one project using its current AI preset settings and billing mode.
@@ -8429,6 +8724,44 @@ export class PublicApi<SecurityDataType extends unknown> {
       >({
         path: `/public-api/progress-board/items/${itemId}/tailored-resume`,
         method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+ * No description
+ *
+ * @tags Progress Board
+ * @name ProgressBoardItemsWidgetCommentsCreate
+ * @summary Create an immutable widget comment on a progress board item.
+ * @request POST:/public-api/progress-board/items/{itemId}/widget-comments
+ * @response `200` `ProgressBoardItemsWidgetCommentsCreateData` Default Response
+ * @response `400` `{
+    message: string,
+
+}` Default Response
+ * @response `401` `{
+    message: string,
+
+}` Default Response
+ * @response `404` `{
+    message: string,
+
+}` Default Response
+ */
+    progressBoardItemsWidgetCommentsCreate: (
+      { itemId }: ProgressBoardItemsWidgetCommentsCreateParams,
+      data: ProgressBoardItemsWidgetCommentsCreatePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        ProgressBoardItemsWidgetCommentsCreateData,
+        ProgressBoardItemsWidgetCommentsCreateError
+      >({
+        path: `/public-api/progress-board/items/${itemId}/widget-comments`,
+        method: "POST",
         body: data,
         type: ContentType.Json,
         format: "json",

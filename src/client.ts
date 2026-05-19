@@ -201,9 +201,13 @@ function createCareerboardClientInstance(
         delete: unwrap(raw.publicApi.progressBoardItemsDelete),
         move: unwrap(raw.publicApi.progressBoardItemsMoveCreate),
         createComment: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
+        createWidgetComment: unwrap(
+          raw.publicApi.progressBoardItemsWidgetCommentsCreate,
+        ),
         createInterview: unwrap(raw.publicApi.progressBoardItemsInterviewsCreate),
         comments: {
           create: unwrap(raw.publicApi.progressBoardItemsCommentsCreate),
+          createWidget: unwrap(raw.publicApi.progressBoardItemsWidgetCommentsCreate),
           list: unwrap(raw.publicApi.progressBoardItemsCommentsList),
         },
         interviews: {

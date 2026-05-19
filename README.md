@@ -80,6 +80,7 @@ Main entry points:
 - `client.progressBoard.interviews.getAi({ interviewId })`
 - `client.progressBoard.items.get({ itemId })`
 - `client.progressBoard.items.comments.list({ itemId })`
+- `client.progressBoard.items.comments.createWidget({ itemId }, body)`
 - `client.progressBoard.items.interviews.list({ itemId })`
 - `client.progressBoard.items.tailoredResume.generate({ itemId }, body)`
 - `client.progressBoard.items.coverLetter.exportPdf({ itemId })`
