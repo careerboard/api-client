@@ -1387,6 +1387,35 @@ var PublicApi = class {
        * No description
        *
        * @tags Progress Board
+       * @name ProjectsProgressBoardDuplicateCheckCreate
+       * @summary Check whether a newly extracted vacancy is likely already represented on the selected project progress board.
+       * @request POST:/public-api/projects/{projectId}/progress-board/duplicate-check
+       * @response `200` `ProjectsProgressBoardDuplicateCheckCreateData` Default Response
+       * @response `400` `{
+          message: string,
+      
+      }` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       * @response `404` `{
+          message: string,
+      
+      }` Default Response
+       */
+      projectsProgressBoardDuplicateCheckCreate: ({ projectId }, data, params = {}) => this.http.request({
+        path: `/public-api/projects/${projectId}/progress-board/duplicate-check`,
+        method: "POST",
+        body: data,
+        type: "application/json" /* Json */,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
+       * @tags Progress Board
        * @name ProjectsProgressBoardItemsCreate
        * @summary Create a new progress board item for a project.
        * @request POST:/public-api/projects/{projectId}/progress-board/items
@@ -2214,6 +2243,9 @@ function createCareerboardClientInstance(configOrApiKey) {
       list: unwrap(raw.publicApi.projectsList),
       getPricingCatalog: unwrap(raw.publicApi.projectsAiPricingCatalogList),
       getProgressBoard: unwrap(raw.publicApi.projectsProgressBoardList),
+      checkProgressBoardDuplicate: unwrap(
+        raw.publicApi.projectsProgressBoardDuplicateCheckCreate
+      ),
       createProgressBoardItem: unwrap(
         raw.publicApi.projectsProgressBoardItemsCreate
       ),

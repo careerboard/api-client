@@ -130,6 +130,9 @@ function createCareerboardClientInstance(
       list: unwrap(raw.publicApi.projectsList),
       getPricingCatalog: unwrap(raw.publicApi.projectsAiPricingCatalogList),
       getProgressBoard: unwrap(raw.publicApi.projectsProgressBoardList),
+      checkProgressBoardDuplicate: unwrap(
+        raw.publicApi.projectsProgressBoardDuplicateCheckCreate,
+      ),
       createProgressBoardItem: unwrap(
         raw.publicApi.projectsProgressBoardItemsCreate,
       ),

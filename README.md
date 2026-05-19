@@ -74,6 +74,7 @@ Main entry points:
 - `client.projects.firstSetup.get({ projectId })`
 - `client.projects.interviews.list({ projectId, fromDate, toDate })`
 - `client.projects.getProgressBoard({ projectId })`
+- `client.projects.checkProgressBoardDuplicate({ projectId }, body)`
 - `client.projects.vacancyScraping.createRun({ projectId }, body)`
 - `client.projects.vacancyScraping.listResults({ projectId }, params?)`
 - `client.progressBoard.interviews.getAi({ interviewId })`

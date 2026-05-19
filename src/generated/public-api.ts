@@ -2781,6 +2781,87 @@ export type ProjectsListError = {
   message: string;
 };
 
+export interface ProjectsProgressBoardDuplicateCheckCreateData {
+  /**
+   * @min 0
+   * @max 9007199254740991
+   */
+  comparedItemCount: number;
+  level: "none" | "possible" | "likely" | "exact";
+  matches: {
+    companyName: string;
+    /**
+     * @min 0
+     * @max 1
+     */
+    companySimilarity: number;
+    /** @format date-time */
+    createdAt: string;
+    /**
+     * @min 0
+     * @max 1
+     */
+    descriptionSimilarity: number | null;
+    itemId: string;
+    level: "possible" | "likely" | "exact";
+    reasons: (
+      | "company_high_match"
+      | "company_near_match"
+      | "title_high_match"
+      | "title_near_match"
+      | "same_company_and_title_shape"
+      | "description_near_duplicate"
+      | "description_contained"
+      | "description_shingle_overlap"
+    )[];
+    /**
+     * @min 0
+     * @max 1
+     */
+    score: number;
+    status: "todo" | "applied" | "active" | "declined" | "archived";
+    title: string;
+    /**
+     * @min 0
+     * @max 1
+     */
+    titleSimilarity: number;
+    /** @format date-time */
+    updatedAt: string;
+    vacancyUrl: string | null;
+  }[];
+  projectId: string;
+}
+
+export type ProjectsProgressBoardDuplicateCheckCreateError = {
+  message: string;
+};
+
+export interface ProjectsProgressBoardDuplicateCheckCreateParams {
+  /** @minLength 1 */
+  projectId: string;
+}
+
+export interface ProjectsProgressBoardDuplicateCheckCreatePayload {
+  /**
+   * @minLength 1
+   * @maxLength 180
+   */
+  companyName: string;
+  /**
+   * @min 1
+   * @max 10
+   */
+  resultLimit?: number;
+  /**
+   * @minLength 1
+   * @maxLength 180
+   */
+  title: string;
+  /** @maxLength 2000000 */
+  vacancyText?: string;
+}
+
 export interface ProjectsProgressBoardItemsCreateData {
   artifacts: {
     id: string;
@@ -5890,6 +5971,37 @@ export namespace PublicApi {
   /**
  * No description
  * @tags Progress Board
+ * @name ProjectsProgressBoardDuplicateCheckCreate
+ * @summary Check whether a newly extracted vacancy is likely already represented on the selected project progress board.
+ * @request POST:/public-api/projects/{projectId}/progress-board/duplicate-check
+ * @response `200` `ProjectsProgressBoardDuplicateCheckCreateData` Default Response
+ * @response `400` `{
+    message: string,
+
+}` Default Response
+ * @response `401` `{
+    message: string,
+
+}` Default Response
+ * @response `404` `{
+    message: string,
+
+}` Default Response
+*/
+  export namespace ProjectsProgressBoardDuplicateCheckCreate {
+    export type RequestParams = {
+      /** @minLength 1 */
+      projectId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = ProjectsProgressBoardDuplicateCheckCreatePayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProjectsProgressBoardDuplicateCheckCreateData;
+  }
+
+  /**
+ * No description
+ * @tags Progress Board
  * @name ProjectsProgressBoardItemsCreate
  * @summary Create a new progress board item for a project.
  * @request POST:/public-api/projects/{projectId}/progress-board/items
@@ -8537,6 +8649,44 @@ export class PublicApi<SecurityDataType extends unknown> {
       this.http.request<ProjectsListData, ProjectsListError>({
         path: `/public-api/projects`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+ * No description
+ *
+ * @tags Progress Board
+ * @name ProjectsProgressBoardDuplicateCheckCreate
+ * @summary Check whether a newly extracted vacancy is likely already represented on the selected project progress board.
+ * @request POST:/public-api/projects/{projectId}/progress-board/duplicate-check
+ * @response `200` `ProjectsProgressBoardDuplicateCheckCreateData` Default Response
+ * @response `400` `{
+    message: string,
+
+}` Default Response
+ * @response `401` `{
+    message: string,
+
+}` Default Response
+ * @response `404` `{
+    message: string,
+
+}` Default Response
+ */
+    projectsProgressBoardDuplicateCheckCreate: (
+      { projectId }: ProjectsProgressBoardDuplicateCheckCreateParams,
+      data: ProjectsProgressBoardDuplicateCheckCreatePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        ProjectsProgressBoardDuplicateCheckCreateData,
+        ProjectsProgressBoardDuplicateCheckCreateError
+      >({
+        path: `/public-api/projects/${projectId}/progress-board/duplicate-check`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
