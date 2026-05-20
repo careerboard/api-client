@@ -337,6 +337,30 @@ var PublicApi = class {
       /**
        * No description
        *
+       * @tags Billing
+       * @name BillingMeUsageChargesSummaryList
+       * @summary Get aggregated AI usage charge count or totalChargeMicroUsd for the API key owner for a chosen date range up to 31 days with optional sourceModule and operation filters.
+       * @request GET:/public-api/billing/me/usage-charges/summary
+       * @response `200` `BillingMeUsageChargesSummaryListData` Default Response
+       * @response `400` `{
+          message: string,
+      
+      }` Default Response
+       * @response `401` `{
+          message: string,
+      
+      }` Default Response
+       */
+      billingMeUsageChargesSummaryList: (query, params = {}) => this.http.request({
+        path: `/public-api/billing/me/usage-charges/summary`,
+        method: "GET",
+        query,
+        format: "json",
+        ...params
+      }),
+      /**
+       * No description
+       *
        * @tags Authentication
        * @name GetPublicApi
        * @summary Get the user who owns the supplied API key.
@@ -2270,6 +2294,9 @@ function createCareerboardClientInstance(configOrApiKey) {
       listLedger: unwrap(raw.publicApi.billingMeLedgerList),
       getTier: unwrap(raw.publicApi.billingMeTierList),
       listUsageCharges: unwrap(raw.publicApi.billingMeUsageChargesList),
+      getUsageChargesSummary: unwrap(
+        raw.publicApi.billingMeUsageChargesSummaryList
+      ),
       getDailyUsageSummary: unwrap(
         raw.publicApi.billingMeUsageChargesDailySummaryList
       )

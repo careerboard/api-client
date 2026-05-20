@@ -69,6 +69,7 @@ Main entry points:
 - `client.tasks.get({ taskId })`
 - `client.billing.getBalance()`
 - `client.billing.listUsageCharges(query)`
+- `client.billing.getUsageChargesSummary(query)`
 - `client.projects.list()`
 - `client.projects.candidateProfile.get({ projectId })`
 - `client.projects.firstSetup.get({ projectId })`

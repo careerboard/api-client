@@ -122,6 +122,9 @@ function createCareerboardClientInstance(
       listLedger: unwrap(raw.publicApi.billingMeLedgerList),
       getTier: unwrap(raw.publicApi.billingMeTierList),
       listUsageCharges: unwrap(raw.publicApi.billingMeUsageChargesList),
+      getUsageChargesSummary: unwrap(
+        raw.publicApi.billingMeUsageChargesSummaryList,
+      ),
       getDailyUsageSummary: unwrap(
         raw.publicApi.billingMeUsageChargesDailySummaryList,
       ),

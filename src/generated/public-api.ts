@@ -454,6 +454,49 @@ export interface BillingMeUsageChargesListParams {
   toDate: string;
 }
 
+export type BillingMeUsageChargesSummaryListData =
+  | {
+      /**
+       * @min 0
+       * @max 9007199254740991
+       */
+      count: number;
+      /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+      fromDate: string;
+      operation: string | null;
+      sourceModule: string | null;
+      /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+      toDate: string;
+      type: "count";
+    }
+  | {
+      /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+      fromDate: string;
+      operation: string | null;
+      sourceModule: string | null;
+      /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+      toDate: string;
+      /** @pattern ^\d+$ */
+      totalChargeMicroUsd: string;
+      type: "totalChargeMicroUsd";
+    };
+
+export type BillingMeUsageChargesSummaryListError = {
+  message: string;
+};
+
+export interface BillingMeUsageChargesSummaryListParams {
+  /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+  fromDate: string;
+  /** @minLength 1 */
+  operation?: string;
+  /** @minLength 1 */
+  sourceModule?: string;
+  /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+  toDate: string;
+  type: "count" | "totalChargeMicroUsd";
+}
+
 export type DownloadsDetailError = {
   message: string;
 };
@@ -5063,6 +5106,40 @@ export namespace PublicApi {
 
   /**
  * No description
+ * @tags Billing
+ * @name BillingMeUsageChargesSummaryList
+ * @summary Get aggregated AI usage charge count or totalChargeMicroUsd for the API key owner for a chosen date range up to 31 days with optional sourceModule and operation filters.
+ * @request GET:/public-api/billing/me/usage-charges/summary
+ * @response `200` `BillingMeUsageChargesSummaryListData` Default Response
+ * @response `400` `{
+    message: string,
+
+}` Default Response
+ * @response `401` `{
+    message: string,
+
+}` Default Response
+*/
+  export namespace BillingMeUsageChargesSummaryList {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+      fromDate: string;
+      /** @minLength 1 */
+      operation?: string;
+      /** @minLength 1 */
+      sourceModule?: string;
+      /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+      toDate: string;
+      type: "count" | "totalChargeMicroUsd";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = BillingMeUsageChargesSummaryListData;
+  }
+
+  /**
+ * No description
  * @tags Authentication
  * @name GetPublicApi
  * @summary Get the user who owns the supplied API key.
@@ -7597,6 +7674,38 @@ export class PublicApi<SecurityDataType extends unknown> {
         BillingMeUsageChargesListError
       >({
         path: `/public-api/billing/me/usage-charges`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+ * No description
+ *
+ * @tags Billing
+ * @name BillingMeUsageChargesSummaryList
+ * @summary Get aggregated AI usage charge count or totalChargeMicroUsd for the API key owner for a chosen date range up to 31 days with optional sourceModule and operation filters.
+ * @request GET:/public-api/billing/me/usage-charges/summary
+ * @response `200` `BillingMeUsageChargesSummaryListData` Default Response
+ * @response `400` `{
+    message: string,
+
+}` Default Response
+ * @response `401` `{
+    message: string,
+
+}` Default Response
+ */
+    billingMeUsageChargesSummaryList: (
+      query: BillingMeUsageChargesSummaryListParams,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        BillingMeUsageChargesSummaryListData,
+        BillingMeUsageChargesSummaryListError
+      >({
+        path: `/public-api/billing/me/usage-charges/summary`,
         method: "GET",
         query: query,
         format: "json",
