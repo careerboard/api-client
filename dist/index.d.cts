@@ -8306,7 +8306,7 @@ declare class PublicApi<SecurityDataType extends unknown> {
     };
 }
 
-declare const DEFAULT_CAREERBOARD_API_BASE_URL = "https://api.careerboard.leverton.dev";
+declare const DEFAULT_CAREERBOARD_API_BASE_URL = "https://api.careerboard.app";
 type ClientMethod = (...args: any[]) => Promise<{
     data: unknown;
 }>;

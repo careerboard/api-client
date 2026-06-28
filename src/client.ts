@@ -2,7 +2,7 @@ import type { ApiConfig } from "./generated/public-api";
 import { HttpClient, PublicApi } from "./generated/public-api";
 
 export const DEFAULT_CAREERBOARD_API_BASE_URL =
-  "https://api.careerboard.leverton.dev";
+  "https://api.careerboard.app";
 
 type ClientMethod = (...args: any[]) => Promise<{ data: unknown }>;
 type MethodData<TMethod extends ClientMethod> = Awaited<

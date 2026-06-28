@@ -2214,7 +2214,7 @@ var PublicApi = class {
 };
 
 // src/client.ts
-var DEFAULT_CAREERBOARD_API_BASE_URL = "https://api.careerboard.leverton.dev";
+var DEFAULT_CAREERBOARD_API_BASE_URL = "https://api.careerboard.app";
 function assertApiKey(apiKey) {
   const normalizedApiKey = apiKey.trim();
   if (!normalizedApiKey) {

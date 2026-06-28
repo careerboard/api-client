@@ -32,7 +32,7 @@ const projects = await client.projects.list();
 By default the client talks to:
 
 ```txt
-https://api.careerboard.leverton.dev
+https://api.careerboard.app
 ```
 
 Override it when you need a different environment:
@@ -140,4 +140,4 @@ The bundle targets Node.js 16+ and is suitable for installing straight from GitH
 
 ## API docs
 
-- Swagger UI: https://api.careerboard.leverton.dev/public-api-docs
+- Swagger UI: https://api.careerboard.app/public-api-docs
